@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Currency Convertor</h4>
+    <form [formGroup]="convertorForm">
+      <div class="form-row">
+        <div class="form-group col-sm-6">
+          <label for=""></label>
+          <input
+            type="text"
+            class="form-control"
+            name="Source Amount"
+            id="cc-source-amount"
+            formControlName="sourceAmount"
+          />
+          <div *ngIf="this.convertorForm.get('sourceAmount').invalid">
+            <small class="form-text text-muted">Enter amount to convert</small>
+          </div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="Source Currency"></label>
+          <select
+            class="form-control"
+            name="Source Currency"
+            id="cc-source-currency"
+            formControlName="sourceCurrency"
+            (click)="updateCurrency()"
+          >
+            <option>CAD</option>
+            <option>USD</option>
+            <option>INR</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6">
+          <label for=""></label>
+          <input
+            type="text"
+            class="form-control"
+            name="Target Amount"
+            id="cc-target-amount"
+            aria-describedby="helpId"
+            formControlName="targetAmount"
+          />
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="Target Currency"></label>
+          <select
+            class="form-control"
+            name="Target Currency"
+            id="cc-target-currency"
+            formControlName="targetCurrency"
+            (click)="updateCurrency()"
+          >
+            <option>INR</option>
+            <option>CAD</option>
+            <option>USD</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="form-control btn btn-primary" (click)="convertCurrency()">
+        {{ this.getConvertButtonText() }}
+      </button>
+    </form>
+  </div>
+</div>

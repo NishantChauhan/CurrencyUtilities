@@ -1,0 +1,14 @@
+2019-05-28 15:14:47 - Enabled Debug for Unit Test, Local Server and E2E Tests.
+2019-05-29 19:36:53 - New Branch for Currency Convertor Created.
+2019-05-31 07:43:32 - Started Working on Card for currency conversion
+                      Currency Convertor Card
+                        1) Source Currency and Source Amount, Target Currency and Target Amount, Convert button.
+                        2) Click of Convert button text calls conversion service.
+                        3) Conversion service returns converted Target amount based on source amount and currencies.
+                      Add ons
+                        1) Convert button shows the "Convert <source currency> to <target currency>"
+                        2) When source or target currency is changed the button text is also changed based on currency.
+                        3) While conversion is running the Target amount is disabled and button shows "Converting..." as text.
+                        4) Validation that source amount is mandatory. Border turn solid red.
+                      Items to Add
+                      1)  Restrict used input to decimal with precision of 2 digits after decimal and 10^10 max value.
