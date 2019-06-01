@@ -13,7 +13,7 @@
             formControlName="sourceAmount"
           />
           <div *ngIf="this.convertorForm.get('sourceAmount').invalid">
-            <small class="form-text text-muted">Enter amount to convert</small>
+            <small class="form-text text-muted">Enter Amount</small>
           </div>
         </div>
         <div class="form-group col-sm-6">
@@ -58,7 +58,12 @@
           </select>
         </div>
       </div>
-      <button type="submit" class="form-control btn btn-primary" (click)="convertCurrency()">
+      <button
+        type="submit"
+        class="form-control btn btn-primary"
+        (click)="convertCurrency()"
+        [disabled]="!convertorForm.valid"
+      >
         {{ this.getConvertButtonText() }}
       </button>
     </form>
