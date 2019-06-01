@@ -6,6 +6,7 @@
     "start": "ng serve --port 4000",
     "build": "ng build",
     "test": "ng test",
+    "sanity": "ng test --watch=false && ng e2e",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

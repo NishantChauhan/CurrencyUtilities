@@ -11,4 +11,12 @@
                         3) While conversion is running the Target amount is disabled and button shows "Converting..." as text.
                         4) Validation that source amount is mandatory. Border turn solid red.
                       Items to Add
-                      1)  Restrict used input to decimal with precision of 2 digits after decimal and 10^10 max value.
+                      1) Restrict used input to decimal with precision of 2 digits after decimal and 10^10 max value.
+2019-06-01 10:41:58   2) Add conversionResult component, using parent child communication.
+                      3) Dismissable popup for result
+                      4) MockResponse Data
+                      5) Conversion logic based on baseCurrency
+
+2019-06-01 16:48:36   1) npm test and npm e2e passed
+                      2) Added Common Data Types to pass data between components
+                      3) basic validation and conversion working

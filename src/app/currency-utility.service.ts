@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { ConvertedCurrency, CurrencyConvertorInput } from './common/currency-conversion';
+import { ExchangeRateAPIReponse } from './common/fixer-base-rates';
 
 @Injectable({
   providedIn: 'root',
@@ -7,26 +9,34 @@ import { Observable, of } from 'rxjs';
 export class CurrencyUtilityService {
   constructor() {}
 
-  public convertCurrency(sourceAmount: number, sourceCurrency: string, targetCurrency: string): Observable<number> {
-    if (sourceCurrency === 'CAD' && targetCurrency === 'INR') {
-      return of(sourceAmount * 51.78);
-    }
-    if (sourceCurrency === 'CAD' && targetCurrency === 'USD') {
-      return of((sourceAmount * 51.78) / 67.17);
-    }
-    if (sourceCurrency === 'USD' && targetCurrency === 'CAD') {
-      return of((sourceAmount * 67.17) / 51.78);
-    }
-    if (sourceCurrency === 'USD' && targetCurrency === 'INR') {
-      return of(sourceAmount * 67.17);
-    }
+  public dummyRatesResponse(): ExchangeRateAPIReponse {
+    return {
+      success: true,
+      timestamp: 1559124545,
+      base: 'EUR',
+      date: '2019-05-29',
+      rates: {
+        CAD: 1.507474,
+        INR: 77.895765,
+        USD: 1.115945,
+      },
+    };
+  }
+  public convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency> {
+    const apiResponse = this.dummyRatesResponse();
+    const sourceRate = apiResponse.rates[input.sourceCurrency];
+    const targetRate = apiResponse.rates[input.targetCurrency];
+    const calculatedExchangeRate = targetRate / sourceRate;
+    const calculatedAmount = input.sourceAmount * calculatedExchangeRate;
 
-    if (sourceCurrency === 'INR' && targetCurrency === 'USD') {
-      return of(sourceAmount * (1 / 67.17));
-    }
-    if (sourceCurrency === 'INR' && targetCurrency === 'CAD') {
-      return of(sourceAmount * (1 / 51.78));
-    }
-    return of(1.0);
+    const result: ConvertedCurrency = {
+      sourceAmount: input.sourceAmount,
+      sourceCurrency: input.sourceCurrency,
+      targetAmount: calculatedAmount,
+      targetCurrency: input.targetCurrency,
+      exchangeRate: calculatedExchangeRate,
+      exchangeResultDate: apiResponse.date,
+    };
+    return of(result);
   }
 }

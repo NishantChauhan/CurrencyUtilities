@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { ConvertorCardComponent } from './convertor-card.component';
 
 describe('ConvertorCardComponent', () => {
@@ -8,9 +8,9 @@ describe('ConvertorCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConvertorCardComponent ]
-    })
-    .compileComponents();
+      declarations: [ConvertorCardComponent],
+      imports: [ReactiveFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
