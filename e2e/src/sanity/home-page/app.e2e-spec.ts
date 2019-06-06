@@ -1,11 +1,11 @@
 import { browser, logging } from 'protractor';
-import { AppPage } from './app.po';
+import { CurrencyUtilitiesHomePage } from '../../page-objects/currency-home.po';
 
-describe('workspace-project App', () => {
-  let page: AppPage;
+describe('Currency Utilities Home Page', () => {
+  let page: CurrencyUtilitiesHomePage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new CurrencyUtilitiesHomePage();
   });
 
   it('should display Currency Utilities as title', () => {

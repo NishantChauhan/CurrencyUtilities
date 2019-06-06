@@ -2,70 +2,74 @@
   <div class="card-body">
     <h4 class="card-title">Currency Convertor</h4>
     <form [formGroup]="convertorForm">
+
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label for=""></label>
-          <input
-            type="text"
-            class="form-control"
-            name="Source Amount"
-            id="cc-source-amount"
-            formControlName="sourceAmount"
-          />
-          <div *ngIf="this.convertorForm.get('sourceAmount').invalid">
-            <small class="form-text text-muted">Enter Amount</small>
-          </div>
+          <input type="text" class="form-control" name="Source Amount" id="cc-source-amount"
+            formControlName="sourceAmount" maxlength="9" />
         </div>
         <div class="form-group col-sm-6">
           <label for="Source Currency"></label>
-          <select
-            class="form-control"
-            name="Source Currency"
-            id="cc-source-currency"
-            formControlName="sourceCurrency"
-            (click)="updateCurrency()"
-          >
+          <select class="form-control" name="Source Currency" id="cc-source-currency" formControlName="sourceCurrency"
+            (click)="updateCurrency()">
             <option>CAD</option>
             <option>USD</option>
             <option>INR</option>
           </select>
+        </div>
+      </div>
+      <div *ngIf="this.convertorForm.get('sourceAmount').invalid">
+        <div class="form-row">
+          <div class="col-sm-12">
+            <div class="form-group alert alert-danger" role="alert">
+              <div *ngIf="this.convertorForm.get('sourceAmount').errors['required'] ">
+                <small class="form-text text-muted">Amount is mandatory</small>
+              </div>
+              <div *ngIf="this.convertorForm.get('sourceAmount').errors['pattern']">
+                <small class="form-text text-muted">Amount can have only 0-2 decimals <br> (e.g. 1 or 0.1 or
+                  .11)</small>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label for=""></label>
-          <input
-            type="text"
-            class="form-control"
-            name="Target Amount"
-            id="cc-target-amount"
-            aria-describedby="helpId"
-            formControlName="targetAmount"
-          />
+          <input type="text" class="form-control" name="Target Amount" id="cc-target-amount" aria-describedby="helpId"
+            formControlName="targetAmount" maxlength="9" />
         </div>
         <div class="form-group col-sm-6">
           <label for="Target Currency"></label>
-          <select
-            class="form-control"
-            name="Target Currency"
-            id="cc-target-currency"
-            formControlName="targetCurrency"
-            (click)="updateCurrency()"
-          >
+          <select class="form-control" name="Target Currency" id="cc-target-currency" formControlName="targetCurrency"
+            (click)="updateCurrency()">
             <option>INR</option>
             <option>CAD</option>
             <option>USD</option>
           </select>
         </div>
       </div>
-      <button
-        type="submit"
-        class="form-control btn btn-primary"
-        (click)="convertCurrency()"
-        [disabled]="!convertorForm.valid"
-      >
-        {{ this.getConvertButtonText() }}
-      </button>
+      <div *ngIf="this.convertorForm.get('targetAmount').invalid">
+        <div class="form-row">
+          <div class="col-sm-12">
+            <div class="form-group alert alert-danger" role="alert">
+              <div *ngIf="this.convertorForm.get('targetAmount').errors['pattern']">
+                <small class="form-text text-muted">Amount can have only 0-2 decimals <br> (e.g. 1 or 0.1 or
+                  .11)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-12">
+          <button type="submit" class="form-control btn btn-primary" (click)="convertCurrency()"
+            [disabled]="!convertorForm.valid">
+            {{ this.getConvertButtonText() }}
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </div>

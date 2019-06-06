@@ -9,6 +9,10 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
   },
+  suites: {
+    sanity: ['./src/sanity/**/*e2e-spec.ts'],
+    all: ['./src/**/*.e2e-spec.ts'],
+  },
   directConnect: true,
   baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
