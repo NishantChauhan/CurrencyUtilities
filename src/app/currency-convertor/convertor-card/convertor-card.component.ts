@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConvertedCurrency, CurrencyConvertorInput } from 'src/app/common/currency-conversion';
-import { CurrencyUtilityService } from './../../currency-utility.service';
+import { CurrencyUtilityService } from './../../currency-service/currency-utility.service';
 
 @Component({
   selector: 'app-convertor-card',
@@ -15,9 +15,9 @@ export class ConvertorCardComponent implements OnInit {
   constructor(private fb: FormBuilder, private utilityService: CurrencyUtilityService) {}
 
   public convertorForm: FormGroup = this.fb.group({
-    sourceAmount: [1, Validators.required],
+    sourceAmount: [1, [Validators.required, Validators.pattern(/^\d{0,9}(\.\d{1,2})?$/)]],
     sourceCurrency: ['CAD', Validators.required],
-    targetAmount: [],
+    targetAmount: [, [Validators.pattern(/^\d{0,9}(\.\d{1,2})?$/)]],
     targetCurrency: ['INR', Validators.required],
     convertButtonText: ['Convert CAD to INR'],
   });
@@ -34,11 +34,9 @@ export class ConvertorCardComponent implements OnInit {
     };
 
     this.utilityService.convertCurrency(this.inputCurrency).subscribe((conversionResult: ConvertedCurrency) => {
-      setTimeout(() => {
-        this.convertorForm.patchValue({ targetAmount: conversionResult.targetAmount });
-        this.enableTargetAmount();
-        this.setConvertButtonCurrencyText(conversionResult.sourceCurrency, conversionResult.targetCurrency);
-      }, 2000);
+      this.convertorForm.patchValue({ targetAmount: conversionResult.targetAmount.toFixed(2) });
+      this.enableTargetAmount();
+      this.setConvertButtonCurrencyText(conversionResult.sourceCurrency, conversionResult.targetCurrency);
     });
   }
 
