@@ -9,18 +9,26 @@ describe('Currency Convertor Card', () => {
 
   it('should show Currency Convertor Card Title', () => {
     cardPage.navigateTo();
-    expect(cardPage.getCardTitleText()).toEqual('Currency Convertor');
+    expect(cardPage.getCardTitle()).toEqual('Currency Convertor');
   });
   it('should show source amount as 1 on load', () => {
     cardPage.navigateTo();
-    expect(cardPage.getSourceAmountElementText()).toEqual('1');
+    expect(cardPage.getSourceAmount()).toEqual('1');
   });
 
   it('should convert CAD to INR on convert button click', () => {
     cardPage.navigateTo();
-    expect(cardPage.getTargetAmountElementText()).toBeFalsy();
-    cardPage.clickConvertButton();
-    expect(cardPage.getTargetAmountElementText()).toBeTruthy();
+    expect(cardPage.getTargetAmount()).toBeFalsy();
+    cardPage.getConvertButton().click();
+    expect(cardPage.getTargetAmount()).toBeTruthy();
+  });
+
+  it('should reflect changes in the target amount in the result alert', () => {
+    cardPage.navigateTo();
+    cardPage.getConvertButton().click();
+    Promise.all([cardPage.getTargetAmount(), cardPage.getTargetCurrency()]).then(values => {
+      expect(Promise.resolve(values.join(' '))).toEqual(cardPage.getAlertTargetAmount());
+    });
   });
 
   afterEach(async () => {

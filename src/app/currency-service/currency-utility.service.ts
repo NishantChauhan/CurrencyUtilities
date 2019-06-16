@@ -15,14 +15,23 @@ export class CurrencyUtilityService implements ICurrencyUtilityService {
   constructor() {}
   exchangeRateAPI = this.getLatestRatesFromAPI();
 
+  // To be Removed after implementing HTTP call
   public getLatestRatesFromAPI(): Observable<ExchangeRateAPIReponse> {
-    // Implement HTTP call
+    // Implement HTTP Call
     return new Observable<ExchangeRateAPIReponse>(subscriber => {
       setTimeout(() => {
-        subscriber.next(mockReponse);
+        subscriber.next(this.nextMockResponse());
       }, 2000);
     });
   }
+  public nextMockResponse(): ExchangeRateAPIReponse {
+    let random = Math.floor(Math.random() * 100);
+    mockReponse.rates['INR'] = mockReponse.rates['INR'] + random / 100;
+    mockReponse.date = new Date().toString();
+    return mockReponse;
+  }
+  //-----------------------------------------------------
+
   public convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency> {
     return new Observable<ConvertedCurrency>(subscriber => {
       this.exchangeRateAPI.subscribe((apiResponse: ExchangeRateAPIReponse) => {

@@ -8,8 +8,16 @@
       "name": "Debug Local Server",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:6000",
-      "webRoot": "${workspaceFolder}"
+      "url": "http://localhost:4000",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "*",
+        "/./~/*": "${webRoot}/node_modules/*"
+      }
     },
     {
       "name": "Debug Unit Test",

@@ -2,12 +2,11 @@
   <div class="card-body">
     <h4 class="card-title">Currency Convertor</h4>
     <form [formGroup]="convertorForm">
-
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label for=""></label>
           <input type="text" class="form-control" name="Source Amount" id="cc-source-amount"
-            formControlName="sourceAmount" maxlength="9" />
+            formControlName="sourceAmount" maxlength="9" (keyup)=updateSourceAmount($event.target.value) />
         </div>
         <div class="form-group col-sm-6">
           <label for="Source Currency"></label>
@@ -38,7 +37,7 @@
         <div class="form-group col-sm-6">
           <label for=""></label>
           <input type="text" class="form-control" name="Target Amount" id="cc-target-amount" aria-describedby="helpId"
-            formControlName="targetAmount" maxlength="9" />
+            formControlName="targetAmount" maxlength="9" (keyup)=updateTargetAmount($event.target.value) />
         </div>
         <div class="form-group col-sm-6">
           <label for="Target Currency"></label>
@@ -65,10 +64,13 @@
       <div class="form-row">
         <div class="form-group col-sm-12">
           <button type="submit" class="form-control btn btn-primary" (click)="convertCurrency()"
-            [disabled]="!convertorForm.valid">
+            [disabled]="disableConvertButton || !convertorForm.valid">
             {{ this.getConvertButtonText() }}
           </button>
         </div>
+      </div>
+      <div *ngIf="conversionResult && !convertorForm.invalid">
+        <app-currency-conversion-result [convertedCurrency]="conversionResult"></app-currency-conversion-result>
       </div>
     </form>
   </div>

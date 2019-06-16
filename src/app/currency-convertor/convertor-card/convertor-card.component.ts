@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConvertedCurrency, CurrencyConvertorInput } from 'src/app/common/currency-conversion';
+import { ConvertedCurrency } from 'src/app/common/currency-conversion';
 import { CurrencyUtilityService } from './../../currency-service/currency-utility.service';
 
 @Component({
@@ -9,8 +9,8 @@ import { CurrencyUtilityService } from './../../currency-service/currency-utilit
   styleUrls: ['./convertor-card.component.css'],
 })
 export class ConvertorCardComponent implements OnInit {
-  inputCurrency: CurrencyConvertorInput;
   conversionResult: ConvertedCurrency;
+  disableConvertButton: boolean;
 
   constructor(private fb: FormBuilder, private utilityService: CurrencyUtilityService) {}
 
@@ -25,38 +25,29 @@ export class ConvertorCardComponent implements OnInit {
 
   // Convert button handling
   public convertCurrency() {
+    this.disableConvertButtonWithText('Converting....');
     this.disableTargetAmount();
-    this.setConvertButtonText('Converting....');
-    this.inputCurrency = {
+    const inputCurrency = {
       sourceAmount: this.convertorForm.get('sourceAmount').value,
       sourceCurrency: this.convertorForm.get('sourceCurrency').value,
       targetCurrency: this.convertorForm.get('targetCurrency').value,
     };
 
-    this.utilityService.convertCurrency(this.inputCurrency).subscribe((conversionResult: ConvertedCurrency) => {
-      this.convertorForm.patchValue({ targetAmount: conversionResult.targetAmount.toFixed(2) });
+    this.utilityService.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
+      this.convertorForm.patchValue({
+        targetAmount: result.targetAmount.toFixed(2),
+      });
       this.enableTargetAmount();
-      this.setConvertButtonCurrencyText(conversionResult.sourceCurrency, conversionResult.targetCurrency);
+      this.conversionResult = result;
+      this.enableConvertButtonWithText(this.getCurrencyText(result.sourceCurrency, result.targetCurrency));
     });
-  }
-
-  public setConvertButtonText(text: string) {
-    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText');
-    convertButtonControl.setValue(text);
-  }
-  public setConvertButtonCurrencyText(sourceCurrency: string, targetCurrency: string) {
-    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText');
-    convertButtonControl.setValue('Convert ' + sourceCurrency + ' to ' + targetCurrency);
-  }
-  public getConvertButtonText(): string {
-    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText');
-    return convertButtonControl.value;
   }
 
   public updateCurrency() {
     const sourceCurrency: string = this.convertorForm.get('sourceCurrency').value;
     const targetCurrency: string = this.convertorForm.get('targetCurrency').value;
-    this.setConvertButtonCurrencyText(sourceCurrency, targetCurrency);
+    this.conversionResult = undefined;
+    this.enableConvertButtonWithText(this.getCurrencyText(sourceCurrency, targetCurrency));
   }
 
   // Target Amount Textbox handling
@@ -70,5 +61,40 @@ export class ConvertorCardComponent implements OnInit {
   private enableOrDisableTargetAmount(enable: boolean) {
     const targetAmountControl: AbstractControl = this.convertorForm.get('targetAmount');
     enable ? targetAmountControl.enable() : targetAmountControl.disable();
+  }
+  // Convert Button handling
+  public enableConvertButtonWithText(text: string) {
+    this.enableOrDisableConvertButtonWithText(text, true);
+  }
+  public disableConvertButtonWithText(text: string) {
+    this.enableOrDisableConvertButtonWithText(text, false);
+  }
+
+  private enableOrDisableConvertButtonWithText(text: string, enable: boolean) {
+    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText');
+    convertButtonControl.setValue(text);
+    this.disableConvertButton = !enable;
+  }
+
+  public getCurrencyText(sourceCurrency: string, targetCurrency: string) {
+    return 'Convert ' + sourceCurrency + ' to ' + targetCurrency;
+  }
+  public getConvertButtonText(): string {
+    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText');
+    return convertButtonControl.value;
+  }
+  public updateSourceAmount(amount: number) {
+    if (this.conversionResult) {
+      this.conversionResult.sourceAmount = amount;
+      this.conversionResult.targetAmount = amount * this.conversionResult.exchangeRate;
+      this.convertorForm.patchValue({ targetAmount: '' });
+    }
+  }
+  public updateTargetAmount(amount: number) {
+    if (this.conversionResult) {
+      this.conversionResult.targetAmount = amount;
+      this.conversionResult.sourceAmount = amount / this.conversionResult.exchangeRate;
+      this.convertorForm.patchValue({ sourceAmount: '1' });
+    }
   }
 }
