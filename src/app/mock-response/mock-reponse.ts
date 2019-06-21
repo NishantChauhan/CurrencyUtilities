@@ -1,6 +1,9 @@
 import { ExchangeRateAPIReponse } from '../common/fixer-base-rates';
 
-export const mockReponse: ExchangeRateAPIReponse = {
+export const fixedSourceCurrency = 'CAD';
+export const fixedTargetCurrency = 'INR';
+
+export const exchangeReponse: ExchangeRateAPIReponse = {
   success: true,
   timestamp: 1559124545,
   base: 'EUR',

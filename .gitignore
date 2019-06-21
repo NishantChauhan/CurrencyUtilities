@@ -26,7 +26,6 @@ speed-measure-plugin.json
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
-!.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
@@ -46,3 +45,4 @@ testem.log
 .DS_Store
 Thumbs.db
 ToDo.txt
+.vscode/tasks.json
