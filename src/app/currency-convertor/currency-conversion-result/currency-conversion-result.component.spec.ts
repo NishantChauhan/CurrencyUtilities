@@ -12,7 +12,7 @@ describe('CurrencyConversionResultComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CurrencyConversionResultComponent, ConvertorCardComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule]
     }).compileComponents();
   }));
 
@@ -25,7 +25,7 @@ describe('CurrencyConversionResultComponent', () => {
       sourceAmount: 1,
       targetAmount: 51.76,
       exchangeRate: 51.76,
-      exchangeResultDate: new Date(),
+      exchangeResultDate: new Date()
     };
     fixture.detectChanges();
   });

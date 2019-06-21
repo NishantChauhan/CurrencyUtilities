@@ -7,6 +7,6 @@ import { CurrencyConversionResultComponent } from './currency-conversion-result/
 @NgModule({
   declarations: [ConvertorCardComponent, CurrencyConversionResultComponent],
   imports: [CommonModule, ReactiveFormsModule],
-  exports: [ConvertorCardComponent],
+  exports: [ConvertorCardComponent]
 })
 export class CurrencyConvertorModule {}

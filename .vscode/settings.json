@@ -24,5 +24,8 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
   },
-  "npm.enableScriptExplorer": true
+  "npm.enableScriptExplorer": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single"
 }

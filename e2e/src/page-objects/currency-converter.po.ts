@@ -5,9 +5,10 @@ export class CurrencyConvertorCardPage {
   }
 
   getCardTitle() {
-    return element(by.css('app-convertor-card h4')).getText() as Promise<string>;
+    return element(by.css('app-convertor-card h4')).getText() as Promise<
+      string
+    >;
   }
-
 
   getSourceAmount() {
     return element(by.css('#cc-source-amount'))
@@ -29,6 +30,8 @@ export class CurrencyConvertorCardPage {
     return element(by.css('app-convertor-card button'));
   }
   getAlertTargetAmount() {
-    return element(by.css('app-currency-conversion-result span:nth-child(4)')).getText() as Promise<string>;
+    return element(
+      by.css('app-currency-conversion-result span:nth-child(4)')
+    ).getText() as Promise<string>;
   }
 }

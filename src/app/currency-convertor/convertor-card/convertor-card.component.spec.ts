@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CurrencyUtilityService } from 'src/app/currency-service/currency-utility.service';
-import { exchangeReponse, fixedSourceCurrency } from 'src/app/mock-response/mock-reponse';
+import {
+  exchangeReponse,
+  fixedSourceCurrency
+} from 'src/app/mock-response/mock-reponse';
 import { CurrencyConversionResultComponent } from '../currency-conversion-result/currency-conversion-result.component';
 import { CurrencyUtilityFakeService } from './../../currency-service/currency-utility-fake.service.';
 import { fixedTargetCurrency } from './../../mock-response/mock-reponse';
@@ -17,10 +20,10 @@ describe('ConvertorCardComponent', () => {
       providers: [
         {
           provide: CurrencyUtilityService,
-          useClass: CurrencyUtilityFakeService,
-        },
+          useClass: CurrencyUtilityFakeService
+        }
       ],
-      imports: [ReactiveFormsModule, HttpClientModule],
+      imports: [ReactiveFormsModule, HttpClientModule]
     }).compileComponents();
   }));
 
@@ -35,22 +38,26 @@ describe('ConvertorCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency, () => {
-    component.convertorForm.setValue({
-      sourceAmount: 1,
-      sourceCurrency: fixedSourceCurrency,
-      targetAmount: '',
-      targetCurrency: fixedTargetCurrency,
-      convertButtonText: 'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency,
-    });
-    for (let i = 0; i < 5; i++) {
-      component.convertCurrency();
+  it(
+    'should convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency,
+    () => {
+      component.convertorForm.setValue({
+        sourceAmount: 1,
+        sourceCurrency: fixedSourceCurrency,
+        targetAmount: '',
+        targetCurrency: fixedTargetCurrency,
+        convertButtonText:
+          'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency
+      });
+      for (let i = 0; i < 5; i++) {
+        component.convertCurrency();
+      }
+      jasmine.clock().tick(3000);
+      expect(component.convertorForm.get('targetAmount').value).toBe(
+        exchangeReponse.result.toFixed(2)
+      );
     }
-    jasmine.clock().tick(3000);
-    expect(component.convertorForm.get('targetAmount').value).toBe(
-      (exchangeReponse.result).toFixed(2)
-    );
-  });
+  );
 
   it('should update target amount to "" when source amount is updated', () => {
     component.convertorForm.setValue({
@@ -58,12 +65,13 @@ describe('ConvertorCardComponent', () => {
       sourceCurrency: fixedSourceCurrency,
       targetAmount: '',
       targetCurrency: fixedTargetCurrency,
-      convertButtonText: 'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency,
+      convertButtonText:
+        'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency
     });
     component.convertCurrency();
     jasmine.clock().tick(3000);
     expect(component.convertorForm.get('targetAmount').value).toBe(
-      (exchangeReponse.result).toFixed(2)
+      exchangeReponse.result.toFixed(2)
     );
     component.updateSourceAmount(100);
     const targetAmount = component.convertorForm.get('targetAmount').value;
@@ -76,12 +84,13 @@ describe('ConvertorCardComponent', () => {
       sourceCurrency: fixedSourceCurrency,
       targetAmount: '',
       targetCurrency: fixedTargetCurrency,
-      convertButtonText: 'Convert ' + 'fixedSourceCurrency' + ' to ' + fixedTargetCurrency,
+      convertButtonText:
+        'Convert ' + 'fixedSourceCurrency' + ' to ' + fixedTargetCurrency
     });
     component.convertCurrency();
     jasmine.clock().tick(3000);
     expect(component.convertorForm.get('targetAmount').value).toBe(
-      (exchangeReponse.result).toFixed(2)
+      exchangeReponse.result.toFixed(2)
     );
     component.updateTargetAmount(100);
     const sourceAmountText = component.convertorForm.get('sourceAmount').value;
@@ -101,7 +110,8 @@ describe('ConvertorCardComponent', () => {
       sourceCurrency: fixedSourceCurrency,
       targetAmount: '100',
       targetCurrency: fixedTargetCurrency,
-      convertButtonText: 'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency,
+      convertButtonText:
+        'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency
     });
     component.updateTargetAmount(1);
     const sourceAmountText = component.convertorForm.get('sourceAmount').value;

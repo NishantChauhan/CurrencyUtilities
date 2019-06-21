@@ -27,8 +27,8 @@ module.exports = function(config) {
       'report-config': {
         html: {
           // outputs the report in ./coverage/html
-          subdir: 'html'
-        }
+          subdir: 'html',
+        },
       },
       thresholds: {
         emitWarning: false, // set to `true` to not fail the test command when thresholds are not met
@@ -37,17 +37,23 @@ module.exports = function(config) {
           statements: 100,
           lines: 100,
           branches: 100,
-          functions: 100
-        }
-      }
+          functions: 100,
+        },
+      },
     },
     reporters: ['progress', 'kjhtml'],
     port: 4002,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'Firefox', 'ChromeHeadless', 'Edge'],
+    customLaunchers: {
+      ChromeHeadlessNoSandox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox'],
+      },
+    },
+    browsers: ['ChromeHeadlessNoSandox'],
     singleRun: false,
     restartOnFileChange: true,
-  })
-}
+  });
+};

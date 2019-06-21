@@ -4,7 +4,7 @@ import { ExchangeRateAPIReponse } from '../common/base-rates';
 import { CurrencyUtilityService } from './currency-utility.service';
 import { exchangeReponse } from '../mock-response/mock-reponse';
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CurrencyUtilityFakeService extends CurrencyUtilityService {
   public getLatestRatesFromAPI(): Observable<ExchangeRateAPIReponse> {

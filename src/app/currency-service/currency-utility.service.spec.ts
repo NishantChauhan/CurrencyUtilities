@@ -1,6 +1,9 @@
 import { async, TestBed } from '@angular/core/testing';
 import { CurrencyUtilityFakeService } from './currency-utility-fake.service.';
-import { ICurrencyUtilityService, CurrencyUtilityService } from './currency-utility.service';
+import {
+  ICurrencyUtilityService,
+  CurrencyUtilityService
+} from './currency-utility.service';
 import { HttpClientModule } from '@angular/common/http';
 import {
   CurrencyConvertorInput,
@@ -24,30 +27,37 @@ describe('CurrencyUtilityService', () => {
     );
     expect(service).toBeTruthy();
   });
-  it('should be convert 1 CAD to ' + exchangeReponse.conversionRate + ' INR', () => {
-    const service: ICurrencyUtilityService = TestBed.inject(
-      CurrencyUtilityFakeService
-    );
-    const inputCurrency: CurrencyConvertorInput = {
-      sourceAmount: 1,
-      sourceCurrency: 'CAD',
-      targetCurrency: 'INR'
-    };
-    let convertedCurrency;
-    service
-      .convertCurrency(inputCurrency)
-      .subscribe((result: ConvertedCurrency) => {
-        convertedCurrency = result;
-      });
-    jasmine.clock().tick(3000);
-    expect(convertedCurrency).toBeTruthy();
-    expect(convertedCurrency.targetAmount).toBe(
-      inputCurrency.sourceAmount * exchangeReponse.conversionRate
-    );
-    expect(convertedCurrency.targetCurrency).toBe(inputCurrency.targetCurrency);
-    expect(convertedCurrency.sourceCurrency).toBe(inputCurrency.sourceCurrency);
-    expect(convertedCurrency.sourceAmount).toBe(exchangeReponse.amount);
-  });
+  it(
+    'should be convert 1 CAD to ' + exchangeReponse.conversionRate + ' INR',
+    () => {
+      const service: ICurrencyUtilityService = TestBed.inject(
+        CurrencyUtilityFakeService
+      );
+      const inputCurrency: CurrencyConvertorInput = {
+        sourceAmount: 1,
+        sourceCurrency: 'CAD',
+        targetCurrency: 'INR'
+      };
+      let convertedCurrency;
+      service
+        .convertCurrency(inputCurrency)
+        .subscribe((result: ConvertedCurrency) => {
+          convertedCurrency = result;
+        });
+      jasmine.clock().tick(3000);
+      expect(convertedCurrency).toBeTruthy();
+      expect(convertedCurrency.targetAmount).toBe(
+        inputCurrency.sourceAmount * exchangeReponse.conversionRate
+      );
+      expect(convertedCurrency.targetCurrency).toBe(
+        inputCurrency.targetCurrency
+      );
+      expect(convertedCurrency.sourceCurrency).toBe(
+        inputCurrency.sourceCurrency
+      );
+      expect(convertedCurrency.sourceAmount).toBe(exchangeReponse.amount);
+    }
+  );
 
   it('should be return actual endpoint subscription for exhange rate backend API', () => {
     const service: CurrencyUtilityService = TestBed.inject(
@@ -59,7 +69,9 @@ describe('CurrencyUtilityService', () => {
       targetCurrency: 'INR'
     };
 
-    const exchangeAPIendpoint: Observable<ExchangeRateAPIReponse> = service.getLatestRatesFromAPI(inputCurrency);
+    const exchangeAPIendpoint: Observable<ExchangeRateAPIReponse> = service.getLatestRatesFromAPI(
+      inputCurrency
+    );
     expect(exchangeAPIendpoint).toBeTruthy();
   });
 

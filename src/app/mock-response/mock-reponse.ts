@@ -11,6 +11,6 @@ export const exchangeReponse: ExchangeRateAPIReponse = {
   conversionRate: 53.49008750820958,
   result: 53.49008750820958,
   responseStatus: {
-      status: 'Success'
+    status: 'Success'
   }
 };

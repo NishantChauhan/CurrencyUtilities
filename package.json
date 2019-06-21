@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "standardize": "prettier **/*.ts --single-quote --write",
     "start": "ng serve --port 4000",
-    "build": "ng build",
-    "test": "ng test --browsers ChromeHeadless",
-    "coverage": "ng test --code-coverage --watch false ",
-    "sanity": "ng test --watch false --browsers ChromeHeadless && ng e2e --port 4001 --suite sanity",
-    "lint": "ng lint",
-    "e2e": "ng e2e --port 4001",
-    "dev-e2e": "ng e2e --devServerTarget=",
-    "dev-test": "ng test --code-coverage --browsers Chrome"
+    "build": "npm run standardize && ng build",
+    "test": "npm run standardize && ng test --watch false",
+    "coverage": "npm run standardize && ng test --code-coverage --watch false ",
+    "sanity": "npm run standardize && ng test --watch false && ng e2e --port 4001 --suite sanity",
+    "lint": "npm run standardize && ng lint",
+    "e2e": "npm run standardize && ng e2e --port 4001",
+    "dev-e2e": "npm run standardize && ng e2e --devServerTarget=",
+    "dev-test": "npm run standardize && ng test --code-coverage --browsers Chrome"
   },
   "private": true,
   "dependencies": {

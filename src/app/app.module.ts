@@ -10,9 +10,20 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { UnderConstructionComponent } from './under-construction/under-construction.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AboutComponent, PageNotFoundComponent, UnderConstructionComponent],
-  imports: [BrowserModule, CurrencyConvertorModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    AboutComponent,
+    PageNotFoundComponent,
+    UnderConstructionComponent
+  ],
+  imports: [
+    BrowserModule,
+    CurrencyConvertorModule,
+    AppRoutingModule,
+    HttpClientModule
+  ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

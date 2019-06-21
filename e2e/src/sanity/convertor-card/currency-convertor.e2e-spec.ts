@@ -1,6 +1,9 @@
 import { browser, logging } from 'protractor';
 import { CurrencyConvertorCardPage } from '../../page-objects/currency-converter.po';
-import { fixedSourceCurrency, fixedTargetCurrency } from './../../../../src/app/mock-response/mock-reponse';
+import {
+  fixedSourceCurrency,
+  fixedTargetCurrency
+} from './../../../../src/app/mock-response/mock-reponse';
 
 describe('Currency Convertor Card', () => {
   let cardPage: CurrencyConvertorCardPage;
@@ -17,18 +20,30 @@ describe('Currency Convertor Card', () => {
     expect(cardPage.getSourceAmount()).toEqual('1');
   });
 
-  it('should convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency + ' on convert button click', () => {
-    cardPage.navigateTo();
-    expect(cardPage.getTargetAmount()).toBeFalsy();
-    cardPage.getConvertButton().click();
-    expect(cardPage.getTargetAmount()).toBeTruthy();
-  });
+  it(
+    'should convert ' +
+      fixedSourceCurrency +
+      ' to ' +
+      fixedTargetCurrency +
+      ' on convert button click',
+    () => {
+      cardPage.navigateTo();
+      expect(cardPage.getTargetAmount()).toBeFalsy();
+      cardPage.getConvertButton().click();
+      expect(cardPage.getTargetAmount()).toBeTruthy();
+    }
+  );
 
   it('should reflect changes in the target amount in the result alert', () => {
     cardPage.navigateTo();
     cardPage.getConvertButton().click();
-    Promise.all([cardPage.getTargetAmount(), cardPage.getTargetCurrency()]).then(values => {
-      expect(Promise.resolve(values.join(' '))).toEqual(cardPage.getAlertTargetAmount());
+    Promise.all([
+      cardPage.getTargetAmount(),
+      cardPage.getTargetCurrency()
+    ]).then(values => {
+      expect(Promise.resolve(values.join(' '))).toEqual(
+        cardPage.getAlertTargetAmount()
+      );
     });
   });
 
@@ -41,7 +56,7 @@ describe('Currency Convertor Card', () => {
       .get(logging.Type.BROWSER);
     expect(logs).not.toContain(
       jasmine.objectContaining({
-        level: logging.Level.SEVERE,
+        level: logging.Level.SEVERE
       } as logging.Entry)
     );
   });

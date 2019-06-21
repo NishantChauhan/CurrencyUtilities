@@ -29,3 +29,9 @@
                         2) HttpClientModuleSupport, E2E test and UT modified
                         3) Minor bug fixes - 0 INR (target currency)
                         3) All E2E and UT tests successfully completed.
+2020-04-03 09:19:00   Created Jenkins Pipeline with following changes.
+                        1) Jenkinsfile to add pipeline with Build, Test and Deliver Stages
+                        2) Modified Karma to support ChromeHeadless No Sandbox test on alpine linux
+                        3) Formatting changes - removed editor config and prettier made default
+                        4) Added standardize to the build scripts
+                        Open issues: Unable to launch app from host machine during deliver stage of Jenkins where it "npm start"s the app.
