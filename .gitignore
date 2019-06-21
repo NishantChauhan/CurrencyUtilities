@@ -44,3 +44,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.vscode/tasks.json
+reports/current/dashboardReport/index.html
+reports/current/detailReport/E2ETestingReport.html
+reports/current/xml/xmlOutput.xml
+ToDo.txt
