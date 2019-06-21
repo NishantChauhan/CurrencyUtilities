@@ -1,12 +1,13 @@
 import { browser, by, element } from 'protractor';
 export class CurrencyConvertorCardPage {
   navigateTo() {
-    return browser.get(browser.baseUrl) as Promise<any>;
+    return browser.get(browser.baseUrl + '/currency-convertor') as Promise<any>;
   }
 
   getCardTitle() {
     return element(by.css('app-convertor-card h4')).getText() as Promise<string>;
   }
+
 
   getSourceAmount() {
     return element(by.css('#cc-source-amount'))

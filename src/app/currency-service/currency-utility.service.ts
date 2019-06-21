@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConvertedCurrency, CurrencyConvertorInput } from '../common/currency-conversion';
 import { ExchangeRateAPIReponse } from '../common/fixer-base-rates';
-import { mockReponse } from '../mock-response/mock-reponse';
+import { exchangeReponse } from '../mock-response/mock-reponse';
+import { fixedTargetCurrency } from './../mock-response/mock-reponse';
 
 export interface ICurrencyUtilityService {
   convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency>;
@@ -20,17 +21,17 @@ export class CurrencyUtilityService implements ICurrencyUtilityService {
     // Implement HTTP Call
     return new Observable<ExchangeRateAPIReponse>(subscriber => {
       setTimeout(() => {
-        subscriber.next(this.nextMockResponse());
+        subscriber.next(this.nextExchangeRatesResponse());
       }, 2000);
     });
   }
-  public nextMockResponse(): ExchangeRateAPIReponse {
-    let random = Math.floor(Math.random() * 100);
-    mockReponse.rates['INR'] = mockReponse.rates['INR'] + random / 100;
-    mockReponse.date = new Date().toString();
-    return mockReponse;
+  public nextExchangeRatesResponse(): ExchangeRateAPIReponse {
+    const random = Math.floor(Math.random() * 100);
+    exchangeReponse.rates[fixedTargetCurrency] = exchangeReponse.rates[fixedTargetCurrency] + random / 100;
+    exchangeReponse.date = new Date().toString();
+    return exchangeReponse;
   }
-  //-----------------------------------------------------
+  // -----------------------------------------------------
 
   public convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency> {
     return new Observable<ConvertedCurrency>(subscriber => {

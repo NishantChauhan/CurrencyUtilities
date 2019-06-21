@@ -1,5 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 import { ExchangeRateAPIReponse } from '../common/fixer-base-rates';
+import { fixedTargetCurrency } from './../mock-response/mock-reponse';
 import { CurrencyUtilityService } from './currency-utility.service';
 
 describe('CurrencyUtilityService', () => {
@@ -15,15 +16,15 @@ describe('CurrencyUtilityService', () => {
     let apiResponse;
     service.getLatestRatesFromAPI().subscribe((response: ExchangeRateAPIReponse) => {
       apiResponse = response;
-      const mockResponse = service.nextMockResponse();
+      const mockResponse = service.nextExchangeRatesResponse();
       expect(mockResponse).toEqual(apiResponse);
     });
   }));
 
   it('should be return random rates for mockResponse', () => {
     const service: CurrencyUtilityService = TestBed.get(CurrencyUtilityService);
-    const response1 = service.nextMockResponse().rates['INR'];
-    const response2 = service.nextMockResponse().rates['INR'];
+    const response1 = service.nextExchangeRatesResponse().rates[fixedTargetCurrency];
+    const response2 = service.nextExchangeRatesResponse().rates[fixedTargetCurrency];
     expect(response1).not.toEqual(response2);
   });
 });

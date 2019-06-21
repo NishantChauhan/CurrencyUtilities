@@ -10,7 +10,7 @@ export class CurrencyUtilityFakeService extends CurrencyUtilityService {
   public getLatestRatesFromAPI(): Observable<ExchangeRateAPIReponse> {
     return new Observable<ExchangeRateAPIReponse>(subscriber => {
       setTimeout(() => {
-        subscriber.next(this.nextMockResponse());
+        subscriber.next(this.nextExchangeRatesResponse());
       }, 2000);
     });
   }

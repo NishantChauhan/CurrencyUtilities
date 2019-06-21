@@ -1,20 +1,17 @@
 import { browser, logging } from 'protractor';
-import { CurrencyUtilitiesHomePage } from '../../page-objects/currency-home.po';
+import { CurrencyUtilitiesHomePage } from '../../page-objects/home-page.po';
 
-describe('Currency Utilities Home Page', () => {
-  let page: CurrencyUtilitiesHomePage;
-
+describe('Home Page', () => {
+  let homePage: CurrencyUtilitiesHomePage;
   beforeEach(() => {
-    page = new CurrencyUtilitiesHomePage();
+    homePage = new CurrencyUtilitiesHomePage();
   });
-
-  it('should display Currency Utilities as title', () => {
-    page.navigateTo();
-    expect(page.getTitleText()).toEqual('Currency Utilities');
+  it('should show home page', () => {
+    homePage.navigateTo();
   });
-
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
+
     const logs = await browser
       .manage()
       .logs()

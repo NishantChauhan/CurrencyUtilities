@@ -1,5 +1,6 @@
 import { browser, logging } from 'protractor';
 import { CurrencyConvertorCardPage } from '../../page-objects/currency-converter.po';
+import { fixedSourceCurrency, fixedTargetCurrency } from './../../../../src/app/mock-response/mock-reponse';
 
 describe('Currency Convertor Card', () => {
   let cardPage: CurrencyConvertorCardPage;
@@ -16,7 +17,7 @@ describe('Currency Convertor Card', () => {
     expect(cardPage.getSourceAmount()).toEqual('1');
   });
 
-  it('should convert CAD to INR on convert button click', () => {
+  it('should convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency + ' on convert button click', () => {
     cardPage.navigateTo();
     expect(cardPage.getTargetAmount()).toBeFalsy();
     cardPage.getConvertButton().click();

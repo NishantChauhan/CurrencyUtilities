@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConvertedCurrency } from 'src/app/common/currency-conversion';
+import { ConvertedCurrency } from './../../common/currency-conversion';
 import { CurrencyUtilityService } from './../../currency-service/currency-utility.service';
+import { fixedSourceCurrency, fixedTargetCurrency } from './../../mock-response/mock-reponse';
 
 @Component({
   selector: 'app-convertor-card',
@@ -16,10 +17,10 @@ export class ConvertorCardComponent implements OnInit {
 
   public convertorForm: FormGroup = this.fb.group({
     sourceAmount: [1, [Validators.required, Validators.pattern(/^\d{0,9}(\.\d{1,2})?$/)]],
-    sourceCurrency: ['CAD', Validators.required],
+    sourceCurrency: [fixedSourceCurrency, Validators.required],
     targetAmount: [, [Validators.pattern(/^\d{0,9}(\.\d{1,2})?$/)]],
-    targetCurrency: ['INR', Validators.required],
-    convertButtonText: ['Convert CAD to INR'],
+    targetCurrency: [fixedTargetCurrency, Validators.required],
+    convertButtonText: ['Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency],
   });
   ngOnInit() {}
 
