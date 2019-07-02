@@ -25,19 +25,19 @@ export class CurrencyUtilitiesAppPage {
   }
 
   getHomePageUrl() {
-    return browser.baseUrl + 'home';
+    return 'home';
   }
   getCurrencyConvertorPageUrl() {
-    return browser.baseUrl + 'currency-convertor';
+    return  'currency-convertor';
   }
   getHistoricalRatesPageUrl() {
-    return browser.baseUrl + 'historical-rates';
+    return 'historical-rates';
   }
   getRatesAlertPageUrl() {
-    return browser.baseUrl + 'rate-alerts';
+    return  'rate-alerts';
   }
   getAboutPageUrl() {
-    return browser.baseUrl + 'about';
+    return  'about';
   }
 
   getCurrentUrl() {

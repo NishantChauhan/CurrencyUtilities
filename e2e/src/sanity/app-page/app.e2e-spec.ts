@@ -16,27 +16,27 @@ describe('Currency Utilities App Page', () => {
   it('should navigate to home page on clicking Home Page navigation link', () => {
     page.navigateTo();
     page.clickOnHomeLink();
-    expect(page.getCurrentUrl()).toEqual(page.getHomePageUrl());
+    expect(page.getCurrentUrl()).toContain(page.getHomePageUrl());
   });
   it('should navigate to home page on clicking Convertor Page navigation link', () => {
     page.navigateTo();
     page.clickOnCurrencyConvertorLink();
-    expect(page.getCurrentUrl()).toEqual(page.getCurrencyConvertorPageUrl());
+    expect(page.getCurrentUrl()).toContain(page.getCurrencyConvertorPageUrl());
   });
   it('should navigate to home page on clicking Historical Rates Page navigation link', () => {
     page.navigateTo();
     page.clickOnHistoricalRatesLink();
-    expect(page.getCurrentUrl()).toEqual(page.getHistoricalRatesPageUrl());
+    expect(page.getCurrentUrl()).toContain(page.getHistoricalRatesPageUrl());
   });
   it('should navigate to home page on clicking Alerts Page navigation link', () => {
     page.navigateTo();
     page.clickOnRateAlertsLink();
-    expect(page.getCurrentUrl()).toEqual(page.getRatesAlertPageUrl());
+    expect(page.getCurrentUrl()).toContain(page.getRatesAlertPageUrl());
   });
   it('should navigate to home page on clicking About Page navigation link', () => {
     page.navigateTo();
     page.clickOnAboutLink();
-    expect(page.getCurrentUrl()).toEqual(page.getAboutPageUrl());
+    expect(page.getCurrentUrl()).toContain(page.getAboutPageUrl());
   });
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
