@@ -1,3 +1,5 @@
+/* eslint-disable semi */
+/* eslint-disable strict */
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
@@ -18,9 +20,26 @@ module.exports = function(config) {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
+      combineBrowserReports: true,
       dir: require('path').join(__dirname, '../coverage/CurrencyUtilities'),
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true,
+      'report-config': {
+        html: {
+          // outputs the report in ./coverage/html
+          subdir: 'html'
+        }
+      },
+      thresholds: {
+        emitWarning: false, // set to `true` to not fail the test command when thresholds are not met
+        // thresholds for all files
+        global: {
+          statements: 100,
+          lines: 100,
+          branches: 100,
+          functions: 100
+        }
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 4002,
