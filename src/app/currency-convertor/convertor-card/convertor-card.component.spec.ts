@@ -6,6 +6,7 @@ import { CurrencyConversionResultComponent } from '../currency-conversion-result
 import { CurrencyUtilityFakeService } from './../../currency-service/currency-utility-fake.service.';
 import { fixedTargetCurrency } from './../../mock-response/mock-reponse';
 import { ConvertorCardComponent } from './convertor-card.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ConvertorCardComponent', () => {
   let component: ConvertorCardComponent;
@@ -19,7 +20,7 @@ describe('ConvertorCardComponent', () => {
           useClass: CurrencyUtilityFakeService,
         },
       ],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, HttpClientModule],
     }).compileComponents();
   }));
 
@@ -47,7 +48,7 @@ describe('ConvertorCardComponent', () => {
     }
     jasmine.clock().tick(3000);
     expect(component.convertorForm.get('targetAmount').value).toBe(
-      (exchangeReponse.rates[fixedTargetCurrency] / exchangeReponse.rates[fixedSourceCurrency]).toFixed(2)
+      (exchangeReponse.result).toFixed(2)
     );
   });
 
@@ -62,7 +63,7 @@ describe('ConvertorCardComponent', () => {
     component.convertCurrency();
     jasmine.clock().tick(3000);
     expect(component.convertorForm.get('targetAmount').value).toBe(
-      (exchangeReponse.rates[fixedTargetCurrency] / exchangeReponse.rates[fixedSourceCurrency]).toFixed(2)
+      (exchangeReponse.result).toFixed(2)
     );
     component.updateSourceAmount(100);
     const targetAmount = component.convertorForm.get('targetAmount').value;
@@ -80,7 +81,7 @@ describe('ConvertorCardComponent', () => {
     component.convertCurrency();
     jasmine.clock().tick(3000);
     expect(component.convertorForm.get('targetAmount').value).toBe(
-      (exchangeReponse.rates[fixedTargetCurrency] / exchangeReponse.rates[fixedSourceCurrency]).toFixed(2)
+      (exchangeReponse.result).toFixed(2)
     );
     component.updateTargetAmount(100);
     const sourceAmountText = component.convertorForm.get('sourceAmount').value;

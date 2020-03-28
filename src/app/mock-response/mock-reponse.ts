@@ -1,16 +1,16 @@
-import { ExchangeRateAPIReponse } from '../common/fixer-base-rates';
+import { ExchangeRateAPIReponse } from '../common/base-rates';
 
 export const fixedSourceCurrency = 'CAD';
 export const fixedTargetCurrency = 'INR';
 
 export const exchangeReponse: ExchangeRateAPIReponse = {
-  success: true,
-  timestamp: 1559124545,
-  base: 'EUR',
-  date: '2019-06-07',
-  rates: {
-    CAD: 1.507474,
-    INR: 77.895765,
-    USD: 1.115945,
-  },
+  from: 'CAD',
+  to: 'INR',
+  rateAsOf: new Date(),
+  amount: 1,
+  conversionRate: 53.49008750820958,
+  result: 53.49008750820958,
+  responseStatus: {
+      status: 'Success'
+  }
 };

@@ -9,5 +9,5 @@ export class ConvertedCurrency {
   sourceAmount: number;
   targetAmount: number;
   exchangeRate: number;
-  exchangeResultDate: string;
+  exchangeResultDate: Date;
 }

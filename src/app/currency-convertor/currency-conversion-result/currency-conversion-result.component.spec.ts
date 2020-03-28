@@ -25,7 +25,7 @@ describe('CurrencyConversionResultComponent', () => {
       sourceAmount: 1,
       targetAmount: 51.76,
       exchangeRate: 51.76,
-      exchangeResultDate: new Date().toString(),
+      exchangeResultDate: new Date(),
     };
     fixture.detectChanges();
   });
