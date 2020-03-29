@@ -23,3 +23,9 @@
                       2) Added 2 point precision for target amount.
 2019-06-12 07:27:44   Update child component with changes in source and target Amount on type
 2019-06-16 01:13:34   Fixed Code Coverage and E2E sanity
+2020-03-29 11:22:49   Integrated Angular FE with Springboot BE
+                       Changes:
+                        1) Updated mock responses
+                        2) HttpClientModuleSupport, E2E test and UT modified
+                        3) Minor bug fixes - 0 INR (target currency)
+                        3) All E2E and UT tests successfully completed.
