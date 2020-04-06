@@ -35,3 +35,6 @@
                         3) Formatting changes - removed editor config and prettier made default
                         4) Added standardize to the build scripts
                         Open issues: Unable to launch app from host machine during deliver stage of Jenkins where it "npm start"s the app.
+2020-04-15 08:19:00   Added Support for Docker
+                        1) Created docker file to include the test and build phases
+                        2) Removed Build and Test phases as it is controlled by Docker build

@@ -2,31 +2,19 @@ pipeline {
     agent {
         docker {
             image 'node:10-alpine'
-            args '--user root -p 4000:4000 -p 4001:4001 -p 4002:4002'
+            args '--user root -p 4000:4000 -p 4001:4001 -p 4002:4002 -v /var/run/docker.sock:/var/run/docker.sock -v /usr/local/bin:/usr/local/bin'
         }
-    }
-    environment {
-        CI = 'true'
     }
     stages {
-        stage('Build') {
-            steps {
-                sh 'npm install'
-                sh 'npm install'
-                sh 'chmod +x ./jenkins/scripts/*.sh'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
         stage('Deliver') {
+            environment {
+                DOCKER_HUB_CREDS = credentials('docker-hub-credential')
+            }
             steps {
+                sh 'chmod +x ./jenkins/scripts/*.sh'
                 sh './jenkins/scripts/deliver.sh'
-               // input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
             }
         }
+
     }
 }
