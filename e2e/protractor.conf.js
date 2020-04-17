@@ -25,7 +25,7 @@ const ScreenshotAndStackReporter = new HtmlScreenshotReporter({
   reportTitle: 'E2E Testing Report',
   showSummary: true,
   reportOnlyFailedSpecs: false,
-  captureOnlyFailedSpecs: true
+  captureOnlyFailedSpecs: true,
 });
 
 exports.config = {
@@ -34,20 +34,29 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: ['--test-type', '--start-maximized', '--headless']
-    }
+      args: [
+        '--no-sandbox',
+        '--test-type',
+        '--headless',
+        '--disable-gpu',
+        '--window-size=800x600',
+      ],
+    },
   },
   suites: {
     sanity: ['./src/sanity/**/*e2e-spec.ts'],
-    all: ['./src/**/*.e2e-spec.ts']
+    all: ['./src/**/*.e2e-spec.ts'],
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4000/',
+  chromeDriver: '/usr/bin/chromedriver',
+  baseUrl: 'http://localhost:4000',
+  useAllAngular2AppRoots: true,
   framework: 'jasmine',
+
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function() {}
+    print: function() {},
   },
   beforeLaunch: function() {
     return new Promise(function(resolve) {
@@ -56,7 +65,7 @@ exports.config = {
   },
   onPrepare: function() {
     require('ts-node').register({
-      project: require('path').join(__dirname, './tsconfig.e2e.json')
+      project: require('path').join(__dirname, './tsconfig.e2e.json'),
     });
     // jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }))
     jasmine.getEnv().addReporter(ScreenshotAndStackReporter);
@@ -64,7 +73,7 @@ exports.config = {
       new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,
         savePath: reportsDirectory + '/xml',
-        filePrefix: 'xmlOutput'
+        filePrefix: 'xmlOutput',
       })
     );
 
@@ -88,7 +97,7 @@ exports.config = {
             });
           });
         }
-      }
+      },
     });
   },
 
@@ -112,12 +121,9 @@ exports.config = {
         browserVersion: browserVersion,
         modifiedSuiteName: false,
         screenshotsOnlyOnFailure: true,
-        testPlatform: platform
+        testPlatform: platform,
       };
-      new HTMLReport().from(
-        reportsDirectory + '/xml/xmlOutput.xml',
-        testConfig
-      );
+      new HTMLReport().from(reportsDirectory + '/xml/xmlOutput.xml', testConfig);
     });
-  }
+  },
 };
