@@ -38,3 +38,6 @@
 2020-04-15 08:19:00   Added Support for Docker
                         1) Created docker file to include the test and build phases
                         2) Removed Build and Test phases as it is controlled by Docker build
+2020-04-19 18:04:24   Separated E2E protractor config for ci and local environment
+                        1) Added nginx configuration
+                        2) Added ci-e2e configuration in package.json

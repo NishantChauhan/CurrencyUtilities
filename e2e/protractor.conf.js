@@ -34,13 +34,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [
-        '--no-sandbox',
-        '--test-type',
-        '--headless',
-        '--disable-gpu',
-        '--window-size=800x600',
-      ],
+      args: ['--test-type'],
     },
   },
   suites: {
@@ -48,9 +42,7 @@ exports.config = {
     all: ['./src/**/*.e2e-spec.ts'],
   },
   directConnect: true,
-  chromeDriver: '/usr/bin/chromedriver',
-  baseUrl: 'http://localhost:4000',
-  useAllAngular2AppRoots: true,
+  baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
 
   jasmineNodeOpts: {
