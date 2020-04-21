@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
 export class CurrencyConvertorCardPage {
   navigateTo() {
     return browser.get(browser.baseUrl + '/currency-convertor') as Promise<any>;
@@ -16,10 +16,11 @@ export class CurrencyConvertorCardPage {
       .getAttribute('value') as Promise<string>;
   }
   getTargetCurrency() {
-    return element(by.css('#cc-target-currency'))
+    return element(by.css('#cc-target-currency > option:checked'))
       .getWebElement()
-      .getAttribute('value') as Promise<string>;
+      .getText() as Promise<string>;
   }
+
   getTargetAmount() {
     return element(by.css('#cc-target-amount'))
       .getWebElement()
@@ -28,6 +29,11 @@ export class CurrencyConvertorCardPage {
 
   getConvertButton() {
     return element(by.css('app-convertor-card button'));
+  }
+  getAlertTargetAmountElement() {
+    return element(
+      by.css('app-currency-conversion-result span:nth-child(4)')
+    ) as ElementFinder;
   }
   getAlertTargetAmount() {
     return element(

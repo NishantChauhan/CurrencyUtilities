@@ -5,12 +5,13 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { ConvertedCurrency } from './../../common/currency-conversion';
-import { CurrencyUtilityService } from './../../currency-service/currency-utility.service';
 import {
+  Currency,
   fixedSourceCurrency,
   fixedTargetCurrency
-} from './../../mock-response/mock-reponse';
+} from 'src/app/common/base-rates';
+import { ConvertedCurrency } from './../../common/currency-conversion';
+import { CurrencyUtilityService } from './../../currency-service/currency-utility.service';
 
 @Component({
   selector: 'app-convertor-card',
@@ -20,6 +21,7 @@ import {
 export class ConvertorCardComponent implements OnInit {
   conversionResult: ConvertedCurrency;
   disableConvertButton: boolean;
+  supportedCurrencies: Currency[];
 
   constructor(
     private fb: FormBuilder,
@@ -31,14 +33,47 @@ export class ConvertorCardComponent implements OnInit {
       1,
       [Validators.required, Validators.pattern(/^\d{0,9}(\.\d{1,2})?$/)]
     ],
-    sourceCurrency: [fixedSourceCurrency, Validators.required],
+    sourceCurrency: [, Validators.required],
     targetAmount: [, [Validators.pattern(/^\d{0,9}(\.\d{1,2})?$/)]],
-    targetCurrency: [fixedTargetCurrency, Validators.required],
-    convertButtonText: [
-      'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency
-    ]
+    targetCurrency: [, Validators.required],
+    convertButtonText: ['Loading ....']
   });
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.disableConvertButtonWithText('Loading....');
+    if (!this.supportedCurrencies) {
+      this.utilityService.getAllSupportedCurrencies().subscribe(response => {
+        this.supportedCurrencies = response;
+        const sourceCurrencyIndex = this.findIndexOfCurrency(
+          fixedSourceCurrency,
+          this.supportedCurrencies
+        );
+        const targetCurrencyIndex = this.findIndexOfCurrency(
+          fixedTargetCurrency,
+          this.supportedCurrencies
+        );
+        this.convertorForm.patchValue({
+          sourceCurrency: this.supportedCurrencies[sourceCurrencyIndex],
+          targetCurrency: this.supportedCurrencies[targetCurrencyIndex]
+        });
+        this.enableConvertButtonWithText(
+          'Convert ' +
+            this.supportedCurrencies[sourceCurrencyIndex].currencySymbol +
+            ' to ' +
+            this.supportedCurrencies[targetCurrencyIndex].currencySymbol
+        );
+      });
+    }
+  }
+
+  public findIndexOfCurrency(
+    currency: Currency,
+    currencyArray: Currency[]
+  ): number {
+    return currencyArray
+      .map((value, i) => value.currencySymbol)
+      .indexOf(currency.currencySymbol);
+  }
 
   // Convert button handling
   public convertCurrency() {
@@ -46,8 +81,10 @@ export class ConvertorCardComponent implements OnInit {
     this.disableTargetAmount();
     const inputCurrency = {
       sourceAmount: this.convertorForm.get('sourceAmount').value,
-      sourceCurrency: this.convertorForm.get('sourceCurrency').value,
+      sourceCurrency: this.convertorForm.get('sourceCurrency').value
+        .currencySymbol,
       targetCurrency: this.convertorForm.get('targetCurrency').value
+        .currencySymbol
     };
 
     this.utilityService
@@ -65,13 +102,16 @@ export class ConvertorCardComponent implements OnInit {
   }
 
   public updateCurrency() {
-    const sourceCurrency: string = this.convertorForm.get('sourceCurrency')
+    const sourceCurrency: Currency = this.convertorForm.get('sourceCurrency')
       .value;
-    const targetCurrency: string = this.convertorForm.get('targetCurrency')
+    const targetCurrency: Currency = this.convertorForm.get('targetCurrency')
       .value;
     this.conversionResult = undefined;
     this.enableConvertButtonWithText(
-      this.getCurrencyText(sourceCurrency, targetCurrency)
+      this.getCurrencyText(
+        sourceCurrency.currencySymbol,
+        targetCurrency.currencySymbol
+      )
     );
   }
 

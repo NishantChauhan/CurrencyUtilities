@@ -1,9 +1,11 @@
-import { ExchangeRateAPIReponse } from '../common/base-rates';
+import { ConversionRateAPIResponse, Currency } from '../common/base-rates';
 
-export const fixedSourceCurrency = 'CAD';
-export const fixedTargetCurrency = 'INR';
-
-export const exchangeReponse: ExchangeRateAPIReponse = {
+export const mockSupportedCurrencies: Currency[] = [
+  { currencyName: 'CAD', currencySymbol: 'CAD' },
+  { currencyName: 'INR', currencySymbol: 'INR' },
+  { currencyName: 'USD', currencySymbol: 'USD' }
+];
+export const exchangeReponse: ConversionRateAPIResponse = {
   from: 'CAD',
   to: 'INR',
   rateAsOf: new Date(),

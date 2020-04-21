@@ -3,9 +3,11 @@
     "PKief.material-icon-theme",
     "formulahendry.auto-close-tag",
     "rbbit.typescript-hero",
+    "steoates.autoimport",
     "esbenp.prettier-vscode",
     "editorconfig.editorconfig",
     "jsynowiec.vscode-insertdatestring",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "angular.ng-template"
   ]
 }

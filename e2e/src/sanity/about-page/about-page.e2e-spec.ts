@@ -1,13 +1,16 @@
 import { browser, logging } from 'protractor';
-import { CurrencyUtilitiesHomePage } from '../../page-objects/home-page.po';
+import { CurrencyUtilitiesAboutPage } from './../../page-objects/about-page.po';
 
 describe('About Page', () => {
-  let homePage: CurrencyUtilitiesHomePage;
+  let page: CurrencyUtilitiesAboutPage;
   beforeEach(() => {
-    homePage = new CurrencyUtilitiesHomePage();
+    page = new CurrencyUtilitiesAboutPage();
   });
   it('should show about page', () => {
-    homePage.navigateTo();
+    it('should navigate to home page on clicking About Page navigation link', () => {
+      page.navigateTo();
+      expect(page.getCurrentUrl()).toEqual(page.getAboutPageUrl());
+    });
   });
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

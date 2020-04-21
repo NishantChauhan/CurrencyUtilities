@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ExchangeRateAPIReponse } from '../common/base-rates';
+import { Observable, of } from 'rxjs';
+import { ConversionRateAPIResponse, Currency } from '../common/base-rates';
+import {
+  exchangeReponse,
+  mockSupportedCurrencies
+} from '../mock-response/mock-reponse';
 import { CurrencyUtilityService } from './currency-utility.service';
-import { exchangeReponse } from '../mock-response/mock-reponse';
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyUtilityFakeService extends CurrencyUtilityService {
-  public getLatestRatesFromAPI(): Observable<ExchangeRateAPIReponse> {
-    return new Observable<ExchangeRateAPIReponse>(subscriber => {
+  public getConvertedCurrencyFromAPI(): Observable<ConversionRateAPIResponse> {
+    return new Observable<ConversionRateAPIResponse>(subscriber => {
       setTimeout(() => {
-        subscriber.next(this.nextExchangeRatesResponse());
+        subscriber.next(this.nextConversionRateResponse());
       }, 2000);
     });
   }
-  public nextExchangeRatesResponse(): ExchangeRateAPIReponse {
+  public getAllSupportedCurrencies(): Observable<Currency[]> {
+    return of(mockSupportedCurrencies);
+  }
+
+  public nextConversionRateResponse(): ConversionRateAPIResponse {
     const random = Math.floor(Math.random() * 100);
     exchangeReponse.to = exchangeReponse.from + random / 100;
     return exchangeReponse;

@@ -41,3 +41,6 @@
 2020-04-19 18:04:24   Separated E2E protractor config for ci and local environment
                         1) Added nginx configuration
                         2) Added ci-e2e configuration in package.json
+2020-04-21 08:54:35   Added Support for all currencies
+                        1) New endpoint exposed by backend API to get supported currencies.
+                        2) Displayed all supported currencies in the dropdown

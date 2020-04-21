@@ -12,7 +12,7 @@ const dashboardReportDirectory = reportsDirectory + '/dashboardReport';
 const detailsReportDirectory = reportsDirectory + '/detailReport';
 
 // For Reports Backup
-// const fs = require('fs-extra');
+const fs = require('fs-extra');
 // if (fs.existsSync(reportsDirectory)) {
 //     const reportsBackupDirectory = './reports/backup_' + new Date().toJSON().replace(/:/g, '_');
 //     fs.copySync(reportsDirectory, reportsBackupDirectory);
