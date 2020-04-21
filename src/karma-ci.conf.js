@@ -46,7 +46,13 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'Firefox', 'ChromeHeadless', 'Edge'],
+    customLaunchers: {
+      ChromeHeadlessNoSandox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox'],
+      },
+    },
+    browsers: ['ChromeHeadlessNoSandox'],
     singleRun: false,
     restartOnFileChange: true,
   });

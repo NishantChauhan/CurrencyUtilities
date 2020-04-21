@@ -1,15 +1,18 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  fixedSourceCurrency,
+  fixedTargetCurrency
+} from 'src/app/common/base-rates';
 import { CurrencyUtilityService } from 'src/app/currency-service/currency-utility.service';
 import {
   exchangeReponse,
-  fixedSourceCurrency
+  mockSupportedCurrencies
 } from 'src/app/mock-response/mock-reponse';
 import { CurrencyConversionResultComponent } from '../currency-conversion-result/currency-conversion-result.component';
 import { CurrencyUtilityFakeService } from './../../currency-service/currency-utility-fake.service.';
-import { fixedTargetCurrency } from './../../mock-response/mock-reponse';
 import { ConvertorCardComponent } from './convertor-card.component';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('ConvertorCardComponent', () => {
   let component: ConvertorCardComponent;
@@ -39,7 +42,10 @@ describe('ConvertorCardComponent', () => {
   });
 
   it(
-    'should convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency,
+    'should convert ' +
+      fixedSourceCurrency.currencySymbol +
+      ' to ' +
+      fixedTargetCurrency.currencySymbol,
     () => {
       component.convertorForm.setValue({
         sourceAmount: 1,
@@ -47,7 +53,10 @@ describe('ConvertorCardComponent', () => {
         targetAmount: '',
         targetCurrency: fixedTargetCurrency,
         convertButtonText:
-          'Convert ' + fixedSourceCurrency + ' to ' + fixedTargetCurrency
+          'Convert ' +
+          fixedSourceCurrency.currencySymbol +
+          ' to ' +
+          fixedTargetCurrency.currencySymbol
       });
       for (let i = 0; i < 5; i++) {
         component.convertCurrency();
@@ -98,10 +107,24 @@ describe('ConvertorCardComponent', () => {
   });
 
   it('should update convert button on currency change', () => {
-    component.convertorForm.patchValue({ sourceCurrency: 'USD' });
+    const mockCurrencyUSDIndex = component.findIndexOfCurrency(
+      { currencyName: 'USD', currencySymbol: 'USD' },
+      mockSupportedCurrencies
+    );
+    const supportedCurencyUSDIndex = component.findIndexOfCurrency(
+      mockSupportedCurrencies[mockCurrencyUSDIndex],
+      component.supportedCurrencies
+    );
+
+    component.convertorForm.patchValue({
+      sourceCurrency: component.supportedCurrencies[supportedCurencyUSDIndex]
+    });
+    fixture.detectChanges();
     component.updateCurrency();
     const buttonText = component.convertorForm.get('convertButtonText').value;
-    expect(buttonText).toBe('Convert USD to ' + fixedTargetCurrency);
+    expect(buttonText).toBe(
+      'Convert USD to ' + fixedTargetCurrency.currencySymbol
+    );
   });
 
   it('should not update source amount and target amount when conversion result is not evaluated', () => {

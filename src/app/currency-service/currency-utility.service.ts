@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ExchangeRateAPIReponse } from '../common/base-rates';
+import { ConversionRateAPIResponse, Currency } from '../common/base-rates';
 import {
   ConvertedCurrency,
   CurrencyConvertorInput
@@ -10,6 +10,7 @@ import {
 
 export interface ICurrencyUtilityService {
   convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency>;
+  getAllSupportedCurrencies(): Observable<Currency[]>;
 }
 
 @Injectable({
@@ -18,11 +19,17 @@ export interface ICurrencyUtilityService {
 export class CurrencyUtilityService implements ICurrencyUtilityService {
   // constructor() {}
   constructor(private httpClient: HttpClient) {}
-  public getLatestRatesFromAPI(
+
+  public getAllSupportedCurrencies(): Observable<Currency[]> {
+    const uri = `currency/rates/supportedCurrencies`;
+    return this.httpClient.get<Currency[]>(`${environment.baseURL}${uri}`);
+  }
+
+  public getConvertedCurrencyFromAPI(
     input: CurrencyConvertorInput
-  ): Observable<ExchangeRateAPIReponse> {
+  ): Observable<ConversionRateAPIResponse> {
     const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`;
-    return this.httpClient.get<ExchangeRateAPIReponse>(
+    return this.httpClient.get<ConversionRateAPIResponse>(
       `${environment.baseURL}currency/converter/convert${uriParams}`
     );
   }
@@ -30,8 +37,8 @@ export class CurrencyUtilityService implements ICurrencyUtilityService {
     input: CurrencyConvertorInput
   ): Observable<ConvertedCurrency> {
     return new Observable<ConvertedCurrency>(subscriber => {
-      this.getLatestRatesFromAPI(input).subscribe(
-        (apiResponse: ExchangeRateAPIReponse) => {
+      this.getConvertedCurrencyFromAPI(input).subscribe(
+        (apiResponse: ConversionRateAPIResponse) => {
           subscriber.next({
             sourceAmount: input.sourceAmount,
             sourceCurrency: input.sourceCurrency,

@@ -1,33 +1,31 @@
 import { browser, logging } from 'protractor';
-import { CurrencyConvertorCardPage } from '../../page-objects/currency-converter.po';
 import {
   fixedSourceCurrency,
   fixedTargetCurrency
-} from './../../../../src/app/mock-response/mock-reponse';
+} from '../../../../src/app/common/base-rates';
+import { CurrencyConvertorCardPage } from '../../page-objects/currency-converter.po';
 
 describe('Currency Convertor Card', () => {
   let cardPage: CurrencyConvertorCardPage;
   beforeEach(() => {
     cardPage = new CurrencyConvertorCardPage();
+    cardPage.navigateTo();
   });
 
   it('should show Currency Convertor Card Title', () => {
-    cardPage.navigateTo();
     expect(cardPage.getCardTitle()).toEqual('Currency Convertor');
   });
   it('should show source amount as 1 on load', () => {
-    cardPage.navigateTo();
     expect(cardPage.getSourceAmount()).toEqual('1');
   });
 
   it(
     'should convert ' +
-      fixedSourceCurrency +
+      fixedSourceCurrency.currencySymbol +
       ' to ' +
-      fixedTargetCurrency +
+      fixedTargetCurrency.currencySymbol +
       ' on convert button click',
     () => {
-      cardPage.navigateTo();
       expect(cardPage.getTargetAmount()).toBeFalsy();
       cardPage.getConvertButton().click();
       expect(cardPage.getTargetAmount()).toBeTruthy();
@@ -35,7 +33,6 @@ describe('Currency Convertor Card', () => {
   );
 
   it('should reflect changes in the target amount in the result alert', () => {
-    cardPage.navigateTo();
     cardPage.getConvertButton().click();
     Promise.all([
       cardPage.getTargetAmount(),

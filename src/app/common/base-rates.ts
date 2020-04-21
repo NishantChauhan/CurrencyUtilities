@@ -1,9 +1,18 @@
+export const fixedSourceCurrency: Currency = {
+  currencyName: 'CAD',
+  currencySymbol: 'CAD'
+};
+export const fixedTargetCurrency: Currency = {
+  currencyName: 'INR',
+  currencySymbol: 'INR'
+};
+
 export class ResponseStatus {
   status: string;
   errorCode?: string;
   errorDescription?: string;
 }
-export class ExchangeRateAPIReponse {
+export class ConversionRateAPIResponse {
   from: string;
   to: string;
   rateAsOf: Date;
@@ -11,4 +20,8 @@ export class ExchangeRateAPIReponse {
   conversionRate: number;
   result: number;
   responseStatus: ResponseStatus;
+}
+
+export class Currency {
+  constructor(public currencyName: string, public currencySymbol: string) {}
 }

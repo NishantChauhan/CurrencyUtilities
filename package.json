@@ -8,12 +8,17 @@
     "build": "npm run standardize && ng build",
     "test": "npm run standardize && ng test --watch false",
     "coverage": "npm run standardize && ng test --code-coverage --watch false ",
-    "sanity": "npm run standardize && ng test --watch false && ng e2e --port 4001 --suite sanity",
+    "sanity": "npm run standardize && ng lint && ng test --watch false && ng e2e --port 4001 --suite sanity",
     "lint": "npm run standardize && ng lint",
     "e2e": "npm run standardize && ng e2e --port 4001",
     "dev-e2e": "npm run standardize && ng e2e --devServerTarget=",
     "dev-test": "npm run standardize && ng test --code-coverage --browsers Chrome",
-    "ci-e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js --devServerTarget="
+    "chrome-test": "npm run standardize && ng test --browsers Chrome",
+    "ff-test": "npm run standardize && ng test --browsers Firefox",
+    "edge-test": "npm run standardize && ng test --browsers Edge",
+    "ch-test": "npm run standardize && ng test --browsers ChromeHeadless",
+    "ci-e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js --devServerTarget=",
+    "ci-test": "npm run standardize && ng test --karmaConfig=src/karma-ci.conf.js --watch false"
   },
   "private": true,
   "dependencies": {
