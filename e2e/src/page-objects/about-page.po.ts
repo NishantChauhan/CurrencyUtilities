@@ -1,13 +1,13 @@
-import { browser } from 'protractor';
+import { browser } from 'protractor'
 
 export class CurrencyUtilitiesAboutPage {
   navigateTo() {
-    return browser.get(browser.baseUrl + '/about') as Promise<any>;
+    return browser.get(browser.baseUrl + '/about') as Promise<any>
   }
   getCurrentUrl() {
-    return browser.getCurrentUrl() as Promise<any>;
+    return browser.getCurrentUrl() as Promise<any>
   }
   getAboutPageUrl() {
-    return browser.baseUrl + 'about';
+    return browser.baseUrl + 'about'
   }
 }

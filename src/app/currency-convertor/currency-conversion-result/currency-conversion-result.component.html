@@ -1,11 +1,27 @@
 <div class="form-row">
   <div class="col-sm-12">
     <div class="alert alert-success" role="alert">
-      <small> As of {{convertedCurrency.exchangeResultDate | date: 'medium'}}</small><br>
-      <span>{{convertedCurrency.sourceAmount| number:'0.0-2'}} {{convertedCurrency.sourceCurrency}}</span> equals
-      <span>{{!convertedCurrency.targetAmount?0:convertedCurrency.targetAmount| number:'0.0-2'}} {{convertedCurrency.targetCurrency}}</span><br>
-      <small>Rate 1 {{convertedCurrency.sourceCurrency}} = {{convertedCurrency.exchangeRate| number:'0.0-2'}}
-        {{convertedCurrency.targetCurrency}}</small>
+      <small>
+        As of {{ convertedCurrency.exchangeResultDate | date: 'medium' }}</small
+      ><br />
+      <span
+        >{{ convertedCurrency.sourceAmount | number: '0.0-10' }}
+        {{ convertedCurrency.sourceCurrency }}</span
+      >
+      equals
+      <span
+        >{{
+          !convertedCurrency.targetAmount
+            ? 0
+            : (convertedCurrency.targetAmount | number: '0.0-10')
+        }}
+        {{ convertedCurrency.targetCurrency }}</span
+      ><br />
+      <small
+        >Rate 1 {{ convertedCurrency.sourceCurrency }} =
+        {{ convertedCurrency.exchangeRate | number: '0.0-10' }}
+        {{ convertedCurrency.targetCurrency }}</small
+      >
     </div>
   </div>
 </div>

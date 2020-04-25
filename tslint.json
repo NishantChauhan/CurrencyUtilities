@@ -1,5 +1,5 @@
 {
-  "extends": "tslint:recommended",
+  "extends": ["tslint-plugin-prettier", "tslint-config-prettier"],
   "rulesDirectory": ["codelyzer"],
   "rules": {
     "align": {
@@ -44,9 +44,10 @@
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
     "ordered-imports": false,
+    "prettier": true,
     "quotemark": [true, "single"],
     "semicolon": {
-      "options": ["always"]
+      "options": ["never"]
     },
     "space-before-function-paren": {
       "options": {
