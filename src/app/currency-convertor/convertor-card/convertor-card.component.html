@@ -11,7 +11,6 @@
             name="Source Amount"
             id="cc-source-amount"
             formControlName="sourceAmount"
-            maxlength="9"
             (keyup)="updateSourceAmount($event.target.value)"
           />
         </div>
@@ -24,23 +23,31 @@
             formControlName="sourceCurrency"
             (click)="updateCurrency()"
           >
-            <option *ngFor="let currency of supportedCurrencies" [ngValue]="currency">{{
-              currency.currencySymbol
-            }}</option>
-          </select>
+            <option
+              *ngFor="let currency of supportedCurrencies"
+              [ngValue]="currency"
+              >{{ currency.currencySymbol }}</option
+            ><option> </option
+          ></select>
         </div>
       </div>
       <div *ngIf="this.convertorForm.get('sourceAmount').invalid">
         <div class="form-row">
           <div class="col-sm-12">
             <div class="form-group alert alert-danger" role="alert">
-              <div *ngIf="this.convertorForm.get('sourceAmount').errors['required']">
+              <div
+                *ngIf="
+                  this.convertorForm.get('sourceAmount').errors['required']
+                "
+              >
                 <small class="form-text text-muted">Amount is mandatory</small>
               </div>
-              <div *ngIf="this.convertorForm.get('sourceAmount').errors['pattern']">
+              <div
+                *ngIf="this.convertorForm.get('sourceAmount').errors['pattern']"
+              >
                 <small class="form-text text-muted"
-                  >Amount can have only 0-2 decimals <br />
-                  (e.g. 1 or 0.1 or .11)</small
+                  >Amount can have 0-10 decimals and 1-9 digits <br />
+                  (e.g. 1 or 0.1 or .11, etc.)</small
                 >
               </div>
             </div>
@@ -57,7 +64,6 @@
             id="cc-target-amount"
             aria-describedby="helpId"
             formControlName="targetAmount"
-            maxlength="9"
             (keyup)="updateTargetAmount($event.target.value)"
           />
         </div>
@@ -70,9 +76,11 @@
             formControlName="targetCurrency"
             (click)="updateCurrency()"
           >
-            <option *ngFor="let currency of supportedCurrencies" [ngValue]="currency">{{
-              currency.currencySymbol
-            }}</option>
+            <option
+              *ngFor="let currency of supportedCurrencies"
+              [ngValue]="currency"
+              >{{ currency.currencySymbol }}</option
+            >
           </select>
         </div>
       </div>
@@ -80,10 +88,12 @@
         <div class="form-row">
           <div class="col-sm-12">
             <div class="form-group alert alert-danger" role="alert">
-              <div *ngIf="this.convertorForm.get('targetAmount').errors['pattern']">
+              <div
+                *ngIf="this.convertorForm.get('targetAmount').errors['pattern']"
+              >
                 <small class="form-text text-muted"
-                  >Amount can have only 0-2 decimals <br />
-                  (e.g. 1 or 0.1 or .11)</small
+                  >Amount can have 0-10 decimals and 1-9 digits <br />
+                  (e.g. 1 or 0.1 or .11, etc.)</small
                 >
               </div>
             </div>
@@ -106,6 +116,11 @@
         <app-currency-conversion-result
           [convertedCurrency]="conversionResult"
         ></app-currency-conversion-result>
+      </div>
+      <div *ngIf="backendError">
+        <app-currency-card-error
+          [error]="backendError"
+        ></app-currency-card-error>
       </div>
     </form>
   </div>

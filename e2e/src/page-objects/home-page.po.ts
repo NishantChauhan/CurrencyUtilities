@@ -1,7 +1,7 @@
-import { browser } from 'protractor';
+import { browser } from 'protractor'
 
 export class CurrencyUtilitiesHomePage {
   navigateTo() {
-    return browser.get(browser.baseUrl + '/home') as Promise<any>;
+    return browser.get(browser.baseUrl + '/home') as Promise<any>
   }
 }

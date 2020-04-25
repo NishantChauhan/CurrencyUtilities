@@ -1,23 +1,40 @@
 <div class="container-fluid">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="nav navbar-nav">
-      <a class="nav-item nav-link" [routerLink]="['home']" [routerLinkActive]="'active'">Home</a>
-      <a class="nav-item nav-link" [routerLink]="['currency-convertor']" [routerLinkActive]="'active'">Currency
-        Convertor</a>
-      <a class="nav-item nav-link" [routerLink]="['historical-rates']" [routerLinkActive]="'active'">Historical
-        Rates</a>
-      <a class="nav-item nav-link" [routerLink]="['rate-alerts']" [routerLinkActive]="'active'">Rate Alerts</a>
-      <a class="nav-item nav-link" [routerLink]="['about']" [routerLinkActive]="'active'">About</a>
+      <a class="nav-item nav-link" [routerLink]="['home']" [routerLinkActive]="'active'"
+        >Home</a
+      >
+      <a
+        class="nav-item nav-link"
+        [routerLink]="['currency-convertor']"
+        [routerLinkActive]="'active'"
+        >Currency Convertor</a
+      >
+      <a
+        class="nav-item nav-link"
+        [routerLink]="['historical-rates']"
+        [routerLinkActive]="'active'"
+        >Historical Rates</a
+      >
+      <a
+        class="nav-item nav-link"
+        [routerLink]="['rate-alerts']"
+        [routerLinkActive]="'active'"
+        >Rate Alerts</a
+      >
+      <a class="nav-item nav-link" [routerLink]="['about']" [routerLinkActive]="'active'"
+        >About</a
+      >
     </div>
   </nav>
-  <hr style="border-color: white" />
+  <hr style="border-color: white;" />
   <div class="justify-content-center">
-    <h1 class="display-3 text-center x-bg-text ">
-      <span> Currency <img src="../favicon.ico"> Utilities </span>
-      <hr style="border-color: white" />
+    <h1 class="display-3 text-center x-bg-text">
+      <span> Currency <img src="../favicon.ico" /> Utilities </span>
+      <hr style="border-color: white;" />
     </h1>
   </div>
-  <br>
+  <br />
   <div class="row d-flex p-2 justify-content-center">
     <router-outlet></router-outlet>
   </div>

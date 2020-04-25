@@ -1,6 +1,6 @@
 {
   "editor.tabSize": 2,
-  "editor.rulers": [90, 140],
+  "editor.rulers": [120, 140],
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "onFocusChange",
   "editor.cursorBlinking": "solid",
@@ -16,16 +16,22 @@
   "editor.formatOnType": true,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "prettier.printWidth": 90, // Following setting requires Prettier Extension
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
+
   // Following setting requires TypeScriptHero Extension
   "typescriptHero.imports.multiLineWrapThreshold": 90,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": true,
+    "source.fixAll.eslint": true,
+    "source.fixAll.tslint": true
   },
   "npm.enableScriptExplorer": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "javascript.preferences.quoteStyle": "single",
-  "typescript.preferences.quoteStyle": "single"
+  "typescript.preferences.quoteStyle": "single",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

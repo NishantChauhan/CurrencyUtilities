@@ -1,7 +1,9 @@
 {
   "root": true,
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "env": {
     "browser": true,
@@ -9,7 +11,13 @@
     "node": true,
     "mocha": true
   },
-  "extends": ["eslint:recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": ["prettier"],
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],
@@ -52,7 +60,7 @@
     "no-empty": "off",
     "no-multi-spaces": "warn",
     "no-redeclare": "off",
-    "no-restricted-globals": ["warn", "Promise"],
+    "no-restricted-globals": ["warn"],
     "no-trailing-spaces": "warn",
     "no-undef": "error",
     "no-unused-vars": [
@@ -63,14 +71,19 @@
     ],
     "one-var": ["warn", "never"],
     "padded-blocks": ["warn", "never"],
-    "object-curly-spacing": ["warn", "never"],
+
+    "prettier/prettier": "error",
+    "object-curly-spacing": ["warn", "always"],
     "quotes": ["warn", "single"],
     "react/prop-types": "off",
     "react/jsx-no-bind": "off",
-    "semi": ["warn", "always"],
+    "semi": ["warn", "never"],
     "space-before-blocks": ["warn", "always"],
-    "space-before-function-paren": ["warn", "never"],
+    "space-before-function-paren": "off",
     "space-in-parens": ["warn", "never"],
-    "strict": ["warn", "global"]
+    "strict": ["warn", "global"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   }
 }

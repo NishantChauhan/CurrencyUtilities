@@ -8,6 +8,7 @@
     "editorconfig.editorconfig",
     "jsynowiec.vscode-insertdatestring",
     "eamodio.gitlens",
-    "angular.ng-template"
+    "angular.ng-template",
+    "ms-vscode.vscode-typescript-tslint-plugin"
   ]
 }

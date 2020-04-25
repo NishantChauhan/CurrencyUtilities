@@ -9,9 +9,9 @@ config.capabilities = {
       '--test-type',
       '--headless',
       '--disable-gpu',
-      '--window-size=800x600',
-    ],
-  },
+      '--window-size=800x600'
+    ]
+  }
 };
 config.directConnect = true;
 config.chromeDriver = '/usr/bin/chromedriver';

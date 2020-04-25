@@ -44,3 +44,6 @@
 2020-04-21 08:54:35   Added Support for all currencies
                         1) New endpoint exposed by backend API to get supported currencies.
                         2) Displayed all supported currencies in the dropdown
+2020-04-29 09:08:18   Added Error handling support
+                        1) Added Convertor Error Component for backend error response
+                        2) Implemented unit specs for success and error alerts for convertor card.
