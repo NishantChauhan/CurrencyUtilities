@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { commonTestingProviders } from 'src/app/common/common-testing'
+import { commonTestingModules } from './../../common/common-testing'
 import { CurrencyCardErrorComponent } from './currency-card-error.component'
 
 describe('CurrencyCardErrorComponent', () => {
@@ -20,13 +22,15 @@ describe('CurrencyCardErrorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CurrencyCardErrorComponent, TestConvertorCardComponent],
+      providers: commonTestingProviders,
+      imports: [commonTestingModules],
     }).compileComponents()
   }))
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestConvertorCardComponent)
     testComponent = fixture.componentInstance
-    errorAlert = fixture.nativeElement.querySelector('.alert-danger')
+    errorAlert = fixture.nativeElement.querySelector('.convertor-alert-error')
     fixture.detectChanges()
   })
 

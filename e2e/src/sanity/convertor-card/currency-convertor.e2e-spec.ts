@@ -15,26 +15,38 @@ describe('Currency Convertor Card', () => {
   it('should show source amount as 1 on load', () => {
     expect(cardPage.getSourceAmount()).toEqual('1')
   })
-
   it(
     'should convert ' +
       fixedSourceCurrency.currencySymbol +
       ' to ' +
       fixedTargetCurrency.currencySymbol +
       ' on convert button click',
-    () => {
-      expect(cardPage.getTargetAmount()).toBeFalsy()
+    async () => {
       cardPage.getConvertButton().click()
-      expect(cardPage.getTargetAmount()).toBeTruthy()
+      await cardPage.getAlertTargetAmount()
+      cardPage.getAlertTargetAmount().then(result => {
+        expect(result).toContain(fixedTargetCurrency.currencySymbol)
+        cardPage.getRateFromAlert().then(rateString => {
+          const rate = rateString.match(/\b\d+(\.)?\d*\b/g)[1]
+          expect(result).toBe(parseFloat(rate).toFixed(10) + ' ' + fixedTargetCurrency.currencySymbol)
+        })
+      })
     }
   )
-
-  it('should reflect changes in the target amount in the result alert', () => {
-    cardPage.getConvertButton().click()
-    Promise.all([cardPage.getTargetAmount(), cardPage.getTargetCurrency()]).then(values => {
-      expect(Promise.resolve(values.join(' '))).toEqual(cardPage.getAlertTargetAmount())
-    })
-  })
+  it(
+    'should switch currency making ' +
+      fixedSourceCurrency.currencySymbol +
+      ' as To  and  ' +
+      fixedTargetCurrency.currencySymbol +
+      ' as From on switcher button click',
+    () => {
+      cardPage.getSwitchertButton().click()
+      // await cardPage.getSourceCurrency()
+      // await cardPage.getTargetCurrency()
+      expect(cardPage.getSourceCurrency()).toBe(fixedTargetCurrency.currencySymbol)
+      expect(cardPage.getTargetCurrency()).toBe(fixedSourceCurrency.currencySymbol)
+    }
+  )
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

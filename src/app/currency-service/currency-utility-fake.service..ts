@@ -20,7 +20,8 @@ export class CurrencyUtilityFakeService extends CurrencyUtilityService {
 
   public nextConversionRateResponse(): ConversionRateAPIResponse {
     const random = Math.floor(Math.random() * 100)
-    exchangeReponse.to = exchangeReponse.from + random / 100
+    exchangeReponse.conversionRate = exchangeReponse.conversionRate + random / 100
+    exchangeReponse.result = exchangeReponse.amount * exchangeReponse.conversionRate
     return exchangeReponse
   }
 }

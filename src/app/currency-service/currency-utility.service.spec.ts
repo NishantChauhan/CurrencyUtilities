@@ -19,10 +19,10 @@ describe('CurrencyUtilityService', () => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     expect(service).toBeTruthy()
   })
-  it('should be convert 1 CAD to ' + exchangeReponse.conversionRate + ' INR', () => {
+  it('should be convert 1000 CAD to ' + exchangeReponse.result + ' INR', () => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     const inputCurrency: CurrencyConvertorInput = {
-      sourceAmount: 1,
+      sourceAmount: 1000,
       sourceCurrency: 'CAD',
       targetCurrency: 'INR',
     }
@@ -32,7 +32,9 @@ describe('CurrencyUtilityService', () => {
     })
     jasmine.clock().tick(3000)
     expect(convertedCurrency).toBeTruthy()
-    expect(convertedCurrency.targetAmount).toBe(inputCurrency.sourceAmount * exchangeReponse.conversionRate)
+    expect(convertedCurrency.targetAmount.toFixed(10)).toBe(
+      (inputCurrency.sourceAmount * exchangeReponse.conversionRate).toFixed(10)
+    )
     expect(convertedCurrency.targetCurrency).toBe(inputCurrency.targetCurrency)
     expect(convertedCurrency.sourceCurrency).toBe(inputCurrency.sourceCurrency)
     expect(convertedCurrency.sourceAmount).toBe(exchangeReponse.amount)

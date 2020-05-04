@@ -1,41 +1,31 @@
-<div class="container-fluid">
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <div class="nav navbar-nav">
-      <a class="nav-item nav-link" [routerLink]="['home']" [routerLinkActive]="'active'"
-        >Home</a
-      >
-      <a
-        class="nav-item nav-link"
-        [routerLink]="['currency-convertor']"
-        [routerLinkActive]="'active'"
-        >Currency Convertor</a
-      >
-      <a
-        class="nav-item nav-link"
-        [routerLink]="['historical-rates']"
-        [routerLinkActive]="'active'"
-        >Historical Rates</a
-      >
-      <a
-        class="nav-item nav-link"
-        [routerLink]="['rate-alerts']"
-        [routerLinkActive]="'active'"
-        >Rate Alerts</a
-      >
-      <a class="nav-item nav-link" [routerLink]="['about']" [routerLinkActive]="'active'"
-        >About</a
-      >
-    </div>
-  </nav>
-  <hr style="border-color: white;" />
-  <div class="justify-content-center">
-    <h1 class="display-3 text-center x-bg-text">
-      <span> Currency <img src="../favicon.ico" /> Utilities </span>
-      <hr style="border-color: white;" />
-    </h1>
-  </div>
-  <br />
-  <div class="row d-flex p-2 justify-content-center">
-    <router-outlet></router-outlet>
-  </div>
+<div>
+  <mat-toolbar fxLayoutGap="8px">
+    <button mat-icon-button color="primary" (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="flex-spacer"></span>
+    <a mat-icon-button routerLink="/home">
+      <mat-icon svgIcon="currency"></mat-icon>
+      <span class="mat-h2">&nbsp;&nbsp;Currency Utilities</span>
+    </a>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav #sidenav mode="over">
+      <mat-nav-list>
+        <a mat-list-item routerLinkActive="active-link" [routerLink]="['home']" (click)="sidenav.toggle()">Home</a>
+        <a mat-list-item routerLinkActive="active-link" [routerLink]="['currency-convertor']" (click)="sidenav.toggle()"
+          >Currency Convertor</a
+        >
+        <a mat-list-item routerLinkActive="active-link" [routerLink]="['historical-rates']" (click)="sidenav.toggle()"
+          >Historical Rates</a
+        >
+        <a mat-list-item routerLinkActive="active-link" [routerLink]="['rate-alerts']" (click)="sidenav.toggle()"
+          >Rate Alerts</a
+        >
+        <a mat-list-item routerLinkActive="active-link" [routerLink]="['about']" (click)="sidenav.toggle()">About</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content><router-outlet></router-outlet> </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

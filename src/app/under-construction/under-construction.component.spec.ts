@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { commonTestingProviders } from '../common/common-testing'
+import { commonTestingModules } from './../common/common-testing'
 import { UnderConstructionComponent } from './under-construction.component'
 
 describe('UnderConstructionComponent', () => {
@@ -8,7 +9,9 @@ describe('UnderConstructionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [commonTestingModules],
       declarations: [UnderConstructionComponent],
+      providers: commonTestingProviders,
     }).compileComponents()
   }))
 

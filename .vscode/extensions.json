@@ -1,11 +1,10 @@
 {
   "recommendations": [
     "PKief.material-icon-theme",
-    "formulahendry.auto-close-tag",
     "rbbit.typescript-hero",
     "steoates.autoimport",
     "esbenp.prettier-vscode",
-    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
     "jsynowiec.vscode-insertdatestring",
     "eamodio.gitlens",
     "angular.ng-template",

@@ -47,3 +47,15 @@
 2020-04-29 09:08:18   Added Error handling support
                         1) Added Convertor Error Component for backend error response
                         2) Implemented unit specs for success and error alerts for convertor card.
+2020-05-09 09:35:50   Upgraded Design with Angular Material
+                        1) Design Changes
+                          a. Added custom theme
+                          b. Replaced currency icon
+                          c. Converted to widget form
+                          d. Autocomplete for currency selection with filter
+                          e. Removed the target amount input control and moved to view child
+                          f. Side Navigation Bar
+                        2) Bug Fixes
+                          a. Update test for mock response to use 1000 instead of 1
+                          b. More fixes for devalued currencies
+                          c. Trailing 0 after decimal removed

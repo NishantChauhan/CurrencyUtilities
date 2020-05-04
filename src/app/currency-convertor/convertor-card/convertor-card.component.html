@@ -1,127 +1,126 @@
-<div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Currency Convertor</h4>
-    <form [formGroup]="convertorForm">
-      <div class="form-row">
-        <div class="form-group col-sm-6">
-          <label for=""></label>
-          <input
-            type="text"
-            class="form-control"
-            name="Source Amount"
-            id="cc-source-amount"
-            formControlName="sourceAmount"
-            (keyup)="updateSourceAmount($event.target.value)"
-          />
+<mat-card class="convertor-card">
+  <mat-card-header class="currency-card-header">
+    <mat-card-title class="mat-headline" style="text-align: center;">Currency Convertor</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <div class="card-container">
+    <mat-card-content>
+      <form [formGroup]="convertorForm">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field>
+            <mat-label>Convert from</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="sourceCurrency"
+              id="cc-source-currency"
+              maxlength="3"
+              [matAutocomplete]="sourceCurrencyAuto"
+            />
+            <mat-autocomplete autoActiveFirstOption #sourceCurrencyAuto="matAutocomplete">
+              <mat-option *ngFor="let currency of filteredSourceCurrencies | async" [value]="currency.currencySymbol">{{
+                currency.currencySymbol
+              }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
-        <div class="form-group col-sm-6">
-          <label for="Source Currency"></label>
-          <select
-            class="form-control"
-            name="Source Currency"
-            id="cc-source-currency"
-            formControlName="sourceCurrency"
-            (click)="updateCurrency()"
-          >
-            <option
-              *ngFor="let currency of supportedCurrencies"
-              [ngValue]="currency"
-              >{{ currency.currencySymbol }}</option
-            ><option> </option
-          ></select>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-card-actions align="center">
+            <button mat-button color="primary" id="cc-switch-currency" (click)="switchCurrencies()">
+              <span class="material-icons">
+                swap_vert
+              </span>
+            </button>
+          </mat-card-actions>
         </div>
-      </div>
-      <div *ngIf="this.convertorForm.get('sourceAmount').invalid">
-        <div class="form-row">
-          <div class="col-sm-12">
-            <div class="form-group alert alert-danger" role="alert">
-              <div
-                *ngIf="
-                  this.convertorForm.get('sourceAmount').errors['required']
-                "
-              >
-                <small class="form-text text-muted">Amount is mandatory</small>
-              </div>
-              <div
-                *ngIf="this.convertorForm.get('sourceAmount').errors['pattern']"
-              >
-                <small class="form-text text-muted"
-                  >Amount can have 0-10 decimals and 1-9 digits <br />
-                  (e.g. 1 or 0.1 or .11, etc.)</small
-                >
-              </div>
-            </div>
+        <div>
+          <mat-form-field>
+            <mat-label>To</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="targetCurrency"
+              id="cc-target-currency"
+              [matAutocomplete]="targetCurrencyAuto"
+            />
+            <mat-autocomplete autoActiveFirstOption #targetCurrencyAuto="matAutocomplete">
+              <mat-option *ngFor="let currency of filteredTargetCurrencies | async" [value]="currency.currencySymbol">{{
+                currency.currencySymbol
+              }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field>
+            <mat-label>Amount to convert</mat-label>
+            <input
+              matInput
+              type="text"
+              name="Source Amount"
+              id="cc-source-amount"
+              maxlength="21"
+              formControlName="sourceAmount"
+              (keyup)="updateSourceAmount($event.target.value)"
+            />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div *ngIf="this.convertorForm.invalid">
+            <small>
+              <mat-error *ngIf="this.convertorForm.get('sourceCurrency').invalid">
+                <mat-error *ngIf="this.convertorForm.get('sourceCurrency').errors['required']">
+                  <li>Please select a 'from' currency</li>
+                </mat-error>
+                <mat-error *ngIf="this.convertorForm.get('sourceCurrency').errors['pattern']">
+                  <li>'From' Currency should be exactly 3 characters</li>
+                </mat-error>
+              </mat-error>
+              <mat-error *ngIf="this.convertorForm.get('targetCurrency').invalid">
+                <mat-error *ngIf="this.convertorForm.get('targetCurrency').errors['required']">
+                  <li>Please select a 'To' currency</li>
+                </mat-error>
+                <mat-error *ngIf="this.convertorForm.get('targetCurrency').errors['pattern']">
+                  <li>'To' Currency should be exactly 3 characters</li>
+                </mat-error>
+              </mat-error>
+              <mat-error *ngIf="this.convertorForm.get('sourceAmount').invalid">
+                <mat-error *ngIf="this.convertorForm.get('sourceAmount').errors['required']">
+                  <li>Please enter a valid 'Amount to convert'</li>
+                </mat-error>
+                <mat-error *ngIf="this.convertorForm.get('sourceAmount').errors['pattern']">
+                  <li>Amount must be a number less than 1 billion with no commas.</li>
+                  <li>Amount not contain more than 10 trailing decimals</li>
+                </mat-error>
+              </mat-error>
+            </small>
           </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-sm-6">
-          <label for=""></label>
-          <input
-            type="text"
-            class="form-control"
-            name="Target Amount"
-            id="cc-target-amount"
-            aria-describedby="helpId"
-            formControlName="targetAmount"
-            (keyup)="updateTargetAmount($event.target.value)"
-          />
-        </div>
-        <div class="form-group col-sm-6">
-          <label for="Target Currency"></label>
-          <select
-            class="form-control"
-            name="Target Currency"
-            id="cc-target-currency"
-            formControlName="targetCurrency"
-            (click)="updateCurrency()"
-          >
-            <option
-              *ngFor="let currency of supportedCurrencies"
-              [ngValue]="currency"
-              >{{ currency.currencySymbol }}</option
+
+        <mat-error *ngIf="backendError">
+          <app-currency-card-error [error]="backendError"></app-currency-card-error>
+        </mat-error>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+          <mat-card-actions align="center">
+            <button
+              id="convertCurrency"
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="convertCurrency()"
+              [disabled]="disableConvertButton || !convertorForm.valid"
             >
-          </select>
+              {{ this.getConvertButtonText() }}
+            </button>
+          </mat-card-actions>
         </div>
+      </form>
+      <!-- <div *ngIf="conversionResult"> -->
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-card-footer align="center">
+          <app-currency-conversion-result></app-currency-conversion-result>
+        </mat-card-footer>
       </div>
-      <div *ngIf="this.convertorForm.get('targetAmount').invalid">
-        <div class="form-row">
-          <div class="col-sm-12">
-            <div class="form-group alert alert-danger" role="alert">
-              <div
-                *ngIf="this.convertorForm.get('targetAmount').errors['pattern']"
-              >
-                <small class="form-text text-muted"
-                  >Amount can have 0-10 decimals and 1-9 digits <br />
-                  (e.g. 1 or 0.1 or .11, etc.)</small
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-sm-12">
-          <button
-            type="submit"
-            class="form-control btn btn-primary"
-            (click)="convertCurrency()"
-            [disabled]="disableConvertButton || !convertorForm.valid"
-          >
-            {{ this.getConvertButtonText() }}
-          </button>
-        </div>
-      </div>
-      <div *ngIf="conversionResult && !convertorForm.invalid">
-        <app-currency-conversion-result
-          [convertedCurrency]="conversionResult"
-        ></app-currency-conversion-result>
-      </div>
-      <div *ngIf="backendError">
-        <app-currency-card-error
-          [error]="backendError"
-        ></app-currency-card-error>
-      </div>
-    </form>
+      <!-- </div> -->
+    </mat-card-content>
   </div>
-</div>
+</mat-card>

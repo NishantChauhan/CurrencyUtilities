@@ -9,9 +9,9 @@ export const exchangeReponse: ConversionRateAPIResponse = {
   from: 'CAD',
   to: 'INR',
   rateAsOf: new Date(),
-  amount: 1,
+  amount: 1000,
   conversionRate: 53.49008750820958,
-  result: 53.49008750820958,
+  result: 53490.08750820958,
   responseStatus: {
     status: 'Success',
   },
