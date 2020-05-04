@@ -48,4 +48,4 @@ testem.log
 Thumbs.db
 .vscode/tasks.json
 ToDo.txt
-
+*.log

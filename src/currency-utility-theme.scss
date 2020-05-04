@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+@include mat-core();
+$currency-utility-primary: mat-palette($mat-yellow, 800);
+$currency-utility-accent: mat-palette($mat-yellow);
+$currency-utility-warn: mat-palette($mat-yellow, 900);
+$currency-utility-app-theme: mat-dark-theme(
+  $currency-utility-primary,
+  $currency-utility-accent,
+  $currency-utility-warn
+);
+
+@include angular-material-theme($currency-utility-app-theme);
+$primary: mat-color($currency-utility-primary);
+$accent: mat-color($currency-utility-accent);
+$warn: mat-color($currency-utility-warn);
+$alert-text: black;

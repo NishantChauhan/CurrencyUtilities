@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-under-construction',
-  templateUrl: './under-construction.component.html',
-  styleUrls: ['./under-construction.component.css'],
+  template: `<mat-card class="card-page">
+    <mat-card-content>
+      <div>
+        <strong>This page is under construction.</strong>
+      </div>
+    </mat-card-content>
+  </mat-card>`,
+  styles: [],
 })
 export class UnderConstructionComponent implements OnInit {
   constructor() {}

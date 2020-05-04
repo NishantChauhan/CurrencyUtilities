@@ -16,25 +16,18 @@ export interface CurrencyUtilityServiceInterface {
   providedIn: 'root',
 })
 export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
-  // constructor() {}
-  constructor(private httpClient: HttpClient) {}
+  constructor(protected httpClient: HttpClient) {}
 
   public getAllSupportedCurrencies(): Observable<Currency[]> {
     const uri = 'currency/rates/supportedCurrencies'
-    return this.httpClient.get<Currency[]>(`${environment.backendURL}${uri}`).pipe(
-      // retry(3),
-      catchError(this.handleError)
-    )
+    return this.httpClient.get<Currency[]>(`${environment.backendURL}${uri}`).pipe(catchError(this.handleError))
   }
 
   public getConvertedCurrencyFromAPI(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
     const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`
     return this.httpClient
       .get<ConversionRateAPIResponse>(`${environment.backendURL}currency/converter/convert${uriParams}`)
-      .pipe(
-        // retry(3),
-        catchError(this.handleError)
-      )
+      .pipe(catchError(this.handleError))
   }
   public convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency> {
     return new Observable<ConvertedCurrency>(subscriber => {
@@ -55,24 +48,18 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       )
     })
   }
-  private handleError(httpError: HttpErrorResponse) {
+  protected handleError(httpError: HttpErrorResponse) {
     const errorResponse: ResponseStatus = new ResponseStatus()
-
-    if (httpError.error instanceof ErrorEvent) {
-      errorResponse.status = 'Failed'
-      errorResponse.errorCode = httpError.statusText.toString()
-      errorResponse.errorDescription = httpError.message
-    }
 
     if (httpError.error instanceof ProgressEvent) {
       errorResponse.status = 'Failed'
       errorResponse.errorCode = httpError.statusText
       errorResponse.errorDescription = 'Its not you, its us. We are working on fixing this for you.'
     } else {
-      console.error(`Backend returned code ${httpError.status}, ` + `body was: ${httpError.error}`)
+      console.error(`Backend returned code ${httpError.status}`)
       errorResponse.status = 'Failed'
-      errorResponse.errorCode = httpError.error.errorCode
-      errorResponse.errorDescription = httpError.error.errorDescription
+      errorResponse.errorCode = httpError.error ? httpError.error.errorCode : 'Unknown Error'
+      errorResponse.errorDescription = httpError.error ? httpError.error.errorDescription : 'Unknown Error'
     }
 
     return throwError(errorResponse)

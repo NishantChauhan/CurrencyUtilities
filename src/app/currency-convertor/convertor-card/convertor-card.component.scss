@@ -1,0 +1,18 @@
+@import '../../../currency-utility-theme.scss';
+.convertor-card {
+  max-width: 230px;
+  margin: auto;
+  align-items: center;
+}
+
+.mat-form-field {
+  padding: 10px;
+  text-align: center;
+}
+.mat-card-title {
+  padding: 10px;
+}
+
+.card-errors {
+  margin-bottom: 30px;
+}

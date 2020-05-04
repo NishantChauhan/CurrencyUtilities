@@ -54,5 +54,5 @@ module.exports = function (config) {
     browsers: ['ChromeHeadlessNoSandox'],
     singleRun: false,
     restartOnFileChange: true,
-  });
-};
+  })
+}

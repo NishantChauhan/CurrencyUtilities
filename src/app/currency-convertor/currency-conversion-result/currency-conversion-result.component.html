@@ -1,27 +1,21 @@
-<div class="form-row">
-  <div class="col-sm-12">
-    <div class="alert alert-success" role="alert">
-      <small>
-        As of {{ convertedCurrency.exchangeResultDate | date: 'medium' }}</small
-      ><br />
-      <span
-        >{{ convertedCurrency.sourceAmount | number: '0.0-10' }}
-        {{ convertedCurrency.sourceCurrency }}</span
-      >
-      equals
-      <span
-        >{{
-          !convertedCurrency.targetAmount
-            ? 0
-            : (convertedCurrency.targetAmount | number: '0.0-10')
-        }}
-        {{ convertedCurrency.targetCurrency }}</span
-      ><br />
-      <small
-        >Rate 1 {{ convertedCurrency.sourceCurrency }} =
-        {{ convertedCurrency.exchangeRate | number: '0.0-10' }}
-        {{ convertedCurrency.targetCurrency }}</small
-      >
+<div *ngIf="convertedCurrency && enableResult">
+  <mat-divider></mat-divider>
+  <div class="result-container">
+    <span>{{ convertedCurrency.sourceAmount | number: '0.0-10' }} {{ convertedCurrency.sourceCurrency }}</span>
+    equals<br />
+    <div class="convertor-alert-success">
+      <b>
+        <span
+          >{{ !convertedCurrency.targetAmount ? 0 : (convertedCurrency.targetAmount | number: '0.0-10') }}
+          {{ convertedCurrency.targetCurrency }}</span
+        >
+      </b>
     </div>
+    as of {{ convertedCurrency.exchangeResultDate | date: 'medium' }}
+
+    <br />
+    Rate 1 {{ convertedCurrency.sourceCurrency }} =
+    <span id="result-rate">{{ convertedCurrency.exchangeRate | number: '0.0-10' }}</span>
+    {{ convertedCurrency.targetCurrency }}
   </div>
 </div>
