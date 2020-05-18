@@ -58,19 +58,6 @@ describe('ConvertorCardComponent', () => {
     })
   })
 
-  it('should update convert button on target currency change', () => {
-    component.onTargetCurrencySelect('USD')
-    fixture.detectChanges()
-    const buttonText = component.convertorForm.get('convertButtonText').value
-    expect(buttonText).toBe('Convert ' + fixedSourceCurrency.currencySymbol + ' to USD')
-  })
-
-  it('should update convert button on source currency change', () => {
-    component.onSourceCurrencySelect('USD')
-    fixture.detectChanges()
-    const buttonText = component.convertorForm.get('convertButtonText').value
-    expect(buttonText).toBe('Convert USD to ' + fixedTargetCurrency.currencySymbol)
-  })
   it('should switch source currency and target currency on click of switcher', async () => {
     const switcher = fixture.nativeElement.querySelector('mat-card-actions > button > span')
 
@@ -81,15 +68,6 @@ describe('ConvertorCardComponent', () => {
     const targetCurrencyControl = fixture.nativeElement.querySelector('#cc-target-currency')
     expect(sourceCurrencyControl.value.trim()).toBe(fixedTargetCurrency.currencySymbol)
     expect(targetCurrencyControl.value.trim()).toBe(fixedSourceCurrency.currencySymbol)
-  })
-  it('should switch currencies on convert button on click of switcher', () => {
-    const switcher = fixture.nativeElement.querySelector('mat-card-actions > button > span')
-    switcher.click()
-    fixture.detectChanges()
-    const convertButton = fixture.nativeElement.querySelector('#convertCurrency > span')
-    expect(convertButton.textContent.trim()).toBe(
-      'Convert ' + fixedTargetCurrency.currencySymbol + ' to ' + fixedSourceCurrency.currencySymbol
-    )
   })
   it('should switch amount with target amount, when switcher is clicked after convert button click', async () => {
     component.convertorForm.get('sourceAmount').setValue(1000)
@@ -108,10 +86,6 @@ describe('ConvertorCardComponent', () => {
 
     const targetCurrencyControl = fixture.nativeElement.querySelector('#cc-target-currency')
     expect(targetCurrencyControl.value.trim()).toBe(fixedSourceCurrency.currencySymbol)
-
-    expect(convertButton.textContent.trim()).toBe(
-      'Convert ' + fixedTargetCurrency.currencySymbol + ' to ' + fixedSourceCurrency.currencySymbol
-    )
     const sourceAmountControl = fixture.nativeElement.querySelector('#cc-source-amount')
     expect(sourceAmountControl.value.trim()).toBe(exchangeReponse.result.toFixed(10))
 
@@ -126,7 +100,6 @@ describe('ConvertorCardComponent', () => {
       sourceAmount: 1000,
       sourceCurrency: fixedSourceCurrency.currencySymbol,
       targetCurrency: fixedTargetCurrency.currencySymbol,
-      convertButtonText: 'Convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol,
     })
 
     const convertButton = fixture.nativeElement.querySelector('#convertCurrency > span')
@@ -145,9 +118,6 @@ describe('ConvertorCardComponent', () => {
     const targetCurrencyControl = fixture.nativeElement.querySelector('#cc-target-currency')
     expect(targetCurrencyControl.value.trim()).toBe(fixedTargetCurrency.currencySymbol)
 
-    expect(convertButton.textContent.trim()).toBe(
-      'Convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol
-    )
     const sourceAmountControl = fixture.nativeElement.querySelector('#cc-source-amount')
     expect(sourceAmountControl.value.trim()).toBe(parseFloat(exchangeReponse.amount.toFixed(10)).toString())
 

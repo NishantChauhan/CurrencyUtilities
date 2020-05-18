@@ -2,10 +2,9 @@ import { HttpClientModule } from '@angular/common/http'
 import { TestBed } from '@angular/core/testing'
 import { Observable } from 'rxjs'
 import { ConversionRateAPIResponse, Currency } from '../common/base-rates'
-import { ConvertedCurrency, CurrencyConvertorInput } from '../common/currency-conversion'
+import { CurrencyConvertorInput } from '../common/currency-conversion'
 import { exchangeReponse } from '../mock-response/mock-reponse'
-import { ResponseStatus } from './../common/base-rates'
-import { CurrencyUtilityErrorService } from './currency-utility-error.service'
+import { ConvertedCurrency } from './../common/currency-conversion'
 import { CurrencyUtilityFakeService } from './currency-utility-fake.service.'
 import { CurrencyUtilityService, CurrencyUtilityServiceInterface } from './currency-utility.service'
 
@@ -21,6 +20,56 @@ describe('CurrencyUtilityService', () => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     expect(service).toBeTruthy()
   })
+  it('should be return supported currencies', done => {
+    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityFakeService)
+    let supportedCurrencies: Currency[]
+    service.getAllSupportedCurrencies().subscribe(response => {
+      supportedCurrencies = response
+      expect(supportedCurrencies).toBeTruthy()
+      expect(supportedCurrencies).toContain({
+        currencyName: 'CAD',
+        currencySymbol: 'CAD',
+      })
+      done()
+    })
+  })
+
+  it('should be return cached supported currencies', done => {
+    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityFakeService)
+    let supportedCurrencies: Currency[]
+    service.getAllSupportedCurrencies().subscribe()
+    service.getAllSupportedCurrencies().subscribe(response => {
+      supportedCurrencies = response
+      expect(supportedCurrencies).toBeTruthy()
+      expect(supportedCurrencies).toContain({
+        currencyName: 'CAD',
+        currencySymbol: 'CAD',
+      })
+      done()
+    })
+  })
+
+  it('should be return actual endpoint subscription for supported currencies backend API', () => {
+    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityService)
+
+    const exchangeAPIendpoint: Observable<Currency[]> = service.getAllSupportedCurrencies()
+    expect(exchangeAPIendpoint).toBeTruthy()
+  })
+
+  it('should be return actual endpoint subscription for conversion rate backend API', () => {
+    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityService)
+    const inputCurrency: CurrencyConvertorInput = {
+      sourceAmount: 1,
+      sourceCurrency: 'CAD',
+      targetCurrency: 'INR',
+    }
+
+    const exchangeAPIendpoint: Observable<ConversionRateAPIResponse> = service.getConvertedCurrencyFromAPI(
+      inputCurrency
+    )
+    expect(exchangeAPIendpoint).toBeTruthy()
+  })
+
   it('should be convert 1000 CAD to ' + exchangeReponse.result + ' INR', done => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     const inputCurrency: CurrencyConvertorInput = {
@@ -43,68 +92,35 @@ describe('CurrencyUtilityService', () => {
     done()
   })
 
-  it('should be return supported currencies', done => {
-    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityFakeService)
-    let supportedCurrencies: Currency[]
-    service.getAllSupportedCurrencies().subscribe(response => {
-      supportedCurrencies = response
-      expect(supportedCurrencies).toBeTruthy()
-      expect(supportedCurrencies).toContain({
-        currencyName: 'CAD',
-        currencySymbol: 'CAD',
-      })
-      done()
-    })
-  })
-
-  it('should be return actual endpoint subscription for conversion rate backend API', () => {
-    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityService)
+  it('should be cache conversion result', done => {
+    const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     const inputCurrency: CurrencyConvertorInput = {
-      sourceAmount: 1,
+      sourceAmount: 1000,
       sourceCurrency: 'CAD',
       targetCurrency: 'INR',
     }
+    let firstConvertedCurrency: ConvertedCurrency
+    service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
+      firstConvertedCurrency = result
+    })
+    jasmine.clock().tick(2000)
 
-    const exchangeAPIendpoint: Observable<ConversionRateAPIResponse> = service.getConvertedCurrencyFromAPI(
-      inputCurrency
-    )
-    expect(exchangeAPIendpoint).toBeTruthy()
-  })
-  it('should return Progress Event error', done => {
-    const service: CurrencyUtilityErrorService = TestBed.inject(CurrencyUtilityErrorService)
-    let errorResponse: ResponseStatus
-    service.getProgressEventErrorOnSupportedCurrencies().subscribe(
-      response => {
-        response
-      },
-      error => {
-        jasmine.clock().tick(3000)
-        errorResponse = error
-        expect(errorResponse).toBeTruthy()
-        expect(errorResponse.errorCode).toBe('Unknown Error')
-        done()
-      }
-    )
-  })
-  it('should return Backend error', done => {
-    const service: CurrencyUtilityErrorService = TestBed.inject(CurrencyUtilityErrorService)
-    let errorResponse: ResponseStatus
-    service.getAllSupportedCurrencies().subscribe(
-      response => {
-        response
-      },
-      error => {
-        errorResponse = error
-        expect(errorResponse).toBeTruthy()
-        done()
-      }
-    )
-  })
-  it('should be return actual endpoint subscription for supported currencies backend API', () => {
-    const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityService)
+    expect(firstConvertedCurrency).toBeTruthy()
+    let secondConvertedCurrency: ConvertedCurrency
+    service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
+      secondConvertedCurrency = result
+    })
+    jasmine.clock().tick(2000)
+    expect(secondConvertedCurrency).toBeTruthy()
 
-    const exchangeAPIendpoint: Observable<Currency[]> = service.getAllSupportedCurrencies()
-    expect(exchangeAPIendpoint).toBeTruthy()
+    expect(secondConvertedCurrency.targetAmount.toFixed(10)).toBe(
+      (inputCurrency.sourceAmount * exchangeReponse.conversionRate).toFixed(10)
+    )
+    expect(firstConvertedCurrency.exchangeRate).toEqual(secondConvertedCurrency.exchangeRate)
+    expect(secondConvertedCurrency.targetCurrency).toBe(inputCurrency.targetCurrency)
+    expect(secondConvertedCurrency.sourceCurrency).toBe(inputCurrency.sourceCurrency)
+    expect(secondConvertedCurrency.sourceAmount).toBe(exchangeReponse.amount)
+    done()
   })
 
   afterEach(() => {

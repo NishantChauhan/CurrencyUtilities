@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { ConversionRateAPIResponse, Currency } from '../common/base-rates'
+import { CurrencyConvertorInput } from '../common/currency-conversion'
 import { exchangeReponse, mockSupportedCurrencies } from '../mock-response/mock-reponse'
 import { CurrencyUtilityService } from './currency-utility.service'
 @Injectable({
   providedIn: 'root',
 })
 export class CurrencyUtilityFakeService extends CurrencyUtilityService {
-  public getConvertedCurrencyFromAPI(): Observable<ConversionRateAPIResponse> {
+  protected convertCurrencyGetRequest(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
     return new Observable<ConversionRateAPIResponse>(subscriber => {
       setTimeout(() => {
+        input
         subscriber.next(this.nextConversionRateResponse())
-      }, 2000)
+      }, 1000)
     })
   }
-  public getAllSupportedCurrencies(): Observable<Currency[]> {
+  public supportedCurrencyGetRequest(): Observable<Currency[]> {
     return of(mockSupportedCurrencies)
   }
 

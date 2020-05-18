@@ -32,7 +32,6 @@ describe('ConvertorCardComponent Errors', () => {
       sourceAmount: 1000,
       sourceCurrency: fixedSourceCurrency.currencySymbol,
       targetCurrency: fixedTargetCurrency.currencySymbol,
-      convertButtonText: 'Convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol,
     })
     component.switchCurrencies()
     component.convertCurrency()
@@ -40,16 +39,10 @@ describe('ConvertorCardComponent Errors', () => {
     component.convertToFloat({ value: 'Number' })
     component.convertToFloat({ value: '1000' })
     component.convertToFloat({ value: ' ' })
-    component.onSourceCurrencySelect('CAD')
-    component.onTargetCurrencySelect('INR')
 
     component.backendError = undefined
 
     component.supportedCurrencies = mockSupportedCurrencies
-    component.onSourceCurrencySelect('CAD')
-    component.onTargetCurrencySelect('INR')
-    component.onSourceCurrencySelect('CAD')
-    component.onTargetCurrencySelect('INR')
 
     component.backendError = undefined
     component.supportedCurrencies = mockSupportedCurrencies

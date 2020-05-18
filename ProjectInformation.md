@@ -93,7 +93,12 @@ Here's a starter list of developer norms:
 		3. Trailing 0 after decimal removed
 		4. Converted tests from sync to async for asynchronous code
 		5. prettier end of line as 'auto' to avoid issues with CRLF.
-	* Improvements
-		1. Moved common testing modules to a file.
-		2. Prettier and Eslint integration.
-		3. Added lint staged plugin and pre-commit hook.
+  * Improvements
+	  1. Moved common testing modules to a file.
+	  2. Prettier and Eslint integration.
+    3. Added lint staged plugin and pre-commit hook.
+    4. Expected Conditions in protractor for waiting for page loads
+    5. Added tests for convertor card error page
+2020-05-17 07:01:41 - Added cache handling to avoid duplicate requests to back end api
+  * Updates
+    1. Code will replay the last response is successful.

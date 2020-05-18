@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
 import { Currency } from 'src/app/common/base-rates'
@@ -22,27 +22,23 @@ export class ConvertorCardComponent implements OnInit {
   private resultComponent: CurrencyConversionResultComponent
   conversionResult: ConvertedCurrency
   backendError: any
-  disableConvertButton: boolean
+  isConvertButtonDisabled: boolean
   supportedCurrencies: Currency[]
 
   public convertorForm: FormGroup = this.fb.group({
     sourceAmount: [1, [Validators.required, Validators.pattern(/^\d{1,9}(\.\d{1,10})?$/)]],
     sourceCurrency: [fixedSourceCurrency.currencySymbol, [Validators.required, Validators.pattern(/^[a-zA-Z]{3}$/)]],
     targetCurrency: [fixedTargetCurrency.currencySymbol, [Validators.required, Validators.pattern(/^[a-zA-Z]{3}$/)]],
-    convertButtonText: ['Loading ....'],
   })
   public boolean
   ngOnInit() {
-    this.disableConvertButtonWithText('Loading....')
-
+    this.disableConvertButton()
     this.utilityService.getAllSupportedCurrencies().subscribe(
       (response: Currency[]) => {
         this.supportedCurrencies = response
 
         this.attachFiltersToCurrencyAutocompletes()
-        this.enableConvertButtonWithText(
-          'Convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol
-        )
+        this.enableConvertButton()
       },
       (error: any) => {
         this.backendError = error
@@ -64,11 +60,8 @@ export class ConvertorCardComponent implements OnInit {
   }
 
   public convertCurrency() {
-    this.disableConvertButtonWithText('Converting....')
+    this.disableConvertButton()
     if (!this.supportedCurrencies || this.backendError) {
-      this.disableConvertButtonWithText(
-        'Convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol
-      )
       return
     }
     const amount: number = this.getNumericAmountsUpdateSourceControlWithIt()
@@ -81,7 +74,7 @@ export class ConvertorCardComponent implements OnInit {
     this.utilityService.convertCurrency(inputCurrency).subscribe(
       (result: ConvertedCurrency) => {
         this.conversionResult = result
-        this.enableConvertButtonWithText(this.getCurrencyText(result.sourceCurrency, result.targetCurrency))
+        this.enableConvertButton()
         this.updateResultComponent(this.conversionResult)
       },
       (error: any) => {
@@ -116,7 +109,6 @@ export class ConvertorCardComponent implements OnInit {
       this.switchCurrenciesOnConversionResult()
     }
     this.switchCurrenciesOnForm(currentTargetCurrency, currentSourceCurrency)
-    this.switchCurrenciesOnButton(currentTargetCurrency, currentSourceCurrency)
   }
 
   public switchCurrenciesOnForm(newSourceCurrency: string, newTargetCurrency: string) {
@@ -145,75 +137,14 @@ export class ConvertorCardComponent implements OnInit {
     this.conversionResult = { ...newConversionResult }
     this.switchCurrencyAmounts()
   }
-  public switchCurrenciesOnButton(newSourceCurrency: string, newTargetCurrency: string) {
-    this.enableConvertButtonWithText(this.getCurrencyText(newSourceCurrency, newTargetCurrency))
+
+  public enableConvertButton() {
+    this.isConvertButtonDisabled = false
+  }
+  public disableConvertButton() {
+    this.isConvertButtonDisabled = true
   }
 
-  private isFormInValid() {
-    const sourceCurrency: string = this.convertorForm.get('sourceCurrency').value
-    const targetCurrency: string = this.convertorForm.get('targetCurrency').value
-    return (
-      !this.supportedCurrencies ||
-      !sourceCurrency ||
-      !targetCurrency ||
-      sourceCurrency.length < 3 ||
-      targetCurrency.length < 3 ||
-      this._filter(sourceCurrency).length === 0 ||
-      this._filter(targetCurrency).length === 0 ||
-      this.backendError
-    )
-  }
-
-  public onSourceCurrencySelect(currency: string) {
-    if (this.isFormInValid()) {
-      return
-    }
-    const sourceCurrency: string = this.convertorForm.get('sourceCurrency').value
-    if (currency === sourceCurrency) {
-      return
-    }
-    this.convertorForm.get('sourceCurrency').setValue(currency)
-    this.updateCurrencyCommonActions()
-  }
-  public onTargetCurrencySelect(currency: string) {
-    if (this.isFormInValid()) {
-      return
-    }
-    const targetCurrency: string = this.convertorForm.get('targetCurrency').value
-    if (currency === targetCurrency) {
-      return
-    }
-    this.convertorForm.get('targetCurrency').setValue(currency)
-    this.updateCurrencyCommonActions()
-  }
-  private updateCurrencyCommonActions() {
-    this.convertorForm.get('sourceAmount').setValue(1)
-    this.disableResultComponent()
-    const sourceCurrency: string = this.convertorForm.get('sourceCurrency').value
-    const targetCurrency: string = this.convertorForm.get('targetCurrency').value
-    this.enableConvertButtonWithText(this.getCurrencyText(sourceCurrency, targetCurrency))
-  }
-
-  public enableConvertButtonWithText(text: string) {
-    this.enableOrDisableConvertButtonWithText(text, true)
-  }
-  public disableConvertButtonWithText(text: string) {
-    this.enableOrDisableConvertButtonWithText(text, false)
-  }
-
-  private enableOrDisableConvertButtonWithText(text: string, enable: boolean) {
-    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText')
-    convertButtonControl.setValue(text)
-    this.disableConvertButton = !enable
-  }
-
-  public getCurrencyText(sourceCurrency: string, targetCurrency: string) {
-    return 'Convert ' + sourceCurrency + ' to ' + targetCurrency
-  }
-  public getConvertButtonText(): string {
-    const convertButtonControl: AbstractControl = this.convertorForm.get('convertButtonText')
-    return convertButtonControl.value
-  }
   public updateSourceAmount(inputAmount: string) {
     if (!this.supportedCurrencies || this.backendError) {
       return
@@ -252,7 +183,7 @@ export class ConvertorCardComponent implements OnInit {
     const targetCurrency: string = this.convertorForm.get('targetCurrency').value
 
     if (
-      this.disableConvertButton ||
+      this.isConvertButtonDisabled ||
       !this.convertorForm.valid ||
       sourceCurrency.length < 3 ||
       targetCurrency.length < 3 ||

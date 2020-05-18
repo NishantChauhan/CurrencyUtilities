@@ -5,7 +5,7 @@
   <mat-divider></mat-divider>
   <mat-card-content align="center">
     <form [formGroup]="convertorForm">
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
         <mat-form-field>
           <mat-label>Convert from</mat-label>
           <input
@@ -15,16 +15,12 @@
             id="cc-source-currency"
             maxlength="3"
             [matAutocomplete]="sourceCurrencyAuto"
-            (keyup)="onSourceCurrencySelect($event.target.value)"
             oninput="this.value = this.value.toUpperCase()"
           />
           <mat-autocomplete autoActiveFirstOption #sourceCurrencyAuto="matAutocomplete">
-            <mat-option
-              (onSelectionChange)="onSourceCurrencySelect($event.source.value)"
-              *ngFor="let currency of filteredSourceCurrencies | async"
-              [value]="currency.currencySymbol"
-              >{{ currency.currencySymbol }}</mat-option
-            >
+            <mat-option *ngFor="let currency of filteredSourceCurrencies | async" [value]="currency.currencySymbol">{{
+              currency.currencySymbol
+            }}</mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
@@ -47,20 +43,16 @@
             maxlength="3"
             id="cc-target-currency"
             [matAutocomplete]="targetCurrencyAuto"
-            (keyup)="onTargetCurrencySelect($event.target.value)"
             oninput="this.value = this.value.toUpperCase()"
           />
           <mat-autocomplete autoActiveFirstOption #targetCurrencyAuto="matAutocomplete">
-            <mat-option
-              (onSelectionChange)="onTargetCurrencySelect($event.source.value)"
-              *ngFor="let currency of filteredTargetCurrencies | async"
-              [value]="currency.currencySymbol"
-              >{{ currency.currencySymbol }}</mat-option
-            >
+            <mat-option *ngFor="let currency of filteredTargetCurrencies | async" [value]="currency.currencySymbol">{{
+              currency.currencySymbol
+            }}</mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
         <mat-form-field>
           <mat-label>Amount to convert</mat-label>
           <input
@@ -75,7 +67,7 @@
           />
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
         <div *ngIf="this.convertorForm.invalid">
           <small>
             <mat-error *ngIf="this.convertorForm.get('sourceCurrency').invalid">
@@ -115,20 +107,22 @@
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
         <mat-card-actions align="center">
           <button
-            id="convertCurrency"
-            mat-raised-button
+            mat-button
             color="primary"
+            id="convertCurrency"
             type="submit"
             (click)="convertCurrency()"
             [disabled]="this.shouldDisableConvertButton()"
           >
-            {{ this.getConvertButtonText() }}
+            <span class="material-icons">
+              arrow_downward
+            </span>
           </button>
         </mat-card-actions>
       </div>
     </form>
     <!-- <div *ngIf="conversionResult"> -->
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
       <mat-card-footer align="center">
         <app-currency-conversion-result></app-currency-conversion-result>
       </mat-card-footer>

@@ -8,12 +8,12 @@ import { CurrencyUtilityService } from './currency-utility.service'
   providedIn: 'root',
 })
 export class CurrencyUtilityErrorService extends CurrencyUtilityService {
-  public getConvertedCurrencyFromAPI(): Observable<ConversionRateAPIResponse> {
+  public convertCurrencyGetRequest(): Observable<ConversionRateAPIResponse> {
     const httpError: any = {}
     const errorResponse: HttpErrorResponse = new HttpErrorResponse(httpError)
     return this.handleError(errorResponse)
   }
-  public getAllSupportedCurrencies(): Observable<Currency[]> {
+  public supportedCurrencyGetRequest(): Observable<Currency[]> {
     const httpError: any = { error: { errorCode: 'Invalid Input', errorDescription: 'Currency Not Supported' } }
     const errorResponse: HttpErrorResponse = new HttpErrorResponse(httpError)
     return this.handleError(errorResponse)
