@@ -1,5 +1,4 @@
 <div *ngIf="convertedCurrency && enableResult">
-  <mat-divider></mat-divider>
   <div class="result-container">
     <span>{{ convertedCurrency.sourceAmount | number: '0.0-10' }} {{ convertedCurrency.sourceCurrency }}</span>
     equals<br />

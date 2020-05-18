@@ -21,4 +21,8 @@ export class CurrencyConversionResultComponent implements OnInit {
   public disableResultComponent() {
     this.enableResult = false
   }
+  public resetConversionResult() {
+    this.enableResult = false
+    this.convertedCurrency = undefined
+  }
 }

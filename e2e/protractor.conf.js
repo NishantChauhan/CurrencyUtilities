@@ -4,21 +4,16 @@
 /* eslint-disable strict */
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-//const { SpecReporter } = require('jasmine-spec-reporter');
+const { SpecReporter } = require('jasmine-spec-reporter')
 const jasmineReporters = require('jasmine-reporters')
 const HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter')
 
-const reportsDirectory = './reports/current'
+const reportsDirectory = './reports/backup-UTC-' + new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
 const dashboardReportDirectory = reportsDirectory + '/dashboardReport'
 const detailsReportDirectory = reportsDirectory + '/detailReport'
 
 // For Reports Backup
 const fs = require('fs-extra')
-// if (fs.existsSync(reportsDirectory)) {
-//     const reportsBackupDirectory = './reports/backup_' + new Date().toJSON().replace(/:/g, '_');
-//     fs.copySync(reportsDirectory, reportsBackupDirectory);
-//   // fs.removeSync(reportsDirectory);
-// }
 
 const ScreenshotAndStackReporter = new HtmlScreenshotReporter({
   dest: detailsReportDirectory,
@@ -60,8 +55,9 @@ exports.config = {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.e2e.json'),
     })
-    // jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }))
+    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }))
     jasmine.getEnv().addReporter(ScreenshotAndStackReporter)
+
     jasmine.getEnv().addReporter(
       new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,

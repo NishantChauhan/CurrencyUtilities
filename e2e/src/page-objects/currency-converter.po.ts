@@ -21,7 +21,11 @@ export class CurrencyConvertorCardPage {
   getConvertButton() {
     return element(by.css('#convertCurrency'))
   }
-  getSwitchertButton() {
+  getResetButton() {
+    return element(by.css('#resetConvertorForm'))
+  }
+
+  getSwitcherButton() {
     return element(by.css('#cc-switch-currency'))
   }
 

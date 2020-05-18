@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
     MatFormFieldModule,
     MatSidenavModule,
     MatListModule,
+    MatTooltipModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -37,6 +39,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
     MatFormFieldModule,
     MatSidenavModule,
     MatListModule,
+    MatTooltipModule,
   ],
 })
 export class MaterialModule {}

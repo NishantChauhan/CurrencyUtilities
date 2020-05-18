@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
-import { catchError } from 'rxjs/operators'
+import { catchError, shareReplay } from 'rxjs/operators'
 import { environment } from 'src/environments/environment'
 import { ConversionRateAPIResponse, Currency } from '../common/base-rates'
 import { ConvertedCurrency, CurrencyConvertorInput } from '../common/currency-conversion'
@@ -16,19 +16,56 @@ export interface CurrencyUtilityServiceInterface {
   providedIn: 'root',
 })
 export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
+  supportedCurrencies$: Observable<Currency[]>
+  conversionResponseCache$ = {}
   constructor(protected httpClient: HttpClient) {}
 
   public getAllSupportedCurrencies(): Observable<Currency[]> {
+    if (this.supportedCurrencies$) {
+      return this.supportedCurrencies$
+    }
+    this.supportedCurrencies$ = this.supportedCurrencyGetRequest().pipe(
+      shareReplay(1),
+      catchError(httpError => {
+        delete this.supportedCurrencies$
+        return this.handleError(httpError)
+      })
+    )
+
+    return this.supportedCurrencies$
+  }
+
+  protected supportedCurrencyGetRequest(): Observable<Currency[]> {
     const uri = 'currency/rates/supportedCurrencies'
-    return this.httpClient.get<Currency[]>(`${environment.backendURL}${uri}`).pipe(catchError(this.handleError))
+    return this.httpClient.get<Currency[]>(`${environment.backendURL}${uri}`)
   }
 
   public getConvertedCurrencyFromAPI(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
-    const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`
-    return this.httpClient
-      .get<ConversionRateAPIResponse>(`${environment.backendURL}currency/converter/convert${uriParams}`)
-      .pipe(catchError(this.handleError))
+    const key = input.sourceCurrency + '-' + input.targetCurrency
+    if (
+      this.conversionResponseCache$[key] &&
+      this.conversionResponseCache$[key].created + environment.cacheExpiryTimeout > Date.now()
+    ) {
+      return this.conversionResponseCache$[key].value
+    }
+
+    const conversionResponse = this.convertCurrencyGetRequest(input).pipe(
+      shareReplay(1),
+      catchError(httpError => {
+        delete this.conversionResponseCache$[key]
+        return this.handleError(httpError)
+      })
+    )
+    this.conversionResponseCache$[key] = { created: Date.now(), value: conversionResponse }
+    return conversionResponse
   }
+  protected convertCurrencyGetRequest(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
+    const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`
+    return this.httpClient.get<ConversionRateAPIResponse>(
+      `${environment.backendURL}currency/converter/convert${uriParams}`
+    )
+  }
+
   public convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency> {
     return new Observable<ConvertedCurrency>(subscriber => {
       this.getConvertedCurrencyFromAPI(input).subscribe(
@@ -50,13 +87,11 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
   }
   protected handleError(httpError: HttpErrorResponse) {
     const errorResponse: ResponseStatus = new ResponseStatus()
-
     if (httpError.error instanceof ProgressEvent) {
       errorResponse.status = 'Failed'
       errorResponse.errorCode = httpError.statusText
       errorResponse.errorDescription = 'Its not you, its us. We are working on fixing this for you.'
     } else {
-      console.error(`Backend returned code ${httpError.status}`)
       errorResponse.status = 'Failed'
       errorResponse.errorCode = httpError.error ? httpError.error.errorCode : 'Unknown Error'
       errorResponse.errorDescription = httpError.error ? httpError.error.errorDescription : 'Unknown Error'

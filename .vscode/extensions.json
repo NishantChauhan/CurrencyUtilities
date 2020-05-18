@@ -1,13 +1,13 @@
 {
   "recommendations": [
     "PKief.material-icon-theme",
-    "rbbit.typescript-hero",
     "steoates.autoimport",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "jsynowiec.vscode-insertdatestring",
     "eamodio.gitlens",
     "angular.ng-template",
-    "ms-vscode.vscode-typescript-tslint-plugin"
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "streetsidesoftware.code-spell-checker"
   ]
 }

@@ -1,18 +1,34 @@
-@import '../../../currency-utility-theme.scss';
 .convertor-card {
-  max-width: 230px;
+  display: grid;
+  max-width: 210px;
+  text-align: center;
   margin: auto;
-  align-items: center;
 }
-
+.mat-card-content {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  padding-top: 10px;
+}
+.mat-option {
+  max-height: 25px;
+}
 .mat-form-field {
-  padding: 10px;
   text-align: center;
 }
-.mat-card-title {
-  padding: 10px;
+.customAutoComplete {
+  max-height: 100px;
 }
-
-.card-errors {
-  margin-bottom: 30px;
+.mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+.mat-error {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left;
+}
+.mat-card-footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { CurrencyUtilityErrorService } from '../currency-service/currency-utility-error.service'
+import { CurrencyUtilityFakeErrorService } from '../currency-service/currency-utility-fake-error.service'
 import { MaterialModule } from '../material.module'
 import { CurrencyUtilityFakeService } from './../currency-service/currency-utility-fake.service.'
 import { CurrencyUtilityService } from './../currency-service/currency-utility.service'
@@ -22,6 +22,6 @@ export const commonTestingProviders: any[] = [
 export const commonErrorTestingProviders: any[] = [
   {
     provide: CurrencyUtilityService,
-    useClass: CurrencyUtilityErrorService,
+    useClass: CurrencyUtilityFakeErrorService,
   },
 ]

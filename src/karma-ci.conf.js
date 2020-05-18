@@ -46,12 +46,12 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     customLaunchers: {
-      ChromeHeadlessNoSandox: {
+      ChromeHeadlessNoSandBox: {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox'],
       },
     },
-    browsers: ['ChromeHeadlessNoSandox'],
+    browsers: ['ChromeHeadlessNoSandBox'],
     singleRun: false,
     restartOnFileChange: true,
   })

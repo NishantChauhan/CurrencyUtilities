@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { MatIconModule } from '@angular/material/icon'
+import { mockMatIconModule } from 'src/app/common/mock-mat-icons'
 import { CurrencyConversionResultComponent } from '../currency-conversion-result/currency-conversion-result.component'
 import { fixedSourceCurrency, fixedTargetCurrency } from './../../common/base-rates'
 import { commonErrorTestingProviders, commonTestingModules } from './../../common/common-testing'
-import { exchangeReponse, mockSupportedCurrencies } from './../../mock-response/mock-reponse'
+import { exchangeResponse, mockSupportedCurrencies } from './../../mock-response/mock-response'
 import { CurrencyCardErrorComponent } from './../currency-card-error/currency-card-error.component'
 import { ConvertorCardComponent } from './convertor-card.component'
 
@@ -14,7 +16,9 @@ describe('ConvertorCardComponent Errors', () => {
       imports: [commonTestingModules],
       declarations: [ConvertorCardComponent, CurrencyConversionResultComponent, CurrencyCardErrorComponent],
       providers: commonErrorTestingProviders,
-    }).compileComponents()
+    })
+      .overrideModule(MatIconModule, mockMatIconModule)
+      .compileComponents()
   }))
 
   beforeEach(() => {
@@ -26,60 +30,64 @@ describe('ConvertorCardComponent Errors', () => {
   it('should create', () => {
     expect(component).toBeTruthy()
   })
-
-  it('should convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol, () => {
+  it('should have coverage for exceptional conditions for resting result component', () => {
+    component.resultComponent = undefined
+    component.resetResultComponent()
+    component.updateResultComponent(undefined)
+  })
+  it('should have coverage for exceptional conditions for converting to float', () => {
+    component.convertToFloat({ value: 'Number' })
+    component.convertToFloat({ value: '1000' })
+    component.convertToFloat({ value: ' ' })
+  })
+  it('should have coverage for exceptional conditions for switch currency', () => {
     component.convertorForm.setValue({
       sourceAmount: 1000,
       sourceCurrency: fixedSourceCurrency.currencySymbol,
       targetCurrency: fixedTargetCurrency.currencySymbol,
-      convertButtonText: 'Convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol,
     })
     component.switchCurrencies()
     component.convertCurrency()
+  })
+  it('should have coverage for exceptional conditions for source Amount', () => {
+    component.convertorForm.setValue({
+      sourceAmount: 1000,
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
+    })
+    // Backend error Coverage
     component.updateSourceAmount('1000')
-    component.convertToFloat({ value: 'Number' })
-    component.convertToFloat({ value: '1000' })
-    component.convertToFloat({ value: ' ' })
-    component.onSourceCurrencySelect('CAD')
-    component.onTargetCurrencySelect('INR')
 
-    component.backendError = undefined
-
-    component.supportedCurrencies = mockSupportedCurrencies
-    component.onSourceCurrencySelect('CAD')
-    component.onTargetCurrencySelect('INR')
-    component.onSourceCurrencySelect('CAD')
-    component.onTargetCurrencySelect('INR')
-
-    component.backendError = undefined
-    component.supportedCurrencies = mockSupportedCurrencies
-    component.switchCurrencies()
-
+    //Not NaN string coverage
     component.backendError = undefined
     component.supportedCurrencies = mockSupportedCurrencies
     component.updateSourceAmount('1000')
 
-    component.backendError = undefined
-    component.supportedCurrencies = mockSupportedCurrencies
+    // NaN coverage
     component.conversionResult = {
       sourceAmount: 1,
       sourceCurrency: fixedSourceCurrency.currencySymbol,
-      targetAmount: exchangeReponse.result,
+      targetAmount: exchangeResponse.result,
       targetCurrency: fixedTargetCurrency.currencySymbol,
-      exchangeRate: exchangeReponse.conversionRate,
-      exchangeResultDate: exchangeReponse.rateAsOf,
+      exchangeRate: exchangeResponse.conversionRate,
+      exchangeResultDate: exchangeResponse.rateAsOf,
     }
-    component.updateSourceAmount('Number')
-    component.convertToFloat('Number')
 
+    component.updateSourceAmount('Number')
+  })
+
+  it('should have coverage for exceptional conditions for convert currency', () => {
+    component.conversionResult = {
+      sourceAmount: 1,
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetAmount: exchangeResponse.result,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
+      exchangeRate: exchangeResponse.conversionRate,
+      exchangeResultDate: exchangeResponse.rateAsOf,
+    }
     component.backendError = undefined
     component.supportedCurrencies = mockSupportedCurrencies
     component.convertorForm.get('sourceAmount').setValue('1')
     component.convertCurrency()
-
-    component.convertorForm.get('sourceAmount').setValue(1)
-    component.convertCurrency()
-
-    expect(component.backendError).toBeTruthy()
   })
 })
