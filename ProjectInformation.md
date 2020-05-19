@@ -102,3 +102,4 @@ Here's a starter list of developer norms:
 2020-05-17 07:01:41 - Added cache handling to avoid duplicate requests to back end api
   * Updates
     1. Code will replay the last response is successful.
+    2. The server request for currency conversion will not be made unitl cacheExpiryTimeout

@@ -5,7 +5,7 @@
     "ng": "ng",
     "standardize": "prettier --write src/**/*.{ts,js,html,css} && prettier --write e2e/**/*.{ts,js}",
     "start": "ng serve --port 4000",
-    "build": "npm run standardize && ng build",
+    "build": "npm run standardize && ng build --configuration=production",
     "test": "npm run standardize && ng test --watch false",
     "coverage": "npm run standardize && ng test --code-coverage --watch false  --browsers ChromeHeadless",
     "dev-coverage": "npm run standardize && ng test --code-coverage  --browsers Chrome",

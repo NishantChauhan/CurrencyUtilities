@@ -81,7 +81,6 @@ describe('CurrencyUtilityService', () => {
     service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
       convertedCurrency = result
     })
-    jasmine.clock().tick(3000)
     expect(convertedCurrency).toBeTruthy()
     expect(convertedCurrency.targetAmount.toFixed(10)).toBe(
       (inputCurrency.sourceAmount * exchangeReponse.conversionRate).toFixed(10)
@@ -92,7 +91,7 @@ describe('CurrencyUtilityService', () => {
     done()
   })
 
-  it('should be cache conversion result', done => {
+  it('should cache conversion result', () => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     const inputCurrency: CurrencyConvertorInput = {
       sourceAmount: 1000,
@@ -103,16 +102,12 @@ describe('CurrencyUtilityService', () => {
     service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
       firstConvertedCurrency = result
     })
-    jasmine.clock().tick(2000)
-
     expect(firstConvertedCurrency).toBeTruthy()
     let secondConvertedCurrency: ConvertedCurrency
     service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
       secondConvertedCurrency = result
     })
-    jasmine.clock().tick(2000)
     expect(secondConvertedCurrency).toBeTruthy()
-
     expect(secondConvertedCurrency.targetAmount.toFixed(10)).toBe(
       (inputCurrency.sourceAmount * exchangeReponse.conversionRate).toFixed(10)
     )
@@ -120,7 +115,6 @@ describe('CurrencyUtilityService', () => {
     expect(secondConvertedCurrency.targetCurrency).toBe(inputCurrency.targetCurrency)
     expect(secondConvertedCurrency.sourceCurrency).toBe(inputCurrency.sourceCurrency)
     expect(secondConvertedCurrency.sourceAmount).toBe(exchangeReponse.amount)
-    done()
   })
 
   afterEach(() => {

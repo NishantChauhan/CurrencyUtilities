@@ -28,17 +28,14 @@ describe('ConvertorCardComponent', () => {
   })
 
   it('should convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol, () => {
-    for (let i = 0; i < 5; i++) {
-      component.convertCurrency()
-    }
-    jasmine.clock().tick(3000)
+    component.convertCurrency()
+
     expect(component.conversionResult.targetAmount).toBe(exchangeReponse.result)
   })
 
   it('should update result on source amount change ', done => {
     const convertButton = fixture.nativeElement.querySelector('#convertCurrency > span')
     convertButton.click()
-    jasmine.clock().tick(3000)
     fixture.detectChanges()
     const targetAmount = fixture.nativeElement.querySelector(
       'app-currency-conversion-result > div > div > div > b > span'
@@ -74,7 +71,6 @@ describe('ConvertorCardComponent', () => {
 
     const convertButton = fixture.nativeElement.querySelector('#convertCurrency > span')
     convertButton.click()
-    jasmine.clock().tick(3000)
 
     const switcher = fixture.nativeElement.querySelector('mat-card-actions > button > span')
     switcher.click()
@@ -104,7 +100,6 @@ describe('ConvertorCardComponent', () => {
 
     const convertButton = fixture.nativeElement.querySelector('#convertCurrency > span')
     convertButton.click()
-    jasmine.clock().tick(3000)
 
     const switcher = fixture.nativeElement.querySelector('mat-card-actions > button > span')
     switcher.click()

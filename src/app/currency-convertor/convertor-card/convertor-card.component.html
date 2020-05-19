@@ -107,16 +107,14 @@
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
         <mat-card-actions align="center">
           <button
-            mat-button
+            mat-raised-button
             color="primary"
             id="convertCurrency"
             type="submit"
             (click)="convertCurrency()"
             [disabled]="this.shouldDisableConvertButton()"
           >
-            <span class="material-icons">
-              arrow_downward
-            </span>
+            Convert
           </button>
         </mat-card-actions>
       </div>

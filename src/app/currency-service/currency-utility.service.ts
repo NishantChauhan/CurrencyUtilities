@@ -31,6 +31,7 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
         return this.handleError(httpError)
       })
     )
+
     return this.supportedCurrencies
   }
 
@@ -41,18 +42,22 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
 
   public getConvertedCurrencyFromAPI(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
     const key = input.sourceCurrency + '-' + input.targetCurrency
-    if (this.conversionResponseCache[key]) {
-      return this.conversionResponseCache[key]
+    if (
+      this.conversionResponseCache[key] &&
+      this.conversionResponseCache[key].created + environment.cacheExpiryTimeout > Date.now()
+    ) {
+      return this.conversionResponseCache[key].value
     }
 
-    this.conversionResponseCache[key] = this.convertCurrencyGetRequest(input).pipe(
+    const conversionResponse = this.convertCurrencyGetRequest(input).pipe(
       shareReplay(1),
       catchError(httpError => {
         delete this.conversionResponseCache[key]
         return this.handleError(httpError)
       })
     )
-    return this.conversionResponseCache[key]
+    this.conversionResponseCache[key] = { created: Date.now(), value: conversionResponse }
+    return conversionResponse
   }
   protected convertCurrencyGetRequest(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
     const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`
