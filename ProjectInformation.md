@@ -50,7 +50,7 @@ Here's a starter list of developer norms:
     2. Added 2 point precision for target amount.
 * 2019-06-12 07:27:44 - Update child component with changes in source and target Amount on type
 * 2019-06-16 01:13:34 - Fixed Code Coverage and E2E sanity
-* 2020-03-29 11:22:49 - Integrated Angular FE with Springboot BE
+* 2020-03-29 11:22:49 - Integrated Angular FE with Spring boot BE
   * Updates
     1. Updated mock responses
     2. HttpClientModuleSupport, E2E test and UT modified
@@ -99,7 +99,9 @@ Here's a starter list of developer norms:
     3. Added lint staged plugin and pre-commit hook.
     4. Expected Conditions in protractor for waiting for page loads
     5. Added tests for convertor card error page
-2020-05-17 07:01:41 - Added cache handling to avoid duplicate requests to back end api
+* 2020-05-17 07:01:41 - Added cache handling to avoid duplicate requests to back end api
   * Updates
     1. Code will replay the last response is successful.
-    2. The server request for currency conversion will not be made unitl cacheExpiryTimeout
+    2. The server request for currency conversion will not be made until cacheExpiryTimeout
+  * Enhancement
+    1. Enabled spell checker

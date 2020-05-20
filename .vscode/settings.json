@@ -34,5 +34,10 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "cSpell.ignorePaths": [
+    ".git", // Ignore the .git directory
+    "*.json", // Ignore all .dll files.
+    ".vscode" // Ignore all files in .vscode
+  ]
 }

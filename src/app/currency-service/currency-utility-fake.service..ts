@@ -3,7 +3,8 @@ import { Observable, of } from 'rxjs'
 import { startWith } from 'rxjs/operators'
 import { ConversionRateAPIResponse, Currency } from '../common/base-rates'
 import { CurrencyConvertorInput } from '../common/currency-conversion'
-import { exchangeReponse, mockSupportedCurrencies } from '../mock-response/mock-reponse'
+import { exchangeResponse, mockSupportedCurrencies } from '../mock-response/mock-response'
+import { environment } from './../../environments/environment'
 import { CurrencyUtilityService } from './currency-utility.service'
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,8 @@ export class CurrencyUtilityFakeService extends CurrencyUtilityService {
       setInterval(() => {
         input
         subscriber.next(this.nextConversionRateResponse())
-      }, 1000)
-    }).pipe(startWith(exchangeReponse))
+      }, environment.cacheExpiryTimeout)
+    }).pipe(startWith(exchangeResponse))
   }
   public supportedCurrencyGetRequest(): Observable<Currency[]> {
     return of(mockSupportedCurrencies)
@@ -23,8 +24,8 @@ export class CurrencyUtilityFakeService extends CurrencyUtilityService {
 
   public nextConversionRateResponse(): ConversionRateAPIResponse {
     const random = Math.floor(Math.random() * 100)
-    exchangeReponse.conversionRate = exchangeReponse.conversionRate + random / 100
-    exchangeReponse.result = exchangeReponse.amount * exchangeReponse.conversionRate
-    return exchangeReponse
+    exchangeResponse.conversionRate = exchangeResponse.conversionRate + random / 100
+    exchangeResponse.result = exchangeResponse.amount * exchangeResponse.conversionRate
+    return exchangeResponse
   }
 }

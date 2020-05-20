@@ -39,11 +39,17 @@ describe('Currency Convertor Card', () => {
       fixedTargetCurrency.currencySymbol +
       ' as From on switcher button click',
     () => {
-      cardPage.getSwitchertButton().click()
+      cardPage.getSwitcherButton().click()
       expect(cardPage.getSourceCurrency()).toBe(fixedTargetCurrency.currencySymbol)
       expect(cardPage.getTargetCurrency()).toBe(fixedSourceCurrency.currencySymbol)
     }
   )
+  it('should reset form on reset button click', () => {
+    cardPage.getResetButton().click()
+    expect(cardPage.getSourceCurrency()).toBe('')
+    expect(cardPage.getTargetCurrency()).toBe('')
+    expect(cardPage.getSourceAmount()).toBe('')
+  })
 
   afterEach(async () => {
     const logs = await browser.manage().logs().get(logging.Type.BROWSER)

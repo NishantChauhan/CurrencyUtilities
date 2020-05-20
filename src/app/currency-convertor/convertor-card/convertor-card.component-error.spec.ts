@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { CurrencyConversionResultComponent } from '../currency-conversion-result/currency-conversion-result.component'
 import { fixedSourceCurrency, fixedTargetCurrency } from './../../common/base-rates'
 import { commonErrorTestingProviders, commonTestingModules } from './../../common/common-testing'
-import { exchangeReponse, mockSupportedCurrencies } from './../../mock-response/mock-reponse'
+import { exchangeResponse, mockSupportedCurrencies } from './../../mock-response/mock-response'
 import { CurrencyCardErrorComponent } from './../currency-card-error/currency-card-error.component'
 import { ConvertorCardComponent } from './convertor-card.component'
 
@@ -57,10 +57,10 @@ describe('ConvertorCardComponent Errors', () => {
     component.conversionResult = {
       sourceAmount: 1,
       sourceCurrency: fixedSourceCurrency.currencySymbol,
-      targetAmount: exchangeReponse.result,
+      targetAmount: exchangeResponse.result,
       targetCurrency: fixedTargetCurrency.currencySymbol,
-      exchangeRate: exchangeReponse.conversionRate,
-      exchangeResultDate: exchangeReponse.rateAsOf,
+      exchangeRate: exchangeResponse.conversionRate,
+      exchangeResultDate: exchangeResponse.rateAsOf,
     }
     component.updateSourceAmount('Number')
     component.convertToFloat('Number')

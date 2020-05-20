@@ -37,7 +37,7 @@ export class ConvertorCardComponent implements OnInit {
       (response: Currency[]) => {
         this.supportedCurrencies = response
 
-        this.attachFiltersToCurrencyAutocompletes()
+        this.attachFiltersToCurrencyAutocomplete()
         this.enableConvertButton()
       },
       (error: any) => {
@@ -47,8 +47,14 @@ export class ConvertorCardComponent implements OnInit {
       }
     )
   }
+  resetForm() {
+    this.convertorForm.reset()
+    this.disableResultComponent()
+    this.conversionResult = undefined
+    this.updateResultComponent(undefined)
+  }
 
-  private attachFiltersToCurrencyAutocompletes() {
+  private attachFiltersToCurrencyAutocomplete() {
     this.filteredSourceCurrencies = this.convertorForm.get('sourceCurrency').valueChanges.pipe(
       startWith(''),
       map(currency => (currency ? this._filter(currency) : this.supportedCurrencies.slice()))

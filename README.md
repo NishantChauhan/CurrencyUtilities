@@ -2,7 +2,7 @@
 
 ---
 
-This Angular Project is a front end for Currency utilities Server Springboot project. Currently, you can convert the supported currency based on exhange rates provided by https://fixer.io.
+This Angular Project is a front end for Currency utilities Server Spring boot project. Currently, you can convert the supported currency based on exchange rates provided by https://fixer.io.
 
 ---
 

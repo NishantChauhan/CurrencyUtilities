@@ -6,10 +6,12 @@ import { CurrencyUtilityFakeService } from './currency-utility-fake.service.'
 import { CurrencyUtilityServiceInterface } from './currency-utility.service'
 
 describe('CurrencyUtilityService Errors', () => {
+  const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
     })
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
     jasmine.clock().install()
   })
 
@@ -49,5 +51,6 @@ describe('CurrencyUtilityService Errors', () => {
 
   afterEach(() => {
     jasmine.clock().uninstall()
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout
   })
 })

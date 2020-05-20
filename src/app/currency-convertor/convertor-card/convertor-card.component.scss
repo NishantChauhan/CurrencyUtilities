@@ -1,7 +1,9 @@
 .convertor-card {
+  display: grid;
   max-width: 230px;
   margin: auto;
   align-items: center;
+  align-content: center;
 }
 
 .mat-form-field {

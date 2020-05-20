@@ -5,7 +5,7 @@ export const mockSupportedCurrencies: Currency[] = [
   { currencyName: 'INR', currencySymbol: 'INR' },
   { currencyName: 'USD', currencySymbol: 'USD' },
 ]
-export const exchangeReponse: ConversionRateAPIResponse = {
+export const exchangeResponse: ConversionRateAPIResponse = {
   from: 'CAD',
   to: 'INR',
   rateAsOf: new Date(),
