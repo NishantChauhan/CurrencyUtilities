@@ -19,6 +19,7 @@
               formControlName="sourceCurrency"
               id="cc-source-currency"
               maxlength="3"
+              minlength="3"
               [matAutocomplete]="sourceCurrencyAuto"
               oninput="this.value = this.value.toUpperCase()"
             />
@@ -46,6 +47,7 @@
               matInput
               formControlName="targetCurrency"
               maxlength="3"
+              minlength="3"
               id="cc-target-currency"
               [matAutocomplete]="targetCurrencyAuto"
               oninput="this.value = this.value.toUpperCase()"
@@ -75,27 +77,37 @@
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
           <div *ngIf="this.convertorForm.invalid">
             <small>
-              <mat-error *ngIf="this.convertorForm.get('sourceCurrency').invalid">
-                <mat-error *ngIf="this.convertorForm.get('sourceCurrency').errors['required']">
+              <mat-error *ngIf="sourceCurrency.invalid">
+                <mat-error *ngIf="sourceCurrency.errors['required']">
                   <li>Please enter 'Convert from' currency</li>
                 </mat-error>
-                <mat-error *ngIf="this.convertorForm.get('sourceCurrency').errors['pattern']">
-                  <li>'From' currency must be 3 characters</li>
+                <mat-error *ngIf="sourceCurrency.errors['minlength']">
+                  <li>'From' currency must be 3 letters</li>
+                </mat-error>
+                <mat-error *ngIf="sourceCurrency.errors['pattern']">
+                  <li>'From' currency must be capital letters</li>
+                </mat-error>
+
+                <mat-error *ngIf="sourceCurrency.pending">
+                  <li>Validating Support for Currency ...</li>
+                </mat-error>
+                <mat-error *ngIf="sourceCurrency.errors?.unSupported">
+                  <li>This 'From' currency is not supported</li>
                 </mat-error>
               </mat-error>
-              <mat-error *ngIf="this.convertorForm.get('targetCurrency').invalid">
-                <mat-error *ngIf="this.convertorForm.get('targetCurrency').errors['required']">
+              <mat-error *ngIf="targetCurrency.invalid">
+                <mat-error *ngIf="targetCurrency.errors.required">
                   <li>Please enter 'To' currency</li>
                 </mat-error>
-                <mat-error *ngIf="this.convertorForm.get('targetCurrency').errors['pattern']">
+                <mat-error *ngIf="targetCurrency.errors.pattern">
                   <li>'To' currency must be 3 characters</li>
                 </mat-error>
               </mat-error>
-              <mat-error *ngIf="this.convertorForm.get('sourceAmount').invalid">
-                <mat-error *ngIf="this.convertorForm.get('sourceAmount').errors['required']">
+              <mat-error *ngIf="sourceAmount.invalid">
+                <mat-error *ngIf="sourceAmount.errors.required">
                   <li>Please enter 'Amount to convert'</li>
                 </mat-error>
-                <mat-error *ngIf="this.convertorForm.get('sourceAmount').errors['pattern']">
+                <mat-error *ngIf="sourceAmount.errors.pattern">
                   <li>Amount must be numeric e.g. 0.12</li>
                   <li>Amount must have no commas.</li>
                   <li>Amount must be less than 1 billion</li>

@@ -16,23 +16,23 @@ export interface CurrencyUtilityServiceInterface {
   providedIn: 'root',
 })
 export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
-  supportedCurrencies: Observable<Currency[]>
-  conversionResponseCache = {}
+  supportedCurrencies$: Observable<Currency[]>
+  conversionResponseCache$ = {}
   constructor(protected httpClient: HttpClient) {}
 
   public getAllSupportedCurrencies(): Observable<Currency[]> {
-    if (this.supportedCurrencies) {
-      return this.supportedCurrencies
+    if (this.supportedCurrencies$) {
+      return this.supportedCurrencies$
     }
-    this.supportedCurrencies = this.supportedCurrencyGetRequest().pipe(
+    this.supportedCurrencies$ = this.supportedCurrencyGetRequest().pipe(
       shareReplay(1),
       catchError(httpError => {
-        delete this.supportedCurrencies
+        delete this.supportedCurrencies$
         return this.handleError(httpError)
       })
     )
 
-    return this.supportedCurrencies
+    return this.supportedCurrencies$
   }
 
   protected supportedCurrencyGetRequest(): Observable<Currency[]> {
@@ -43,20 +43,20 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
   public getConvertedCurrencyFromAPI(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
     const key = input.sourceCurrency + '-' + input.targetCurrency
     if (
-      this.conversionResponseCache[key] &&
-      this.conversionResponseCache[key].created + environment.cacheExpiryTimeout > Date.now()
+      this.conversionResponseCache$[key] &&
+      this.conversionResponseCache$[key].created + environment.cacheExpiryTimeout > Date.now()
     ) {
-      return this.conversionResponseCache[key].value
+      return this.conversionResponseCache$[key].value
     }
 
     const conversionResponse = this.convertCurrencyGetRequest(input).pipe(
       shareReplay(1),
       catchError(httpError => {
-        delete this.conversionResponseCache[key]
+        delete this.conversionResponseCache$[key]
         return this.handleError(httpError)
       })
     )
-    this.conversionResponseCache[key] = { created: Date.now(), value: conversionResponse }
+    this.conversionResponseCache$[key] = { created: Date.now(), value: conversionResponse }
     return conversionResponse
   }
   protected convertCurrencyGetRequest(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {

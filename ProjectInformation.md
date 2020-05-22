@@ -21,7 +21,7 @@ Here's a starter list of developer norms:
 * 2019-05-29 19:36:53 - New Branch for Currency Convertor Created.
 * 2019-05-31 07:43:32 - Conversion Feature Changes
   * Currency Convertor Card
-	  1. Source Currency and Source Amount, Target Currency and Target Amount, Convert button.
+    1. Source Currency and Source Amount, Target Currency and Target Amount, Convert button.
     2. Click of Convert button text calls conversion service.
     3. Conversion service returns converted Target amount based on source amount and currencies.
   * Add ons
@@ -61,7 +61,7 @@ Here's a starter list of developer norms:
     1. Jenkinsfile to add pipeline with Build, Test and Deliver Stages
     2. Modified Karma to support ChromeHeadless No Sandbox test on alpine linux
     3. Formatting changes - removed editor config and prettier made default
-	4. Added standardize to the build scripts
+    4. Added standardize to the build scripts
 * 2020-04-15 08:19:00 - Added Support for Docker
   * Updates
     1. Created docker file to include the test and build phases
@@ -73,29 +73,29 @@ Here's a starter list of developer norms:
 * 2020-04-21 08:54:35 - Added Support for all currencies
   * Updates
     1. New endpoint exposed by backend API to get supported currencies.
-  	2. Displayed all supported currencies in the dropdown
+    2. Displayed all supported currencies in the dropdown
 * 2020-04-29 09:08:18 - Added Error handling support
   * Updates
     1. Added Convertor Error Component for backend error response
     2. Implemented unit specs for success and error alerts for convertor card.
 * 2020-05-09 09:35:50 - Upgraded Design with Angular Material
-	* Design Changes
-		1. Added custom theme
-		2. Replaced currency icon
-		3. Converted to widget form
-		4. Autocomplete for currency selection with filter
-		5. Removed the target amount input control and moved to view child
-		6. Side Navigation Bar
-		7. Updated About page
-	* Bug Fixes
-		1. Update test for mock response to use 1000 instead of 1
-		2. More fixes for devalued currencies
-		3. Trailing 0 after decimal removed
-		4. Converted tests from sync to async for asynchronous code
-		5. prettier end of line as 'auto' to avoid issues with CRLF.
+  * Design Changes
+    1. Added custom theme
+    2. Replaced currency icon
+    3. Converted to widget form
+    4. Autocomplete for currency selection with filter
+    5. Removed the target amount input control and moved to view child
+    6. Side Navigation Bar
+    7. Updated About page
+  * Bug Fixes
+    1. Update test for mock response to use 1000 instead of 1
+    2. More fixes for devalued currencies
+    3. Trailing 0 after decimal removed
+    4. Converted tests from sync to async for asynchronous code
+    5. prettier end of line as 'auto' to avoid issues with CRLF.
   * Improvements
-	  1. Moved common testing modules to a file.
-	  2. Prettier and Eslint integration.
+    1. Moved common testing modules to a file.
+    2. Prettier and Eslint integration.
     3. Added lint staged plugin and pre-commit hook.
     4. Expected Conditions in protractor for waiting for page loads
     5. Added tests for convertor card error page
@@ -105,3 +105,5 @@ Here's a starter list of developer norms:
     2. The server request for currency conversion will not be made until cacheExpiryTimeout
   * Enhancement
     1. Enabled spell checker
+    2. Upgraded Angular Dependencies
+    3. Added Async Validator for supported Currencies
