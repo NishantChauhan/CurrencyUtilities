@@ -26,8 +26,12 @@ describe('ConvertorCardComponent Errors', () => {
   it('should create', () => {
     expect(component).toBeTruthy()
   })
-
-  it('should convert ' + fixedSourceCurrency.currencySymbol + ' to ' + fixedTargetCurrency.currencySymbol, () => {
+  it('should fail for result component not loaded', () => {
+    component.resultComponent = undefined
+    component.resetResultComponent()
+    component.updateResultComponent(undefined)
+  })
+  it('should throw error while currency conversion', () => {
     component.convertorForm.setValue({
       sourceAmount: 1000,
       sourceCurrency: fixedSourceCurrency.currencySymbol,

@@ -107,3 +107,5 @@ Here's a starter list of developer norms:
     1. Enabled spell checker
     2. Upgraded Angular Dependencies
     3. Added Async Validator for supported Currencies
+  * Defects
+    1. Fixed alignment on Firefox for mat-card-actions

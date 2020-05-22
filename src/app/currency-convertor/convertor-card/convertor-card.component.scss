@@ -1,18 +1,27 @@
 .convertor-card {
   display: grid;
-  max-width: 230px;
+  max-width: 210px;
+  text-align: center;
   margin: auto;
-  align-items: center;
-  align-content: center;
+}
+.mat-card-content {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  padding-top: 10px;
+}
+.mat-autocomplete-panel {
+  max-height: 80px !important;
+}
+.mat-option {
+  max-height: 25px;
 }
 
-.mat-form-field {
-  padding: 10px;
-  text-align: center;
+.mat-card-actions {
+  display: flex;
+  justify-content: center;
 }
-.mat-card-title {
-  padding: 10px;
-}
-.card-errors {
-  margin-bottom: 30px;
+.mat-card-footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

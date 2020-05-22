@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
@@ -13,6 +13,7 @@ import { fixedSourceCurrency, fixedTargetCurrency } from './../../common/base-ra
   selector: 'app-convertor-card',
   templateUrl: './convertor-card.component.html',
   styleUrls: ['./convertor-card.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ConvertorCardComponent implements OnInit {
   constructor(
@@ -24,10 +25,11 @@ export class ConvertorCardComponent implements OnInit {
   filteredTargetCurrencies: Observable<Currency[]>
 
   @ViewChild(CurrencyConversionResultComponent)
-  private resultComponent: CurrencyConversionResultComponent
+  resultComponent: CurrencyConversionResultComponent
   conversionResult: ConvertedCurrency
   backendError: any
   isConvertButtonDisabled: boolean
+
   supportedCurrencies: Currency[]
 
   get sourceAmount() {
@@ -76,9 +78,8 @@ export class ConvertorCardComponent implements OnInit {
   }
   resetForm() {
     this.convertorForm.reset()
-    this.disableResultComponent()
+    this.resetResultComponent()
     this.conversionResult = undefined
-    this.updateResultComponent(undefined)
   }
 
   private attachFiltersToCurrencyAutocomplete() {
@@ -107,7 +108,7 @@ export class ConvertorCardComponent implements OnInit {
     if (!this.supportedCurrencies || this.backendError) {
       return
     }
-    const amount: number = this.getNumericAmountsUpdateSourceControlWithIt()
+    const amount: number = this.updateNumericSourceAmount()
     const inputCurrency = {
       sourceAmount: amount,
       sourceCurrency: this.sourceCurrency.value,
@@ -129,7 +130,7 @@ export class ConvertorCardComponent implements OnInit {
     )
   }
 
-  private getNumericAmountsUpdateSourceControlWithIt() {
+  private updateNumericSourceAmount() {
     const inputAmount: number = this.sourceAmount.value
     let amount: number
     if (typeof inputAmount === 'string' && !isNaN(inputAmount)) {
@@ -181,13 +182,6 @@ export class ConvertorCardComponent implements OnInit {
     this.switchCurrencyAmounts()
   }
 
-  public enableConvertButton() {
-    this.isConvertButtonDisabled = false
-  }
-  public disableConvertButton() {
-    this.isConvertButtonDisabled = true
-  }
-
   public updateSourceAmount(inputAmount: string) {
     if (!this.supportedCurrencies || this.backendError) {
       return
@@ -209,16 +203,43 @@ export class ConvertorCardComponent implements OnInit {
     }
   }
   updateResultComponent(convertedCurrency: ConvertedCurrency) {
-    this.resultComponent.updateConversionResult({ ...convertedCurrency })
+    if (this.resultComponent) {
+      this.resultComponent.updateConversionResult({ ...convertedCurrency })
+    }
   }
   disableResultComponent() {
-    this.resultComponent.disableResultComponent()
+    if (this.resultComponent) {
+      this.resultComponent.disableResultComponent()
+    }
   }
+  resetAmounts() {
+    this.sourceAmount.setValue(1)
+    this.conversionResult = undefined
+    this.resetResultComponent()
+  }
+
+  resetResultComponent() {
+    if (this.resultComponent) {
+      this.resultComponent.resetConversionResult()
+    }
+  }
+
+  public enableConvertButton() {
+    this.isConvertButtonDisabled = false
+  }
+  public disableConvertButton() {
+    this.isConvertButtonDisabled = true
+  }
+
   shouldDisableConvertButton() {
     if (this.isConvertButtonDisabled || this.convertorForm.invalid) {
-      if (this.resultComponent) {
-        this.disableResultComponent()
-      }
+      this.disableResultComponent()
+      return true
+    }
+    return false
+  }
+  shouldDisableSwitcherButton() {
+    if (this.convertorForm.invalid) {
       return true
     }
     return false

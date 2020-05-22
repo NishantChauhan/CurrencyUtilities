@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed } from '@angular/core/testing'
 import { fixedSourceCurrency, fixedTargetCurrency } from 'src/app/common/base-rates'
 import { exchangeResponse } from 'src/app/mock-response/mock-response'
 import { CurrencyConversionResultComponent } from '../currency-conversion-result/currency-conversion-result.component'
@@ -135,6 +135,16 @@ describe('ConvertorCardComponent', () => {
       exchangeResponse.result.toFixed(10) + ' ' + exchangeResponse.to
     )
   })
+  it('should disable switched button and reset amounts on changing currency', fakeAsync(() => {
+    const convertButton = fixture.nativeElement.querySelector('#convertCurrency > span')
+    convertButton.click()
+    component.sourceCurrency.setValue('')
+    component.resetAmounts()
+    fixture.detectChanges()
+    discardPeriodicTasks()
+    const switcher = fixture.nativeElement.querySelector('mat-card-actions > button')
+    expect(switcher.disabled).toBe(true)
+  }))
 
   afterEach(() => {
     jasmine.clock().uninstall()

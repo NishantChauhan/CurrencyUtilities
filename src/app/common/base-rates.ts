@@ -6,6 +6,10 @@ export const fixedTargetCurrency: Currency = {
   currencyName: 'INR',
   currencySymbol: 'INR',
 }
+export const secondCurrency: Currency = {
+  currencyName: 'USD',
+  currencySymbol: 'USD',
+}
 
 export class ResponseStatus {
   status: string
