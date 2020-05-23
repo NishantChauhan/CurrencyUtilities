@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
@@ -13,7 +13,7 @@ import { fixedSourceCurrency, fixedTargetCurrency } from './../../common/base-ra
   selector: 'app-convertor-card',
   templateUrl: './convertor-card.component.html',
   styleUrls: ['./convertor-card.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 })
 export class ConvertorCardComponent implements OnInit {
   constructor(

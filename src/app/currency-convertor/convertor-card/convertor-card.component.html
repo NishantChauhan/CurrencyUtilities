@@ -122,7 +122,7 @@
   <mat-divider [inset]="true"></mat-divider>
 
   <mat-card-footer>
-    <div *ngIf="convertorForm.invalid">
+    <div *ngIf="convertorForm.invalid" class="card-errors">
       <small>
         <mat-error *ngIf="sourceCurrency.invalid">
           <mat-error *ngIf="sourceCurrency.errors['required']">
@@ -146,14 +146,24 @@
           <mat-error *ngIf="targetCurrency.errors.required">
             <li>Please enter 'To' currency</li>
           </mat-error>
-          <mat-error *ngIf="targetCurrency.errors.pattern">
-            <li>'To' currency must be 3 characters</li>
+          <mat-error *ngIf="targetCurrency.errors['minlength']">
+            <li>'To' currency must be 3 letters</li>
+          </mat-error>
+          <mat-error *ngIf="targetCurrency.errors['pattern']">
+            <li>'To' currency must be capital letters</li>
+          </mat-error>
+          <mat-error *ngIf="targetCurrency.pending">
+            <li>Validating Support for Currency ...</li>
+          </mat-error>
+          <mat-error *ngIf="targetCurrency.errors?.unSupported">
+            <li>This 'To' currency is not supported</li>
           </mat-error>
         </mat-error>
         <mat-error *ngIf="sourceAmount.invalid">
           <mat-error *ngIf="sourceAmount.errors.required">
             <li>Please enter 'Amount to convert'</li>
           </mat-error>
+
           <mat-error *ngIf="sourceAmount.errors.pattern">
             <li>Amount must be numeric e.g. 0.12</li>
             <li>Amount must have no commas.</li>

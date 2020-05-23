@@ -16,10 +16,17 @@
 .mat-option {
   max-height: 25px;
 }
-
+.mat-form-field {
+  text-align: center;
+}
 .mat-card-actions {
   display: flex;
   justify-content: center;
+}
+.card-errors {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left;
 }
 .mat-card-footer {
   padding-top: 10px;
