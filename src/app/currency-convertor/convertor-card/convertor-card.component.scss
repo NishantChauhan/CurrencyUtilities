@@ -10,14 +10,14 @@
   justify-content: center;
   padding-top: 10px;
 }
-.mat-autocomplete-panel {
-  max-height: 80px !important;
-}
 .mat-option {
   max-height: 25px;
 }
 .mat-form-field {
   text-align: center;
+}
+.customAutoComplete {
+  max-height: 100px;
 }
 .mat-card-actions {
   display: flex;

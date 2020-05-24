@@ -11,5 +11,8 @@ import { DomSanitizer } from '@angular/platform-browser'
 export class AppComponent {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon('currency', sanitizer.bypassSecurityTrustResourceUrl('assets/currency.svg'))
+    iconRegistry.addSvgIcon('refresh', sanitizer.bypassSecurityTrustResourceUrl('assets/refresh.svg'))
+    iconRegistry.addSvgIcon('swap_vertical', sanitizer.bypassSecurityTrustResourceUrl('assets/swap_vertical.svg'))
+    iconRegistry.addSvgIcon('arrow_downward', sanitizer.bypassSecurityTrustResourceUrl('assets/arrow_downward.svg'))
   }
 }

@@ -23,12 +23,14 @@
           #sourceCurrencyAuto="matAutocomplete"
           id="cc-source-currency-autocomplete"
         >
-          <mat-option
-            (click)="resetAmounts()"
-            *ngFor="let currency of filteredSourceCurrencies | async"
-            [value]="currency.currencySymbol"
-            >{{ currency.currencySymbol }}</mat-option
-          >
+          <div class="customAutoComplete">
+            <mat-option
+              (click)="resetAmounts()"
+              *ngFor="let currency of filteredSourceCurrencies | async"
+              [value]="currency.currencySymbol"
+              >{{ currency.currencySymbol }}</mat-option
+            >
+          </div>
         </mat-autocomplete>
       </mat-form-field>
       <mat-card-actions>
@@ -36,14 +38,12 @@
           mat-button
           color="primary"
           id="cc-switch-currency"
-          matTooltip="Switch To and From currencies"
+          matTooltip="Swap"
           matTooltipPosition="below"
           (click)="switchCurrencies()"
           [disabled]="shouldDisableSwitcherButton()"
         >
-          <span class="material-icons">
-            swap_vert
-          </span>
+          <mat-icon svgIcon="swap_vertical"></mat-icon>
         </button>
       </mat-card-actions>
       <mat-form-field>
@@ -64,12 +64,14 @@
           #targetCurrencyAuto="matAutocomplete"
           id="cc-target-currency-autocomplete"
         >
-          <mat-option
-            (click)="resetAmounts()"
-            *ngFor="let currency of filteredTargetCurrencies | async"
-            [value]="currency.currencySymbol"
-            >{{ currency.currencySymbol }}</mat-option
-          >
+          <div class="customAutoComplete">
+            <mat-option
+              (click)="resetAmounts()"
+              *ngFor="let currency of filteredTargetCurrencies | async"
+              [value]="currency.currencySymbol"
+              >{{ currency.currencySymbol }}</mat-option
+            >
+          </div>
         </mat-autocomplete>
       </mat-form-field>
       <mat-form-field>
@@ -89,31 +91,27 @@
         <button
           mat-raised-button
           color="primary"
-          matTooltip="Send amount for conversion"
+          matTooltip="Convert"
           matTooltipPosition="below"
           id="convertCurrency"
           type="submit"
           (click)="convertCurrency()"
           [disabled]="shouldDisableConvertButton()"
         >
-          <span class="material-icons">
-            arrow_downward
-          </span>
+          <mat-icon svgIcon="arrow_downward"></mat-icon>
           <br />
         </button>
 
         <button
           mat-raised-button
           color="warn"
-          matTooltip="Clear currencies and amount on the form"
+          matTooltip="Clear Form"
           matTooltipPosition="below"
           id="resetConvertorForm"
           type="reset"
           (click)="resetForm()"
         >
-          <span class="material-icons">
-            refresh
-          </span>
+          <mat-icon svgIcon="refresh"></mat-icon>
           <br />
         </button>
       </mat-card-actions>
@@ -139,7 +137,7 @@
             <li>Validating Support for Currency ...</li>
           </mat-error>
           <mat-error *ngIf="sourceCurrency.errors?.unSupported">
-            <li>This 'From' currency is not supported</li>
+            <li>'From' Currency '{{ sourceCurrency.value }}' is not supported</li>
           </mat-error>
         </mat-error>
         <mat-error *ngIf="targetCurrency.invalid">
@@ -156,7 +154,7 @@
             <li>Validating Support for Currency ...</li>
           </mat-error>
           <mat-error *ngIf="targetCurrency.errors?.unSupported">
-            <li>This 'To' currency is not supported</li>
+            <li>'To' Currency '{{ targetCurrency.value }}' is not supported</li>
           </mat-error>
         </mat-error>
         <mat-error *ngIf="sourceAmount.invalid">
@@ -165,15 +163,16 @@
           </mat-error>
 
           <mat-error *ngIf="sourceAmount.errors.pattern">
-            <li>Amount must be numeric e.g. 0.12</li>
-            <li>Amount must have no commas.</li>
-            <li>Amount must be less than 1 billion</li>
-            <li>Amount must not have 10 or more trailing decimals</li>
+            Amount must
+            <li>be numeric e.g. 0.12</li>
+            <li>have no commas</li>
+            <li>be less than 1 billion</li>
+            <li>not have more than 10 trailing decimals</li>
           </mat-error>
         </mat-error>
       </small>
     </div>
-    <mat-error *ngIf="backendError">
+    <mat-error *ngIf="backendError" class="card-errors">
       <app-currency-card-error [error]="backendError"></app-currency-card-error>
     </mat-error>
     <app-currency-conversion-result></app-currency-conversion-result>

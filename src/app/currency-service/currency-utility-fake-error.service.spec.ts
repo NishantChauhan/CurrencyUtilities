@@ -1,11 +1,10 @@
 import { HttpClientModule } from '@angular/common/http'
 import { TestBed } from '@angular/core/testing'
 import { ResponseStatus } from './../common/base-rates'
-import { CurrencyUtilityErrorService } from './currency-utility-error.service'
-import { CurrencyUtilityFakeService } from './currency-utility-fake.service.'
+import { CurrencyUtilityFakeErrorService } from './currency-utility-fake-error.service'
 import { CurrencyUtilityServiceInterface } from './currency-utility.service'
 
-describe('CurrencyUtilityService Errors', () => {
+describe('CurrencyUtilityService Fake Errors', () => {
   const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,11 +15,11 @@ describe('CurrencyUtilityService Errors', () => {
   })
 
   it('should be created', () => {
-    const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
+    const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeErrorService)
     expect(service).toBeTruthy()
   })
   it('should return Progress Event error', done => {
-    const service: CurrencyUtilityErrorService = TestBed.inject(CurrencyUtilityErrorService)
+    const service: CurrencyUtilityFakeErrorService = TestBed.inject(CurrencyUtilityFakeErrorService)
     let errorResponse: ResponseStatus
     service.getProgressEventErrorOnSupportedCurrencies().subscribe(
       response => {
@@ -35,7 +34,7 @@ describe('CurrencyUtilityService Errors', () => {
     )
   })
   it('should return Backend error', done => {
-    const service: CurrencyUtilityErrorService = TestBed.inject(CurrencyUtilityErrorService)
+    const service: CurrencyUtilityFakeErrorService = TestBed.inject(CurrencyUtilityFakeErrorService)
     let errorResponse: ResponseStatus
     service.getAllSupportedCurrencies().subscribe(
       response => {

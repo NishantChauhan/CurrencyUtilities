@@ -1,5 +1,7 @@
 import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed } from '@angular/core/testing'
+import { MatIconModule } from '@angular/material/icon'
 import { fixedSourceCurrency, fixedTargetCurrency } from 'src/app/common/base-rates'
+import { mockMatIconModule } from 'src/app/common/mock-mat-icons'
 import { exchangeResponse } from 'src/app/mock-response/mock-response'
 import { CurrencyConversionResultComponent } from '../currency-conversion-result/currency-conversion-result.component'
 import { commonTestingModules, commonTestingProviders } from './../../common/common-testing'
@@ -8,12 +10,15 @@ import { ConvertorCardComponent } from './convertor-card.component'
 describe('ConvertorCardComponent', () => {
   let component: ConvertorCardComponent
   let fixture: ComponentFixture<ConvertorCardComponent>
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [commonTestingModules],
       declarations: [ConvertorCardComponent, CurrencyConversionResultComponent],
       providers: commonTestingProviders,
-    }).compileComponents()
+    })
+      .overrideModule(MatIconModule, mockMatIconModule)
+      .compileComponents()
   }))
 
   beforeEach(() => {

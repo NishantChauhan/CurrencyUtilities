@@ -13,7 +13,6 @@ import { fixedSourceCurrency, fixedTargetCurrency } from './../../common/base-ra
   selector: 'app-convertor-card',
   templateUrl: './convertor-card.component.html',
   styleUrls: ['./convertor-card.component.scss'],
-  // encapsulation: ViewEncapsulation.None,
 })
 export class ConvertorCardComponent implements OnInit {
   constructor(

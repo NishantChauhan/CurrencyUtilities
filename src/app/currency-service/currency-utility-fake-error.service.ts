@@ -7,7 +7,7 @@ import { CurrencyUtilityService } from './currency-utility.service'
 @Injectable({
   providedIn: 'root',
 })
-export class CurrencyUtilityErrorService extends CurrencyUtilityService {
+export class CurrencyUtilityFakeErrorService extends CurrencyUtilityService {
   public convertCurrencyGetRequest(): Observable<ConversionRateAPIResponse> {
     const httpError: any = {}
     const errorResponse: HttpErrorResponse = new HttpErrorResponse(httpError)
