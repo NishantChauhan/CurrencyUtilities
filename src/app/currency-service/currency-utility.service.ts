@@ -92,7 +92,6 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       errorResponse.errorCode = httpError.statusText
       errorResponse.errorDescription = 'Its not you, its us. We are working on fixing this for you.'
     } else {
-      console.error(`Backend returned code ${httpError.status}`)
       errorResponse.status = 'Failed'
       errorResponse.errorCode = httpError.error ? httpError.error.errorCode : 'Unknown Error'
       errorResponse.errorDescription = httpError.error ? httpError.error.errorDescription : 'Unknown Error'
