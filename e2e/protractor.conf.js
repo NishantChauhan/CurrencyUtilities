@@ -10,13 +10,12 @@ const HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter'
 
 const reportsDirectory = './reports/backup-UTC-' + new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
 const dashboardReportDirectory = reportsDirectory + '/dashboardReport'
-const detailsReportDirectory = reportsDirectory + '/detailReport'
 
 // For Reports Backup
 const fs = require('fs-extra')
 
 const ScreenshotAndStackReporter = new HtmlScreenshotReporter({
-  dest: detailsReportDirectory,
+  dest: dashboardReportDirectory,
   filename: 'E2ETestingReport.html',
   reportTitle: 'E2E Testing Report',
   showSummary: true,

@@ -8,9 +8,9 @@ const targetPath = './src/environments/environment.standalone.ts'
 const environmentFileContent = `export const environment = {
   production: true,
   standalone: true,
-  supportedCurrencyURL: 'http://data.fixer.io/api/latest?access_key=${process.env.API_KEY}',
-  convertCurrencyURL: 'http://data.fixer.io/api/latest?access_key=${process.env.API_KEY}',
-  cacheExpiryTimeout: 60000 * 60,
+  supportedCurrencyURL: 'http://api.exchangeratesapi.io/latest',
+  convertCurrencyURL: 'http://api.exchangeratesapi.io/latest',
+  cacheExpiryTimeout: 1000 * 60,
 }
 `
 

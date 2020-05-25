@@ -46,19 +46,22 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       if (response.error?.type === 'https_access_restricted') {
         response = mockStandaloneResponse
       }
-      if (response.success) {
+      if (!response.error) {
         backendResponse = []
+        backendResponse.push({ currencyName: response.base, currencySymbol: response.base })
         for (const property in response.rates) {
           const supportedCurrency: Currency = { currencyName: `${property}`, currencySymbol: `${property}` }
           backendResponse.push(supportedCurrency)
         }
+        backendResponse = backendResponse.sort((src, trg) =>
+          src.currencySymbol.localeCompare(trg.currencySymbol, 'en', { ignorePunctuation: true })
+        )
       } else {
         throw new HttpErrorResponse(response)
       }
     } else {
       backendResponse = response
     }
-
     return backendResponse
   }
 
@@ -102,7 +105,8 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       const target = input.targetCurrency
       const amount = input.sourceAmount
 
-      if (response.success) {
+      if (!response.error) {
+        response.rates[response.base] = 1
         const sourceRate = response.rates[source]
         const targetRate = response.rates[target]
         backendResponse = {
@@ -150,6 +154,7 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
     const httpError = isHTTPError ? error : undefined
 
     errorResponse.status = 'Failed'
+
     if (isHTTPError && httpError.error instanceof ProgressEvent) {
       errorResponse.errorCode = httpError.statusText
       errorResponse.errorDescription = 'Its not you, its us. We are working on fixing this for you.'

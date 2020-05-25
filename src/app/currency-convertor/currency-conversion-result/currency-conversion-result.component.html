@@ -11,11 +11,18 @@
       </b>
     </div>
     <small>
-      Last updated: {{ convertedCurrency.exchangeResultDate | date: 'd-LLL-y' }}
-      <br />
       Rate 1 {{ convertedCurrency.sourceCurrency }} =
       <span id="result-rate">{{ convertedCurrency.exchangeRate | number: '0.0-10' }}</span>
       {{ convertedCurrency.targetCurrency }}
+      <br />
+      Last updated: {{ convertedCurrency.exchangeResultDate | date: 'd-LLL-y' }}
+      <br />
+      Source:&nbsp;
+      <a
+        class="exchange-source"
+        href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+        >European Central Bank</a
+      >
     </small>
   </div>
 </div>

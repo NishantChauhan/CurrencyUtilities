@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-import { fixedSourceCurrency, fixedTargetCurrency } from 'src/app/common/base-rates'
+import { fixedTargetCurrency } from 'src/app/common/base-rates'
 import { ConvertedCurrency } from 'src/app/common/currency-conversion'
+import { fixedSourceCurrency } from './../../common/base-rates'
 import { commonTestingModules, commonTestingProviders } from './../../common/common-testing'
 import { CurrencyConversionResultComponent } from './currency-conversion-result.component'
 
@@ -48,21 +49,14 @@ describe('CurrencyConversionResultComponent', () => {
 
   it('should show the conversion message in the result view', () => {
     const resultAlert = fixture.nativeElement.querySelector('.result-container')
-    expect(resultAlert.textContent).toBe(
-      '1 ' +
-        fixedSourceCurrency.currencySymbol +
-        ' equals' +
-        convertedCurrency.exchangeRate +
-        ' ' +
-        fixedTargetCurrency.currencySymbol +
-        ' Last updated: 1-Apr-2020  Rate 1 ' +
-        fixedSourceCurrency.currencySymbol +
-        ' = ' +
-        convertedCurrency.exchangeRate +
-        ' ' +
-        fixedTargetCurrency.currencySymbol +
-        ' '
-    )
+    const resultText: string = resultAlert.textContent
+    const targetAmountPattern = new RegExp('\\d+(\\.\\d+)?.' + fixedTargetCurrency.currencySymbol, 'g')
+    const source = resultText.match(/1.[A-Z]{3}/g)[1].split(' ')[1]
+    const amount = resultText.match(targetAmountPattern)[0].split(' ')[0]
+    const rate = resultText.match(targetAmountPattern)[1].split(' ')[0]
+
+    expect(source).toBe(fixedSourceCurrency.currencySymbol)
+    expect(amount).toBe(rate)
   })
   afterEach(() => {})
 })

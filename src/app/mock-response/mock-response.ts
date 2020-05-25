@@ -15,8 +15,6 @@ export const exchangeResponse: ConversionRateAPIResponse = {
   },
 }
 export const mockStandaloneResponse = {
-  success: true,
-  timestamp: 1584093246,
   base: 'EUR',
   date: 'Mar 13, 2020, 12:00:00 AM',
   rates: {

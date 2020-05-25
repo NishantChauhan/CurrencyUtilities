@@ -146,3 +146,14 @@ Here's a starter list of developer norms:
     1. Added mapping from currency provider objects to local objects.
     2. Added support for error handling structures from currency provider.
     3. Added meta tag "Content-Security-Policy" content="upgrade-insecure-requests"
+
+* 2020-05-27 07:51:31 - Added New Currency Provider
+
+  * Updates
+    1. Moved from fixer.io to exchangeratesapi.io
+  * Enhancement
+    1. Added karma spec reporter to print summary on console
+    2. Displayed currency provider URL and changed the result component
+    3. Updated Angular Dependencies
+  * Defects
+    1. Fixed issue with screenshot reporter

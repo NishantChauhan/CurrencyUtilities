@@ -12,12 +12,9 @@ export const environment = {
 // export const environment = {
 //   production: false,
 //   standalone: true,
-//   supportedCurrencyURL: 'http://localhost:5000/latest?access_key=0',
-//   convertCurrencyURL: 'http://localhost:5000/latest?access_key=0',
-//   // supportedCurrencyURL: 'http://data.fixer.io/api/latest?access_key=0',
-//   // convertCurrencyURL: 'http://data.fixer.io/api/latest?access_key=0',
-
-//   cacheExpiryTimeout: 60000 * 60,
+//   supportedCurrencyURL: 'https://api.exchangeratesapi.io/latest',
+//   convertCurrencyURL: 'https://api.exchangeratesapi.io/latest',
+//   cacheExpiryTimeout: 60 * 1000,
 // }
 
 /*
