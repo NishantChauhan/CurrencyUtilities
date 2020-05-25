@@ -16,17 +16,17 @@ describe('CurrencyConversionResultComponent', () => {
     }).compileComponents()
   }))
 
+  const convertedCurrency: ConvertedCurrency = {
+    sourceCurrency: fixedSourceCurrency.currencySymbol,
+    targetCurrency: fixedTargetCurrency.currencySymbol,
+    sourceAmount: 1,
+    targetAmount: 51.76,
+    exchangeRate: 51.76,
+    exchangeResultDate: new Date('2020-04-01 01:02:03'),
+  }
   beforeEach(() => {
     fixture = TestBed.createComponent(CurrencyConversionResultComponent)
     component = fixture.componentInstance
-    const convertedCurrency: ConvertedCurrency = {
-      sourceCurrency: fixedSourceCurrency.currencySymbol,
-      targetCurrency: fixedTargetCurrency.currencySymbol,
-      sourceAmount: 1,
-      targetAmount: 51.76,
-      exchangeRate: 51.76,
-      exchangeResultDate: new Date('2020-04-01 01:02:03'),
-    }
     component.updateConversionResult(convertedCurrency)
     fixture.detectChanges()
   })
@@ -37,7 +37,7 @@ describe('CurrencyConversionResultComponent', () => {
 
   it('should show converted amount in result view', () => {
     const resultAmount = fixture.nativeElement.querySelector('.convertor-alert-success')
-    expect(resultAmount.textContent).toBe('51.76 INR')
+    expect(resultAmount.textContent).toBe(convertedCurrency.exchangeRate + ' ' + fixedTargetCurrency.currencySymbol)
   })
   it('should show not show result view for null convertedCurrency', () => {
     component.convertedCurrency = null
@@ -49,7 +49,19 @@ describe('CurrencyConversionResultComponent', () => {
   it('should show the conversion message in the result view', () => {
     const resultAlert = fixture.nativeElement.querySelector('.result-container')
     expect(resultAlert.textContent).toBe(
-      '1 CAD equals' + '51.76 INR as of Apr 1, 2020, 1:02:03 AM  Rate 1 CAD = 51.76 INR '
+      '1 ' +
+        fixedSourceCurrency.currencySymbol +
+        ' equals' +
+        convertedCurrency.exchangeRate +
+        ' ' +
+        fixedTargetCurrency.currencySymbol +
+        ' Last updated: 1-Apr-2020  Rate 1 ' +
+        fixedSourceCurrency.currencySymbol +
+        ' = ' +
+        convertedCurrency.exchangeRate +
+        ' ' +
+        fixedTargetCurrency.currencySymbol +
+        ' '
     )
   })
   afterEach(() => {})

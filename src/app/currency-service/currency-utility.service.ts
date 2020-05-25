@@ -1,11 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
-import { catchError, shareReplay } from 'rxjs/operators'
+import { catchError, map, shareReplay } from 'rxjs/operators'
 import { environment } from 'src/environments/environment'
-import { ConversionRateAPIResponse, Currency } from '../common/base-rates'
+import { ConversionRateAPIResponse, Currency, StandaloneAPIErrorResponse } from '../common/base-rates'
 import { ConvertedCurrency, CurrencyConvertorInput } from '../common/currency-conversion'
 import { ResponseStatus } from './../common/base-rates'
+import { mockStandaloneResponse } from './../mock-response/mock-response'
 
 export interface CurrencyUtilityServiceInterface {
   convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency>
@@ -25,6 +26,7 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       return this.supportedCurrencies$
     }
     this.supportedCurrencies$ = this.supportedCurrencyGetRequest().pipe(
+      map(response => this.mapSupportedCurrencies(response)),
       shareReplay(1),
       catchError(httpError => {
         delete this.supportedCurrencies$
@@ -35,9 +37,29 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
     return this.supportedCurrencies$
   }
 
-  protected supportedCurrencyGetRequest(): Observable<Currency[]> {
-    const uri = 'currency/rates/supportedCurrencies'
-    return this.httpClient.get<Currency[]>(`${environment.backendURL}${uri}`)
+  protected supportedCurrencyGetRequest(): Observable<any> {
+    return this.httpClient.get<any>(`${environment.supportedCurrencyURL}`)
+  }
+  protected mapSupportedCurrencies(response: any): Currency[] {
+    let backendResponse: Currency[]
+    if (environment.standalone) {
+      if (response.error?.type === 'https_access_restricted') {
+        response = mockStandaloneResponse
+      }
+      if (response.success) {
+        backendResponse = []
+        for (const property in response.rates) {
+          const supportedCurrency: Currency = { currencyName: `${property}`, currencySymbol: `${property}` }
+          backendResponse.push(supportedCurrency)
+        }
+      } else {
+        throw new HttpErrorResponse(response)
+      }
+    } else {
+      backendResponse = response
+    }
+
+    return backendResponse
   }
 
   public getConvertedCurrencyFromAPI(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
@@ -49,7 +71,14 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       return this.conversionResponseCache$[key].value
     }
 
-    const conversionResponse = this.convertCurrencyGetRequest(input).pipe(
+    const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`
+
+    const uri = environment.standalone
+      ? `${environment.convertCurrencyURL}`
+      : `${environment.convertCurrencyURL}${uriParams}`
+
+    const conversionResponse = this.convertCurrencyGetRequest(uri).pipe(
+      map(response => this.mapConversionResponse(input, response)),
       shareReplay(1),
       catchError(httpError => {
         delete this.conversionResponseCache$[key]
@@ -59,11 +88,41 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
     this.conversionResponseCache$[key] = { created: Date.now(), value: conversionResponse }
     return conversionResponse
   }
-  protected convertCurrencyGetRequest(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
-    const uriParams = `?Amount=${input.sourceAmount}&From=${input.sourceCurrency}&To=${input.targetCurrency}`
-    return this.httpClient.get<ConversionRateAPIResponse>(
-      `${environment.backendURL}currency/converter/convert${uriParams}`
-    )
+  protected convertCurrencyGetRequest(uri: string): Observable<any> {
+    return this.httpClient.get<any>(`${uri}`)
+  }
+  mapConversionResponse(input: CurrencyConvertorInput, response: any): ConversionRateAPIResponse {
+    let backendResponse: ConversionRateAPIResponse
+    if (environment.standalone) {
+      if (response.error?.type === 'https_access_restricted') {
+        response = mockStandaloneResponse
+      }
+
+      const source = input.sourceCurrency
+      const target = input.targetCurrency
+      const amount = input.sourceAmount
+
+      if (response.success) {
+        const sourceRate = response.rates[source]
+        const targetRate = response.rates[target]
+        backendResponse = {
+          from: source,
+          to: target,
+          amount: amount,
+          conversionRate: targetRate / sourceRate,
+          result: (amount * targetRate) / sourceRate,
+          responseStatus: {
+            status: 'Success',
+          },
+          rateAsOf: response.date,
+        }
+      } else {
+        throw new HttpErrorResponse(response)
+      }
+    } else {
+      backendResponse = response
+    }
+    return backendResponse
   }
 
   public convertCurrency(input: CurrencyConvertorInput): Observable<ConvertedCurrency> {
@@ -85,16 +144,28 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
       )
     })
   }
-  protected handleError(httpError: HttpErrorResponse) {
+  protected handleError(error: any) {
     const errorResponse: ResponseStatus = new ResponseStatus()
-    if (httpError.error instanceof ProgressEvent) {
-      errorResponse.status = 'Failed'
+    const isHTTPError = error instanceof HttpErrorResponse
+    const httpError = isHTTPError ? error : undefined
+
+    errorResponse.status = 'Failed'
+    if (isHTTPError && httpError.error instanceof ProgressEvent) {
       errorResponse.errorCode = httpError.statusText
       errorResponse.errorDescription = 'Its not you, its us. We are working on fixing this for you.'
+    } else if (isHTTPError && httpError.error) {
+      if (httpError.error.code) {
+        const standAloneError: StandaloneAPIErrorResponse = httpError.error
+        errorResponse.errorCode = standAloneError.type
+        errorResponse.errorDescription = standAloneError.info
+      }
+      if (httpError.error.errorCode && httpError.error.errorDescription) {
+        errorResponse.errorCode = httpError.error.errorCode
+        errorResponse.errorDescription = httpError.error.errorDescription
+      }
     } else {
-      errorResponse.status = 'Failed'
-      errorResponse.errorCode = httpError.error ? httpError.error.errorCode : 'Unknown Error'
-      errorResponse.errorDescription = httpError.error ? httpError.error.errorDescription : 'Unknown Error'
+      errorResponse.errorCode = 'Unknown Error'
+      errorResponse.errorDescription = 'Unknown Error'
     }
 
     return throwError(errorResponse)

@@ -30,3 +30,9 @@ export class Currency {
   currencyName: string
   currencySymbol: string
 }
+
+export class StandaloneAPIErrorResponse {
+  code: number
+  type: string
+  info: string
+}

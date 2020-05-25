@@ -10,11 +10,12 @@
         >
       </b>
     </div>
-    as of {{ convertedCurrency.exchangeResultDate | date: 'medium' }}
-
-    <br />
-    Rate 1 {{ convertedCurrency.sourceCurrency }} =
-    <span id="result-rate">{{ convertedCurrency.exchangeRate | number: '0.0-10' }}</span>
-    {{ convertedCurrency.targetCurrency }}
+    <small>
+      Last updated: {{ convertedCurrency.exchangeResultDate | date: 'd-LLL-y' }}
+      <br />
+      Rate 1 {{ convertedCurrency.sourceCurrency }} =
+      <span id="result-rate">{{ convertedCurrency.exchangeRate | number: '0.0-10' }}</span>
+      {{ convertedCurrency.targetCurrency }}
+    </small>
   </div>
 </div>

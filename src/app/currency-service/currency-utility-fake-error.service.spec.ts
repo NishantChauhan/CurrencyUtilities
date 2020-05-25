@@ -33,13 +33,23 @@ describe('CurrencyUtilityService Fake Errors', () => {
       }
     )
   })
-  it('should return Backend error', done => {
+  it('should return Backend error for Supported Currency', done => {
     const service: CurrencyUtilityFakeErrorService = TestBed.inject(CurrencyUtilityFakeErrorService)
     let errorResponse: ResponseStatus
     service.getAllSupportedCurrencies().subscribe(
-      response => {
-        response
-      },
+      () => {},
+      error => {
+        errorResponse = error
+        expect(errorResponse).toBeTruthy()
+        done()
+      }
+    )
+  })
+  it('should return Backend error for Convert Currency', done => {
+    const service: CurrencyUtilityFakeErrorService = TestBed.inject(CurrencyUtilityFakeErrorService)
+    let errorResponse: ResponseStatus
+    service.convertCurrencyGetRequest().subscribe(
+      () => {},
       error => {
         errorResponse = error
         expect(errorResponse).toBeTruthy()

@@ -4,9 +4,21 @@
 
 export const environment = {
   production: false,
-  backendURL: 'http://localhost:5000/api/v1/',
+  standalone: false,
+  supportedCurrencyURL: 'http://localhost:5000/api/v1/currency/rates/supportedCurrencies',
+  convertCurrencyURL: 'http://localhost:5000/api/v1/currency/converter/convert',
   cacheExpiryTimeout: 10000,
 }
+// export const environment = {
+//   production: false,
+//   standalone: true,
+//   supportedCurrencyURL: 'http://localhost:5000/latest?access_key=0',
+//   convertCurrencyURL: 'http://localhost:5000/latest?access_key=0',
+//   // supportedCurrencyURL: 'http://data.fixer.io/api/latest?access_key=0',
+//   // convertCurrencyURL: 'http://data.fixer.io/api/latest?access_key=0',
+
+//   cacheExpiryTimeout: 60000 * 60,
+// }
 
 /*
  * For easier debugging in development mode, you can import the following file

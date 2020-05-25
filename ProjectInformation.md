@@ -139,3 +139,10 @@ Here's a starter list of developer norms:
   * Defects
     1. Fixed alignment on Firefox for mat-card-actions
     2. Mocked Mat Icon Module to remove errors in UT
+
+* 2020-05-25 13:36:42 - Added support for standalone angular server deployment pointing directly to currency provider.
+
+  * Updates
+    1. Added mapping from currency provider objects to local objects.
+    2. Added support for error handling structures from currency provider.
+    3. Added meta tag "Content-Security-Policy" content="upgrade-insecure-requests"

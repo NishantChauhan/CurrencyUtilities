@@ -9,8 +9,8 @@ import { CurrencyUtilityService } from './currency-utility.service'
 })
 export class CurrencyUtilityFakeErrorService extends CurrencyUtilityService {
   public convertCurrencyGetRequest(): Observable<ConversionRateAPIResponse> {
-    const httpError: any = {}
-    const errorResponse: HttpErrorResponse = new HttpErrorResponse(httpError)
+    const error: any = new Error('Method Not Supported')
+    const errorResponse: HttpErrorResponse = new HttpErrorResponse(error)
     return this.handleError(errorResponse)
   }
   public supportedCurrencyGetRequest(): Observable<Currency[]> {

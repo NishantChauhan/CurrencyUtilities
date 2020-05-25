@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http'
 import { TestBed } from '@angular/core/testing'
 import { Observable } from 'rxjs'
-import { ConversionRateAPIResponse, Currency } from '../common/base-rates'
+import { ConversionRateAPIResponse, Currency, fixedSourceCurrency, fixedTargetCurrency } from '../common/base-rates'
 import { CurrencyConvertorInput } from '../common/currency-conversion'
 import { exchangeResponse } from '../mock-response/mock-response'
 import { environment } from './../../environments/environment'
@@ -28,8 +28,8 @@ describe('CurrencyUtilityService', () => {
       supportedCurrencies = response
       expect(supportedCurrencies).toBeTruthy()
       expect(supportedCurrencies).toContain({
-        currencyName: 'CAD',
-        currencySymbol: 'CAD',
+        currencyName: fixedSourceCurrency.currencySymbol,
+        currencySymbol: fixedSourceCurrency.currencySymbol,
       })
       done()
     })
@@ -43,8 +43,8 @@ describe('CurrencyUtilityService', () => {
       supportedCurrencies = response
       expect(supportedCurrencies).toBeTruthy()
       expect(supportedCurrencies).toContain({
-        currencyName: 'CAD',
-        currencySymbol: 'CAD',
+        currencyName: fixedSourceCurrency.currencySymbol,
+        currencySymbol: fixedSourceCurrency.currencySymbol,
       })
       done()
     })
@@ -61,8 +61,8 @@ describe('CurrencyUtilityService', () => {
     const service: CurrencyUtilityService = TestBed.inject(CurrencyUtilityService)
     const inputCurrency: CurrencyConvertorInput = {
       sourceAmount: 1,
-      sourceCurrency: 'CAD',
-      targetCurrency: 'INR',
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
     }
 
     const exchangeAPIEndpoint: Observable<ConversionRateAPIResponse> = service.getConvertedCurrencyFromAPI(
@@ -71,33 +71,42 @@ describe('CurrencyUtilityService', () => {
     expect(exchangeAPIEndpoint).toBeTruthy()
   })
 
-  it('should be convert 1000 CAD to ' + exchangeResponse.result + ' INR', done => {
-    const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
-    const inputCurrency: CurrencyConvertorInput = {
-      sourceAmount: 1000,
-      sourceCurrency: 'CAD',
-      targetCurrency: 'INR',
+  it(
+    'should be convert 1000 ' +
+      fixedSourceCurrency.currencySymbol +
+      ' to ' +
+      exchangeResponse.result +
+      ' ' +
+      fixedTargetCurrency.currencySymbol +
+      '',
+    done => {
+      const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
+      const inputCurrency: CurrencyConvertorInput = {
+        sourceAmount: 1000,
+        sourceCurrency: fixedSourceCurrency.currencySymbol,
+        targetCurrency: fixedTargetCurrency.currencySymbol,
+      }
+      let convertedCurrency
+      service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
+        convertedCurrency = result
+      })
+      expect(convertedCurrency).toBeTruthy()
+      expect(convertedCurrency.targetAmount.toFixed(10)).toBe(
+        (inputCurrency.sourceAmount * exchangeResponse.conversionRate).toFixed(10)
+      )
+      expect(convertedCurrency.targetCurrency).toBe(inputCurrency.targetCurrency)
+      expect(convertedCurrency.sourceCurrency).toBe(inputCurrency.sourceCurrency)
+      expect(convertedCurrency.sourceAmount).toBe(exchangeResponse.amount)
+      done()
     }
-    let convertedCurrency
-    service.convertCurrency(inputCurrency).subscribe((result: ConvertedCurrency) => {
-      convertedCurrency = result
-    })
-    expect(convertedCurrency).toBeTruthy()
-    expect(convertedCurrency.targetAmount.toFixed(10)).toBe(
-      (inputCurrency.sourceAmount * exchangeResponse.conversionRate).toFixed(10)
-    )
-    expect(convertedCurrency.targetCurrency).toBe(inputCurrency.targetCurrency)
-    expect(convertedCurrency.sourceCurrency).toBe(inputCurrency.sourceCurrency)
-    expect(convertedCurrency.sourceAmount).toBe(exchangeResponse.amount)
-    done()
-  })
+  )
 
   it('should cache conversion result', () => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     const inputCurrency: CurrencyConvertorInput = {
       sourceAmount: 1000,
-      sourceCurrency: 'CAD',
-      targetCurrency: 'INR',
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
     }
     let firstConvertedCurrency: ConvertedCurrency
     service
@@ -128,8 +137,8 @@ describe('CurrencyUtilityService', () => {
     const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
     const inputCurrency: CurrencyConvertorInput = {
       sourceAmount: 1000,
-      sourceCurrency: 'CAD',
-      targetCurrency: 'INR',
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
     }
     let firstConvertedCurrency: ConvertedCurrency
     service

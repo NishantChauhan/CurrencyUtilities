@@ -17,7 +17,7 @@ export class CurrencySupportValidator implements AsyncValidator {
         )
         return filteredList.length > 0 ? null : { unSupported: true }
       }),
-      catchError(() => of(null))
+      catchError(httpError => of({ error: httpError }))
     )
     return supportedCurrency
   }
