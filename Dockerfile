@@ -5,7 +5,7 @@ RUN apk add --no-cache nodejs nodejs-npm bash chromium nss chromium-chromedriver
     && apk upgrade --no-cache --available
 WORKDIR /currency-app
 COPY . /currency-app
-RUN npm install && npm run ci-test && npm run build
+RUN npm ci && npm run build
 
 FROM nginx:1.17.1-alpine AS PACKAGE
 RUN rm -rf /usr/share/nginx/html/*

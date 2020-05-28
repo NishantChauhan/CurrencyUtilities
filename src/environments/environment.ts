@@ -9,14 +9,6 @@ export const environment = {
   convertCurrencyURL: 'http://localhost:5000/api/v1/currency/converter/convert',
   cacheExpiryTimeout: 10000,
 }
-// export const environment = {
-//   production: false,
-//   standalone: true,
-//   supportedCurrencyURL: 'https://api.exchangeratesapi.io/latest',
-//   convertCurrencyURL: 'https://api.exchangeratesapi.io/latest',
-//   cacheExpiryTimeout: 60 * 1000,
-// }
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

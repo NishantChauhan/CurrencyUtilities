@@ -20,7 +20,7 @@
     "test-f": "npm run prettier && ng test --browsers Firefox",
     "test-e": "npm run prettier && ng test --browsers Edge",
     "test-h": "npm run prettier && ng test --browsers ChromeHeadless",
-    "ci-e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js --devServerTarget=",
+    "ci-e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js --prod",
     "ci-test": "npm run prettier && ng test --karmaConfig=src/karma-ci.conf.js --watch false",
     "env-config": "ts-node ./src/environments/set-standalone-env.ts",
     "sa-start": "npm run env-config && ng serve --port 4000 --configuration=standalone",

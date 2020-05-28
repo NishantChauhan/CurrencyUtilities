@@ -1,4 +1,3 @@
-/* eslint-disable strict */
 const config = require('./protractor.conf').config
 
 config.capabilities = {
