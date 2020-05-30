@@ -52,6 +52,11 @@ describe('Currency Convertor Card', () => {
   })
 
   afterEach(async () => {
+    const capabilities = await browser.getCapabilities()
+    const browserName = capabilities.get('browserName')
+    if (!(browserName === 'chrome')) {
+      return
+    }
     const logs = await browser.manage().logs().get(logging.Type.BROWSER)
     expect(logs).not.toContain(
       jasmine.objectContaining({

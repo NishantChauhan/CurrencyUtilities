@@ -1,11 +1,7 @@
 const config = require('./protractor.conf').config
+const ciMultiBrowsers = require('./browserConfig').ciMultiBrowsers
 
-config.capabilities = {
-  browserName: 'chrome',
-  chromeOptions: {
-    args: ['--no-sandbox', '--test-type', '--headless', '--disable-gpu', '--window-size=800x600'],
-  },
-}
+config.capabilities = ciMultiBrowsers
 config.directConnect = true
 config.chromeDriver = '/usr/bin/chromedriver'
 config.useAllAngular2AppRoots = true

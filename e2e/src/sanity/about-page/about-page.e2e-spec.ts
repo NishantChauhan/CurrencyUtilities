@@ -6,13 +6,17 @@ describe('About Page', () => {
   beforeEach(() => {
     page = new CurrencyUtilitiesAboutPage()
   })
-  it('should show about page', () => {
-    it('should navigate to home page on clicking About Page navigation link', () => {
-      page.navigateTo()
-      expect(page.getCurrentUrl()).toEqual(page.getAboutPageUrl())
-    })
+
+  it('should navigate to home page on clicking About Page navigation link', async () => {
+    page.navigateTo()
+    expect(page.getCurrentUrl()).toEqual(page.getAboutPageUrl())
   })
   afterEach(async () => {
+    const capabilities = await browser.getCapabilities()
+    const browserName = capabilities.get('browserName')
+    if (!(browserName === 'chrome')) {
+      return
+    }
     const logs = await browser.manage().logs().get(logging.Type.BROWSER)
     expect(logs).not.toContain(
       jasmine.objectContaining({

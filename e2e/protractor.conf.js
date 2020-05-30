@@ -5,33 +5,19 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 const { SpecReporter } = require('jasmine-spec-reporter')
+const browserConfig = require('./browserConfig')
 const jasmineReporters = require('jasmine-reporters')
-const HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter')
-
-const reportsDirectory = './reports/backup-UTC-' + new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
+const dateString = new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
+const reportsDirectory = './reports/backup-UTC-' + dateString
 const dashboardReportDirectory = reportsDirectory + '/dashboardReport'
 
 // For Reports Backup
 const fs = require('fs-extra')
 
-const ScreenshotAndStackReporter = new HtmlScreenshotReporter({
-  dest: dashboardReportDirectory,
-  filename: 'E2ETestingReport.html',
-  reportTitle: 'E2E Testing Report',
-  showSummary: true,
-  reportOnlyFailedSpecs: false,
-  captureOnlyFailedSpecs: true,
-})
-
 exports.config = {
   allScriptsTimeout: 11000,
   specs: ['./src/**/*.e2e-spec.ts'],
-  capabilities: {
-    browserName: 'chrome',
-    chromeOptions: {
-      args: ['--test-type'],
-    },
-  },
+  multiCapabilities: browserConfig.multiBrowsers,
   suites: {
     sanity: ['./src/sanity/**/*e2e-spec.ts'],
     all: ['./src/**/*.e2e-spec.ts'],
@@ -45,17 +31,12 @@ exports.config = {
     defaultTimeoutInterval: 30000,
     print: function () {},
   },
-  beforeLaunch: function () {
-    return new Promise(function (resolve) {
-      ScreenshotAndStackReporter.beforeLaunch(resolve)
-    })
-  },
   onPrepare: function () {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.e2e.json'),
     })
+
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }))
-    jasmine.getEnv().addReporter(ScreenshotAndStackReporter)
 
     jasmine.getEnv().addReporter(
       new jasmineReporters.JUnitXmlReporter({
@@ -98,7 +79,7 @@ exports.config = {
       testConfig = {
         reportTitle: 'Protractor Test Execution Report',
         outputPath: dashboardReportDirectory,
-        outputFilename: 'index',
+        outputFilename: browserName + '-index',
         screenshotPath: './',
         testBrowser: browserName,
         browserVersion: browserVersion,
