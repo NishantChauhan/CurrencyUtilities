@@ -67,10 +67,17 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
 
   public getConvertedCurrencyFromAPI(input: CurrencyConvertorInput): Observable<ConversionRateAPIResponse> {
     const key = input.sourceCurrency + '-' + input.targetCurrency
-    if (
-      this.conversionResponseCache$[key] &&
-      this.conversionResponseCache$[key].created + environment.cacheExpiryTimeout > Date.now()
-    ) {
+    const cachedResponse$ = this.conversionResponseCache$[key]
+    if (this.cacheIsPresentAndUnexpired(cachedResponse$)) {
+      this.conversionResponseCache$[key].value = cachedResponse$.value.pipe(
+        map((response: ConversionRateAPIResponse) => {
+          const newResponse: ConversionRateAPIResponse = { ...response }
+          newResponse.result = response.conversionRate * input.sourceAmount
+          newResponse.amount = input.sourceAmount
+          return newResponse
+        })
+      )
+
       return this.conversionResponseCache$[key].value
     }
 
@@ -91,6 +98,10 @@ export class CurrencyUtilityService implements CurrencyUtilityServiceInterface {
     this.conversionResponseCache$[key] = { created: Date.now(), value: conversionResponse }
     return conversionResponse
   }
+  private cacheIsPresentAndUnexpired(cachedResponse: any) {
+    return cachedResponse && cachedResponse.created + environment.cacheExpiryTimeout > Date.now()
+  }
+
   protected convertCurrencyGetRequest(uri: string): Observable<any> {
     return this.httpClient.get<any>(`${uri}`)
   }

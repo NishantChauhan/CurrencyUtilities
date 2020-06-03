@@ -58,8 +58,7 @@ export class ConvertorCardComponent implements OnInit {
       },
     ],
   })
-  public void
-  ngOnInit() {
+  public ngOnInit() {
     this.disableConvertButton()
     this.utilityService.getAllSupportedCurrencies().subscribe(
       (response: Currency[]) => {
