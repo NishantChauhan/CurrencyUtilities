@@ -5,13 +5,13 @@
     "ng": "ng",
     "start": "ng serve --port 4000",
     "build": "npm run lint && ng build --configuration=production",
-    "sanity": "npm run lint && ng test --watch false && ng e2e --port 4001 --suite sanity",
+    "sanity": "npm run lint && ng test --watch false && webdriver-manager update && ng e2e --port 4001 --suite sanity",
     "dev-coverage": "ng test --code-coverage  --browsers Chrome",
     "dev-e2e": "ng e2e --devServerTarget=",
     "dev-test": "ng test --browsers Chrome",
     "lint": " npm run prettier && npm run cspell && npm run eslint && ng lint ",
     "prettier": "prettier --write src/**/*.{ts,js,html,css} && prettier --write e2e/**/*.{ts,js}",
-    "e2e": "ng e2e --port 4001",
+    "e2e": "webdriver-manager update && ng e2e --port 4001",
     "test": "ng test --watch false",
     "coverage": "ng test --code-coverage --watch false  --browsers ChromeHeadless",
     "cspell": "cspell -- --no-summary  src/**/*.{ts,js,html,css} && cspell -- --no-summary e2e/**/*.{ts,js}",
@@ -20,7 +20,8 @@
     "test-f": "npm run prettier && ng test --browsers Firefox",
     "test-e": "npm run prettier && ng test --browsers Edge",
     "test-h": "npm run prettier && ng test --browsers ChromeHeadless",
-    "ci-e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
+    "prod-e2e": "protractor e2e/protractor-prod.conf.js",
+    "ci-sa-e2e": "npm run env-config && ng e2e --protractor-config=e2e/protractor-ci.conf.js --configuration=standalone",
     "ci-test": "npm run prettier && ng test --karmaConfig=src/karma-ci.conf.js --watch false",
     "env-config": "ts-node ./src/environments/set-standalone-env.ts",
     "sa-start": "npm run env-config && ng serve --port 4000 --configuration=standalone",
@@ -84,7 +85,8 @@
     "tslint": "~6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "vercel": "^19.0.1"
   },
   "husky": {
     "hooks": {

@@ -13,7 +13,7 @@
   "editor.minimap.enabled": false,
   "html.autoClosingTags": false,
   "git.confirmSync": false,
-  "editor.formatOnType": true,
+  "editor.formatOnType": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
 
