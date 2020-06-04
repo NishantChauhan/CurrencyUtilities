@@ -9,7 +9,7 @@ describe('Currency Convertor Card', () => {
     cardPage.navigateTo()
   })
 
-  it('should show Currency Convertor Card Title', () => {
+  it('should show Currency Convertor as Card Title', () => {
     expect(cardPage.getCardTitle()).toEqual('Currency Convertor')
   })
   it('should show source amount as 1 on load', () => {
@@ -33,11 +33,11 @@ describe('Currency Convertor Card', () => {
     }
   )
   it(
-    'should switch currency making ' +
+    'should switch currency on switcher button click, must show "To" as "' +
       fixedSourceCurrency.currencySymbol +
-      ' as To  and  ' +
+      '" and From as "' +
       fixedTargetCurrency.currencySymbol +
-      ' as From on switcher button click',
+      '"',
     () => {
       cardPage.getSwitcherButton().click()
       expect(cardPage.getSourceCurrency()).toBe(fixedTargetCurrency.currencySymbol)

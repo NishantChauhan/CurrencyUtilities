@@ -49,3 +49,6 @@ Thumbs.db
 .vscode/tasks.json
 ToDo.txt
 *.log
+
+# Vercel
+.vercel

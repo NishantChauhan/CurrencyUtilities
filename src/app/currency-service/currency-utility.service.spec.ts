@@ -166,6 +166,55 @@ describe('CurrencyUtilityService', () => {
     expect(secondConvertedCurrency.sourceAmount).toBe(exchangeResponse.amount)
   })
 
+  it('should use cached exchange rate but not cached conversion result in subsequent conversions', () => {
+    const service: CurrencyUtilityServiceInterface = TestBed.inject(CurrencyUtilityFakeService)
+
+    // First Conversion
+    const firstInput: CurrencyConvertorInput = {
+      sourceAmount: 1000,
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
+    }
+    let firstConversionResult: ConvertedCurrency
+    service
+      .convertCurrency(firstInput)
+      .subscribe((result: ConvertedCurrency) => {
+        firstConversionResult = result
+      })
+      .unsubscribe()
+    expect(firstConversionResult).toBeTruthy()
+    expect(firstConversionResult.targetAmount.toFixed(10)).toBe(
+      (firstInput.sourceAmount * exchangeResponse.conversionRate).toFixed(10)
+    )
+    expect(firstConversionResult.targetCurrency).toBe(firstInput.targetCurrency)
+    expect(firstConversionResult.sourceCurrency).toBe(firstInput.sourceCurrency)
+    expect(firstConversionResult.sourceAmount).toBe(firstInput.sourceAmount)
+
+    // Second Conversion with updated amount
+    const secondInput: CurrencyConvertorInput = {
+      sourceAmount: 200,
+      sourceCurrency: fixedSourceCurrency.currencySymbol,
+      targetCurrency: fixedTargetCurrency.currencySymbol,
+    }
+
+    // Second Conversion
+    let secondConversionResult: ConvertedCurrency
+    service
+      .convertCurrency(secondInput)
+      .subscribe((result: ConvertedCurrency) => {
+        secondConversionResult = result
+      })
+      .unsubscribe()
+    expect(secondConversionResult).toBeTruthy()
+    expect(secondConversionResult.targetAmount.toFixed(10)).toBe(
+      (secondInput.sourceAmount * exchangeResponse.conversionRate).toFixed(10)
+    )
+    expect(firstConversionResult.exchangeRate).toEqual(secondConversionResult.exchangeRate)
+    expect(secondConversionResult.targetCurrency).toBe(secondInput.targetCurrency)
+    expect(secondConversionResult.sourceCurrency).toBe(secondInput.sourceCurrency)
+    expect(secondConversionResult.sourceAmount).toBe(secondInput.sourceAmount)
+  })
+
   afterEach(() => {
     jasmine.clock().uninstall()
   })
