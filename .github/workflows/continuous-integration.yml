@@ -1,0 +1,34 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Using Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install CI dependencies
+        run: npm ci
+      - name: Standalone Angular Build
+        run: npm run sa-build --if-present
+      - name: Unit Test - Standalone
+        run: npm run ci-test --if-present
+        env:
+          CI: true
+      - name: Update Web Drivers
+        run: npx webdriver-manager update
+      - name: End 2 End Test - Standalone
+        run: npm run ci-sa-e2e --if-present

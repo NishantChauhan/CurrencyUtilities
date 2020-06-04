@@ -24,6 +24,8 @@ const headlessFirefox = {
   marionette: true,
   'moz:firefoxOptions': {
     args: ['--headless'],
+    log: { level: 'trace' },
+    binary: '/usr/bin/firefox',
   },
 }
 
