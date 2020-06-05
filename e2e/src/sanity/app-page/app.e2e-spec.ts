@@ -23,28 +23,28 @@ describe('Currency Utilities App Page', () => {
     browser.wait(ExpectedConditions.visibilityOf(page.getHomePage()))
     expect(page.getCurrentUrl()).toEqual(page.getHomePageUrl())
   })
-  it('should navigate to home page on clicking Convertor Page navigation link', () => {
+  it('should navigate to convertor page on clicking Convertor Page navigation link', () => {
     page.navigateTo()
     page.openSideNavDrawer()
     page.clickOnCurrencyConvertorLink()
     browser.wait(ExpectedConditions.visibilityOf(page.getCurrencyConvertorPage()))
     expect(page.getCurrentUrl()).toEqual(page.getCurrencyConvertorPageUrl())
   })
-  it('should navigate to home page on clicking Historical Rates Page navigation link', () => {
+  it('should navigate to historical rates page on clicking Historical Rates Page navigation link', () => {
     page.navigateTo()
     page.openSideNavDrawer()
     page.clickOnHistoricalRatesLink()
     browser.wait(ExpectedConditions.visibilityOf(page.getHistoricalRatesPage()))
     expect(page.getCurrentUrl()).toEqual(page.getHistoricalRatesPageUrl())
   })
-  it('should navigate to home page on clicking Alerts Page navigation link', () => {
+  it('should navigate to alerts page on clicking Alerts Page navigation link', () => {
     page.navigateTo()
     page.openSideNavDrawer()
     page.clickOnRateAlertsLink()
     browser.wait(ExpectedConditions.visibilityOf(page.getRateAlertsPage()))
     expect(page.getCurrentUrl()).toEqual(page.getRatesAlertPageUrl())
   })
-  it('should navigate to home page on clicking About Page navigation link', () => {
+  it('should navigate to about page on clicking About Page navigation link', () => {
     page.navigateTo()
     page.openSideNavDrawer()
     page.clickOnAboutLink()

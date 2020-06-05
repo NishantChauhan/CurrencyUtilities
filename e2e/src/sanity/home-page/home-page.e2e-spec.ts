@@ -2,12 +2,13 @@ import { browser, logging } from 'protractor'
 import { CurrencyUtilitiesHomePage } from '../../page-objects/home-page.po'
 
 describe('Home Page', () => {
-  let homePage: CurrencyUtilitiesHomePage
+  let page: CurrencyUtilitiesHomePage
   beforeEach(() => {
-    homePage = new CurrencyUtilitiesHomePage()
+    page = new CurrencyUtilitiesHomePage()
   })
-  it('should show home page', () => {
-    homePage.navigateTo()
+  it('should navigate to about page on opening home page', async () => {
+    page.navigateTo()
+    expect(page.getCurrentUrl()).toEqual(page.getHomePageUrl())
   })
   afterEach(async () => {
     const capabilities = await browser.getCapabilities()

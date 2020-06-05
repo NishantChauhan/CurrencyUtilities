@@ -15,15 +15,20 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout from repository
+        uses: actions/checkout@v2
       - name: Using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install CI dependencies
+      - name: Install dependencies
         run: npm ci
+        env:
+          CI: true
       - name: Standalone Angular Build
         run: npm run sa-build --if-present
+        env:
+          CI: true
       - name: Unit Test - Standalone
         run: npm run ci-test --if-present
         env:
@@ -32,3 +37,5 @@ jobs:
         run: npx webdriver-manager update
       - name: End 2 End Test - Standalone
         run: npm run ci-sa-e2e --if-present
+        env:
+          CI: true

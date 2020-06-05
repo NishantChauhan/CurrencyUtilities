@@ -32,4 +32,11 @@ const headlessFirefox = {
 const multiBrowsers = [chrome, firefox]
 const ciMultiBrowsers = [headlessChrome, headlessFirefox]
 
-module.exports = { chrome, headlessChrome, firefox, headlessFirefox, multiBrowsers, ciMultiBrowsers }
+module.exports = {
+  chrome,
+  headlessChrome,
+  firefox,
+  headlessFirefox,
+  multiBrowsers,
+  ciMultiBrowsers,
+}

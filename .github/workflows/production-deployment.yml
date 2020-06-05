@@ -8,7 +8,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout from repository
+        uses: actions/checkout@v2
       - name: Login to Heroku Container Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -21,6 +22,18 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+      - name: Verify that app is running on heroku
+        run: heroku ps:wait -a ${{ secrets.HEROKU_APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Restart back end dyno [This is to avoid sleeping]
+        run: heroku ps:restart -a ${{ secrets.HEROKU_BACKEND_APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Verify that backend app is running on heroku
+        run: heroku ps:wait -a ${{ secrets.HEROKU_BACKEND_APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   prod-e2e:
     needs: [deploy]
     runs-on: ubuntu-latest
@@ -28,12 +41,13 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout from repository
+        uses: actions/checkout@v2
       - name: Using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install CI dependencies
+      - name: Install dependencies
         run: npm ci
         env:
           CI: true

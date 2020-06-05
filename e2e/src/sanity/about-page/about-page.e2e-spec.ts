@@ -7,7 +7,7 @@ describe('About Page', () => {
     page = new CurrencyUtilitiesAboutPage()
   })
 
-  it('should navigate to home page on clicking About Page navigation link', async () => {
+  it('should navigate to about page on opening about page url', async () => {
     page.navigateTo()
     expect(page.getCurrentUrl()).toEqual(page.getAboutPageUrl())
   })
