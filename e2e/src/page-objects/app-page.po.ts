@@ -15,20 +15,20 @@ export class CurrencyUtilitiesAppPage {
     return element(by.css('mat-toolbar > button')).click() as Promise<void>
   }
 
-  clickOnHomeLink() {
-    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(1)')).click() as Promise<void>
+  getHomeSideNavigationControl(): ElementFinder {
+    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(1)'))
   }
-  clickOnCurrencyConvertorLink() {
-    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(2)')).click() as Promise<void>
+  getCurrencyConvertorSideNavigationControl(): ElementFinder {
+    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(2)'))
   }
-  clickOnHistoricalRatesLink() {
-    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(3)')).click() as Promise<void>
+  getHistoricalRatesSideNavigationControl(): ElementFinder {
+    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(3)'))
   }
-  clickOnRateAlertsLink() {
-    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(4)')).click() as Promise<void>
+  getRateAlertsSideNavigationControl(): ElementFinder {
+    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(4)'))
   }
-  clickOnAboutLink() {
-    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(5)')).click() as Promise<void>
+  getAboutSideNavigationControl(): ElementFinder {
+    return element(by.css('mat-sidenav > div > mat-nav-list > a:nth-child(5)'))
   }
 
   getHomePage(): ElementFinder {

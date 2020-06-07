@@ -33,11 +33,11 @@ describe('Currency Convertor Card', () => {
     }
   )
   it(
-    'should switch currency on switcher button click, must show "To" as "' +
+    'should switch currency on switcher button click, must show To as ' +
       fixedSourceCurrency.currencySymbol +
-      '" and From as "' +
+      ' and From as ' +
       fixedTargetCurrency.currencySymbol +
-      '"',
+      '',
     () => {
       cardPage.getSwitcherButton().click()
       expect(cardPage.getSourceCurrency()).toBe(fixedTargetCurrency.currencySymbol)
