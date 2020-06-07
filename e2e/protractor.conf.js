@@ -8,12 +8,8 @@ const { SpecReporter } = require('jasmine-spec-reporter')
 const browserConfig = require('./browserConfig')
 const jasmineReporters = require('jasmine-reporters')
 const dateString = new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
-const reportsDirectory = './reports/backup-UTC-' + dateString
-const dashboardReportDirectory = reportsDirectory + '/dashboardReport'
-
 // For Reports Backup
 const fs = require('fs-extra')
-
 exports.config = {
   allScriptsTimeout: 11000,
   specs: ['./src/**/*.e2e-spec.ts'],
@@ -37,11 +33,10 @@ exports.config = {
     })
 
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }))
-
     jasmine.getEnv().addReporter(
       new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,
-        savePath: reportsDirectory + '/xml',
+        savePath: './reports/' + dateString + '/xml',
         filePrefix: 'xmlOutput',
       })
     )
@@ -54,7 +49,7 @@ exports.config = {
 
             browser.takeScreenshot().then(function (png) {
               const stream = fs.createWriteStream(
-                dashboardReportDirectory + '/' + browserName + '-' + result.fullName + '.png'
+                './reports/' + dateString + '/' + browserName + '-' + result.fullName + '.png'
               )
               stream.write(new Buffer(png, 'base64'))
               stream.end()
@@ -78,7 +73,7 @@ exports.config = {
       const HTMLReport = require('protractor-html-reporter-2')
       testConfig = {
         reportTitle: 'Protractor Test Execution Report',
-        outputPath: dashboardReportDirectory,
+        outputPath: './reports/' + dateString,
         outputFilename: browserName + '-index',
         screenshotPath: './',
         testBrowser: browserName,
@@ -87,7 +82,7 @@ exports.config = {
         screenshotsOnlyOnFailure: true,
         testPlatform: platform,
       }
-      new HTMLReport().from(reportsDirectory + '/xml/xmlOutput.xml', testConfig)
+      new HTMLReport().from('./reports/' + dateString + '/' + 'xml/xmlOutput.xml', testConfig)
     })
   },
 }
