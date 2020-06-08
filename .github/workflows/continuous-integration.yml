@@ -39,3 +39,13 @@ jobs:
         run: npm run ci-sa-e2e --if-present
         env:
           CI: true
+      - name: Archive Test results
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-reports
+          path: reports
+      - name: Archive Coverage Report
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage-reports
+          path: coverage

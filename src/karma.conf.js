@@ -1,7 +1,7 @@
 /* eslint-disable strict */
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-
+const dateString = new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -10,10 +10,11 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-firefox-launcher'),
-      require('karma-edge-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('karma-spec-reporter'),
+      require('karma-html-reporter'),
+      require('@chiragrupani/karma-chromium-edge-launcher'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
@@ -41,7 +42,7 @@ module.exports = function (config) {
         },
       },
     },
-    reporters: ['kjhtml', 'spec'],
+    reporters: ['kjhtml', 'spec', 'html'],
 
     specReporter: {
       maxLogLines: 5, // limit number of lines logged per test
@@ -52,6 +53,18 @@ module.exports = function (config) {
       showSpecTiming: false, // print the time elapsed for each spec
       failFast: false, // test would finish with error when a first fail occurs.
     },
+    htmlReporter: {
+      outputDir: './reports/UT/' + dateString + '/', // where to put the reports
+      templatePath: null, // set if you moved jasmine_template.html
+      focusOnFailures: true, // reports show failures on start
+      namedFiles: false, // name files instead of creating sub-directories
+      urlFriendlyName: false, // simply replaces spaces with _ for files/dirs
+
+      // experimental
+      preserveDescribeNesting: true, // folded suites stay folded
+      foldAll: true, // reports start folded (only with preserveDescribeNesting)
+    },
+
     port: 4002,
     colors: true,
     logLevel: config.LOG_INFO,
