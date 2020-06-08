@@ -6,7 +6,7 @@ describe('Home Page', () => {
   beforeEach(() => {
     page = new CurrencyUtilitiesHomePage()
   })
-  it('should navigate to about page on opening home page', async () => {
+  it('should navigate to home page on opening home page', async () => {
     page.navigateTo()
     expect(page.getCurrentUrl()).toEqual(page.getHomePageUrl())
   })

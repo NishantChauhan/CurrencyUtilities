@@ -61,7 +61,7 @@ describe('Currency Utilities App Page', () => {
     browser.wait(ExpectedConditions.visibilityOf(page.getAboutPage()))
     expect(page.getCurrentUrl()).toEqual(page.getAboutPageUrl())
   })
-  it('should navigate to Page not found when invalid URL is entered', () => {
+  it('should navigate to page not found page when invalid URL is entered', () => {
     page.navigateToNonExistingPage()
     browser.wait(ExpectedConditions.visibilityOf(page.getPageNotFoundPage()))
     expect(page.getCardTitle()).toBe('Oops! Wrong Way')

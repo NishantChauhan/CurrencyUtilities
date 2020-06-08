@@ -34,8 +34,9 @@ speed-measure-plugin.json
 /.sass-cache
 /connect.lock
 /coverage
-/e2e/reports/
-/reports
+/reports/**/*.png
+/reports/**/*.xml
+/reports/**/*.html
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log

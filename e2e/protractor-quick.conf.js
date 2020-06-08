@@ -1,5 +1,5 @@
 const config = require('./protractor.conf').config
-const headlessChromeWin = require('./browserConfig').headlessChromeWin
+const selectedBrowser = require('./browserConfig').headlessChromeWin
 
-config.multiCapabilities = [headlessChromeWin]
+config.multiCapabilities = [selectedBrowser]
 exports.config = config

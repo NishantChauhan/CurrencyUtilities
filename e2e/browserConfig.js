@@ -43,6 +43,19 @@ const headlessFirefoxWin = {
     log: { level: 'trace' },
   },
 }
+// TODO add EdgeSupport
+const edge = {
+  browserName: 'MicrosoftEdge',
+}
+const headlessEdgeWin = {
+  browserName: 'MicrosoftEdge',
+  platform: 'windows',
+  maxInstances: 1,
+  nativeEvents: false,
+  edgeOptions: {
+    args: ['--headless'],
+  },
+}
 
 const multiBrowsers = [chrome, firefox]
 const ciMultiBrowsers = [headlessChrome, headlessFirefox]
@@ -55,6 +68,8 @@ module.exports = {
   firefox,
   headlessFirefox,
   headlessFirefoxWin,
+  edge,
+  headlessEdgeWin,
   multiBrowsers,
   ciMultiBrowsers,
   ciMultiBrowsersWin,

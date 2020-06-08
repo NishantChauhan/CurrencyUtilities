@@ -8,6 +8,7 @@ const { SpecReporter } = require('jasmine-spec-reporter')
 const browserConfig = require('./browserConfig')
 const jasmineReporters = require('jasmine-reporters')
 const dateString = new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-')
+let reportDir
 // For Reports Backup
 const fs = require('fs-extra')
 exports.config = {
@@ -27,16 +28,23 @@ exports.config = {
     defaultTimeoutInterval: 30000,
     print: function () {},
   },
-  onPrepare: function () {
+  onPrepare: async function () {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.e2e.json'),
     })
 
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }))
+    async function getBrowserName() {
+      const caps = await browser.getCapabilities()
+      const browserName = caps.get('browserName')
+      return browserName
+    }
+    const browserName = await getBrowserName()
+    reportDir = './reports/E2E/' + browserName + '/' + dateString
     jasmine.getEnv().addReporter(
       new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,
-        savePath: './reports/' + dateString + '/xml',
+        savePath: reportDir + '/xml',
         filePrefix: 'xmlOutput',
       })
     )
@@ -44,16 +52,10 @@ exports.config = {
     jasmine.getEnv().addReporter({
       specDone: function (result) {
         if (result.status === 'failed') {
-          browser.getCapabilities().then(function (caps) {
-            const browserName = caps.get('browserName')
-
-            browser.takeScreenshot().then(function (png) {
-              const stream = fs.createWriteStream(
-                './reports/' + dateString + '/' + browserName + '-' + result.fullName + '.png'
-              )
-              stream.write(new Buffer(png, 'base64'))
-              stream.end()
-            })
+          browser.takeScreenshot().then(function (png) {
+            const stream = fs.createWriteStream(reportDir + '/' + browserName + '-' + result.fullName + '.png')
+            stream.write(new Buffer(png, 'base64'))
+            stream.end()
           })
         }
       },
@@ -73,7 +75,7 @@ exports.config = {
       const HTMLReport = require('protractor-html-reporter-2')
       testConfig = {
         reportTitle: 'Protractor Test Execution Report',
-        outputPath: './reports/' + dateString,
+        outputPath: reportDir,
         outputFilename: browserName + '-index',
         screenshotPath: './',
         testBrowser: browserName,
@@ -82,7 +84,7 @@ exports.config = {
         screenshotsOnlyOnFailure: true,
         testPlatform: platform,
       }
-      new HTMLReport().from('./reports/' + dateString + '/' + 'xml/xmlOutput.xml', testConfig)
+      new HTMLReport().from(reportDir + '/xml/xmlOutput.xml', testConfig)
     })
   },
 }
