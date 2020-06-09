@@ -25,11 +25,11 @@ jobs:
         run: npm ci
         env:
           CI: true
-      - name: Standalone Angular Build
+      - name: Execute Angular Build for standalone deployment
         run: npm run sa-build --if-present
         env:
           CI: true
-      - name: Unit Test - Standalone
+      - name: Execute Unit Test
         run: npm run ci-test --if-present
         env:
           CI: true

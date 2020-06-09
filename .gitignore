@@ -7,6 +7,10 @@
 # Only exists if Bazel was run
 /bazel-out
 
+#product configuration as it is set by script
+/src/environments/environment.prod.ts
+/src/environments/environment.standalone.ts
+
 # dependencies
 /node_modules
 
@@ -53,3 +57,4 @@ ToDo.txt
 
 # Vercel
 .vercel
+src/environments/environment.prod.ts

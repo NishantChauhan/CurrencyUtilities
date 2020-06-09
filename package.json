@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4000",
-    "build": "npm run lint && ng build --configuration=production",
+    "build": "npm run prod-env-config && npm run lint && ng build --configuration=production",
     "sanity": "npm run lint && ng test --watch false && webdriver-manager update && ng e2e --port 4001 --suite sanity",
     "q": "npm run lint && npm run coverage && ng e2e --port 4001 --protractor-config=e2e/protractor-quick.conf.js --suite sanity",
     "dev-coverage": "ng test --code-coverage  --browsers Chrome",
@@ -21,13 +21,14 @@
     "test-f": "npm run prettier && ng test --browsers Firefox",
     "test-e": "npm run prettier && ng test --browsers Edge",
     "test-h": "npm run prettier && ng test --browsers ChromeHeadless",
+    "prod-env-config": "ts-node ./src/environments/set-production-env.ts",
     "prod-e2e": "protractor e2e/protractor-prod.conf.js",
     "win-prod-e2e": "webdriver-manager update && protractor e2e/protractor-prod-win.conf.js",
     "ci-sa-e2e": "npm run env-config && ng e2e --protractor-config=e2e/protractor-ci.conf.js --configuration=standalone",
     "ci-test": "npm run prettier && ng test --karmaConfig=src/karma-ci.conf.js --code-coverage --watch false",
-    "env-config": "ts-node ./src/environments/set-standalone-env.ts",
-    "sa-start": "npm run env-config && ng serve --port 4000 --configuration=standalone",
-    "sa-build": "npm run env-config && npm run lint && ng build --configuration=standalone"
+    "sa-env-config": "ts-node ./src/environments/set-standalone-env.ts",
+    "sa-start": "npm run sa-env-config && ng serve --port 4000 --configuration=standalone",
+    "sa-build": "npm run sa-env-config && npm run lint && ng build --configuration=standalone"
   },
   "private": true,
   "dependencies": {
