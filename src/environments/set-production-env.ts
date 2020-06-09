@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-function replaceSaEnv() {
+function replaceProdEnv() {
   const { writeFile } = require('fs')
   require('dotenv').config()
-  const targetPath = './src/environments/environment.standalone.ts'
+  const targetPath = './src/environments/environment.prod.ts'
 
   // we have access to our environment variables
   // in the process.env object thanks to dotenv
   const environmentFileContent = `export const environment = {
   production: true,
-  standalone: true,
-  supportedCurrencyURL: 'http://api.exchangeratesapi.io/latest',
-  convertCurrencyURL: 'http://api.exchangeratesapi.io/latest',
-  cacheExpiryTimeout: 1000 * 60,
+  standalone: false,
+  supportedCurrencyURL: '${process.env.BACK_END_API_ENDPOINT}/currency/rates/supportedCurrencies',
+  convertCurrencyURL: '${process.env.BACK_END_API_ENDPOINT}/currency/converter/convert',
+  cacheExpiryTimeout: 12 * 60 * 60 * 1000,
 }
 `
 
@@ -24,4 +24,4 @@ function replaceSaEnv() {
     console.log(`Wrote variables to ${targetPath}`)
   })
 }
-replaceSaEnv()
+replaceProdEnv()
