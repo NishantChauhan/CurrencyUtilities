@@ -11,4 +11,6 @@
 1. Home page has currency convertor card preloaded with CAD to INR currency loaded with 1 as default source amount
 2. You can toggle 'From' and 'To' currencies easily. The amounts swap themselves when currencies are swapped toggled.
 
-![image](/documentation/gifs/ConvertorPage.gif)
+<center>
+<img src="https://github.com/NishantChauhan/CurrencyUtilities/blob/ca521e75d8040d4f6ca511a885b941c1921019a9/documentation/gifs/ConvertorPage.gif?raw=true">
+</center>

@@ -8,7 +8,7 @@
     "sanity": "npm run lint && ng test --watch false && webdriver-manager update && ng e2e --port 4001 --suite sanity",
     "q": "npm run lint && npm run coverage && ng e2e --port 4001 --protractor-config=e2e/protractor-quick.conf.js --suite sanity",
     "dev-coverage": "ng test --code-coverage  --browsers Chrome",
-    "dev-e2e": "ng e2e --devServerTarget=",
+    "dev-e2e": "webdriver-manager update && ng e2e --devServerTarget=",
     "dev-test": "ng test --browsers Chrome",
     "lint": " npm run prettier && npm run cspell && npm run eslint && ng lint ",
     "prettier": "prettier --write src/**/*.{ts,js,html,css} && prettier --write e2e/**/*.{ts,js}",

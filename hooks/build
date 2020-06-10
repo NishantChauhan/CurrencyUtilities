@@ -1,0 +1,2 @@
+#!/bin/bash
+docker build --build-arg BACK_END_API_ENDPOINT=http://localhost:5000/api/v1 -t $IMAGE_NAME  .

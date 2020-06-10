@@ -8,35 +8,30 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
       - name: Checkout from repository
         uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm ci
-      - name: Execute Production build
-        env:
-          BACK_END_API_ENDPOINT: ${{secrets.BACK_END_API_ENDPOINT}}
-        run: npm run build --if-present
+
       - name: Login to Heroku Container Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
+
       - name: Build container and push to registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: heroku container:push --arg BACK_END_API_ENDPOINT=${{secrets.BACK_END_API_ENDPOINT}} -v -a ${{ secrets.HEROKU_APP_NAME }} web
+
       - name: Release container to registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+
       - name: Verify that app is running on heroku
         run: heroku ps:wait -a ${{ secrets.HEROKU_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
   prod-e2e:
     needs: [deploy]
     runs-on: ubuntu-latest
@@ -46,29 +41,39 @@ jobs:
     steps:
       - name: Checkout from repository
         uses: actions/checkout@v2
+
       - name: Using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Install dependencies
         run: npm ci
+
       - name: Update Web Drivers
         run: npx webdriver-manager update
+
       - name: Login to Heroku Container Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
+
       - name: Verify that app is running on heroku
         run: heroku ps:wait -a ${{ secrets.HEROKU_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
       - name: Restart back end dyno [This is to  make sure dyno is up for test]
         run: heroku ps:restart -a ${{ secrets.HEROKU_BACKEND_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
       - name: Verify that backend app is running on heroku
         run: heroku ps:wait -a ${{ secrets.HEROKU_BACKEND_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
       - name: Test Execution
+        env:
+          APP_URL: ${{ secrets.HEROKU_PROD_URL }}
         run: npm run prod-e2e

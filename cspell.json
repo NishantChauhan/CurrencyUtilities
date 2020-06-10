@@ -27,6 +27,7 @@
     "visualstudio",
     "chiragrupani",
     "vsmarketplacebadge",
+    "envsubst",
     "webdriver"
   ],
   // flagWords - list of words to be always considered incorrect
