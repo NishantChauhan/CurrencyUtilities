@@ -1,6 +1,6 @@
 const config = require('./protractor.conf').config
 const ciMultiBrowsers = require('./browserConfig').ciMultiBrowsersWin
 
-config.baseUrl = 'https://currency-utility-app.herokuapp.com/'
+config.baseUrl = process.env.APP_URL
 config.multiCapabilities = ciMultiBrowsers
 exports.config = config
