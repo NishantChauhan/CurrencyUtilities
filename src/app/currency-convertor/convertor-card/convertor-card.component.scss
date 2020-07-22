@@ -1,6 +1,7 @@
 .convertor-card {
   display: grid;
-  max-width: 210px;
+  width: 31vh;
+  min-width: 31vh;
   text-align: center;
   margin: auto;
 }
@@ -8,27 +9,30 @@
   display: flex;
   margin: auto;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 1em;
 }
 .mat-option {
-  max-height: 25px;
+  max-height: 1.5em;
 }
 .mat-form-field {
   text-align: center;
 }
 .customAutoComplete {
-  max-height: 100px;
+  max-height: 12vh;
 }
 .mat-card-actions {
   display: flex;
   justify-content: center;
 }
 .mat-error {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
   text-align: left;
 }
+.mat-card-header{
+  justify-content: center;
+}
 .mat-card-footer {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }

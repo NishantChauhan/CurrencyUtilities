@@ -27,7 +27,7 @@ describe('Currency Convertor Card', () => {
       cardPage.getAlertTargetAmount().then(result => {
         expect(result).toContain(fixedTargetCurrency.currencySymbol)
         cardPage.getRateFromAlert().then(rate => {
-          expect(result).toBe(parseFloat(rate).toFixed(10) + ' ' + fixedTargetCurrency.currencySymbol)
+          expect(result).toBe(parseFloat(rate) + ' ' + fixedTargetCurrency.currencySymbol)
         })
       })
     }

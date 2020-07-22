@@ -2,6 +2,13 @@
 
 ![Continuous Integration](https://github.com/NishantChauhan/CurrencyUtilities/workflows/Continuous%20Integration/badge.svg?branch=develop) ![Continuous Deployment](https://github.com/NishantChauhan/CurrencyUtilities/workflows/Continuous%20Deployment/badge.svg)
 
+
+App can be accessed on following two platforms  
+  1. [Heroku Deployment](https://currency-utility-app.herokuapp.com/currency-convertor)  
+  * This deployment is integrated with the [Currency Utilities Server](https://github.com/NishantChauhan/CurrencyUtilitiesServer) Springboot project  
+  2. [Vercel](https://currency-utilities.now.sh/currency-convertor)  
+  * This deployment is a standalone static website  
+
  There are many sites to get daily conversion rates. None of them catered to my specific requirements. Hence, I developed this app to get conversion rates that I need at click of a button. The app uses [Foreign exchange rates API](https://exchangeratesapi.io/) for daily exchanges rates based on rates provided by [European Central Bank](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html)
 
 ---

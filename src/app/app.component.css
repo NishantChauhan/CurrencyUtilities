@@ -1,6 +1,6 @@
 .app-sidenav-container {
-  min-height: 600px;
+  min-height: 50vh;
 }
 .mat-toolbar {
-  margin-bottom: 30px;
+  margin-bottom: 1em;
 }
