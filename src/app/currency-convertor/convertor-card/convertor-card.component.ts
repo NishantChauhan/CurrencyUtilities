@@ -109,8 +109,8 @@ export class ConvertorCardComponent implements OnInit {
     const amount: number = this.updateNumericSourceAmount()
     const inputCurrency = {
       sourceAmount: amount,
-      sourceCurrency: this.sourceCurrency.value,
-      targetCurrency: this.targetCurrency.value,
+      sourceCurrency: this.sourceCurrency.value?.toUpperCase(),
+      targetCurrency: this.targetCurrency.value?.toUpperCase(),
     }
 
     this.utilityService.convertCurrency(inputCurrency).subscribe(
