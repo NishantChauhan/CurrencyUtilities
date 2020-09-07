@@ -16,6 +16,7 @@
           minlength="3"
           (change)="resetAmounts()"
           [matAutocomplete]="sourceCurrencyAuto"
+          oninput="this.value = this.value.toUpperCase()"
         />
         <mat-autocomplete
           autoActiveFirstOption
@@ -56,6 +57,7 @@
           id="cc-target-currency"
           (change)="resetAmounts()"
           [matAutocomplete]="targetCurrencyAuto"
+          oninput="this.value = this.value.toUpperCase()"
         />
         <mat-autocomplete
           autoActiveFirstOption
