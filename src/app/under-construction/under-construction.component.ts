@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core'
   template: `<mat-card class="card-page">
     <mat-card-content>
       <div>
-        <strong>This page is under construction.</strong>
+        <strong>This part of app is under construction.</strong>
       </div>
     </mat-card-content>
   </mat-card>`,

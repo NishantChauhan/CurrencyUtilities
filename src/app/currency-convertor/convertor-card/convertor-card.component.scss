@@ -1,15 +1,13 @@
 .convertor-card {
-  display: grid;
+  display: block;
   width: 31vw;
-  min-width: 13em;
-  max-width: 15em;
+  min-width: 15em;
+  max-width: 17em;
   text-align: center;
   margin: auto;
 }
 .mat-card-content {
-  display: flex;
   margin: auto;
-  justify-content: center;
   padding-top: 1em;
 }
 .mat-option {

@@ -1,15 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-html,
-body {
-  height: 100vh;
+:root {
+  box-sizing: border-box;
+}
+*,
+::before,
+::after {
+  box-sizing: inherit;
 }
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 .card-page {
-  text-align: center;
-  margin-top: 1em;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center !important;
+  margin: 4em !important;
 }
